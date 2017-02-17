@@ -1,3 +1,5 @@
 /bin/
 buildMvn.cmd
 buildMvnHSQL.cmd
+installMvn.cmd
+V8LogScanner.jar

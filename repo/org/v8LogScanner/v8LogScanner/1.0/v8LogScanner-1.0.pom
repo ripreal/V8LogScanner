@@ -5,4 +5,11 @@
     <artifactId>v8LogScanner</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+    
+		<properties>
+		    <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+		    <github.global.server>github</github.global.server>
+		</properties>
+    
 </project>
+

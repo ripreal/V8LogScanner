@@ -4,4 +4,6 @@
     <groupId>org.v8LogScanner</groupId>
     <artifactId>v8LogScanner</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 </project>
+
