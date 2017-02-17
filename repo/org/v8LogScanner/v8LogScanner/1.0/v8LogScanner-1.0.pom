@@ -5,4 +5,5 @@
   <groupId>org.v8LogScanner</groupId>
   <artifactId>v8LogScanner</artifactId>
   <version>1.0</version>
+  <description>POM was created from install:install-file</description>
 </project>
