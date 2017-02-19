@@ -267,7 +267,7 @@ public class SocketTemplates {
 		Object result = null;
 		try {
 			// input stream will wait until corresponding stream 
-			// on client side  has written in
+			// on client side  had written in
 			ObjectInputStream inputStream = getInputDataReader(clientSocket);
 				if (inputStream != null)
 					result = inputStream.readObject();

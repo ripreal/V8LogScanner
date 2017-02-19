@@ -35,6 +35,7 @@ public class V8LogScannerAppl {
 	};
 	
 	public static V8LogScannerAppl instance(){
+	  
 		if (instance == null){
 			instance = new V8LogScannerAppl(new ApplConsole());
 		}
@@ -53,14 +54,14 @@ public class V8LogScannerAppl {
 	private V8LogScannerAppl(ApplConsole appl){
 		
 		clientsManager = new ClientsManager();
-		profile        = new LanScanProfile(RgxOpTypes.CURSOR_OP);
+		profile        = clientsManager.localClient().getProfile();
 		cmdAppl        = appl;
 		
 		profile.getRgxList().add(new RegExp());
 		
 		clientsManager.localClient().addListener(procEvent);
 	}
-	
+
 	public void runAppl() {
 		
 		/* todo transform to the test
@@ -78,7 +79,7 @@ public class V8LogScannerAppl {
 			e.printStackTrace();
 		}
 		*/
-		MenuCmd cursorLogScan = new MenuCmd("2. Cursor log scanning (recommends)."
+		MenuCmd cursorLogScan = new MenuCmd("1. Cursor log scanning (recommends)."
 			+ "\nPerforms orderded Map-Reduce operation and can be used when memory should be consumed carefully or "
 			+ "\nyou want to use various ordering options. This operation takes user specified TOP amount of sorted events "
 			+ "\nfrom each log file and performs intermidate reduction through iteration placing results into single array. "
@@ -88,7 +89,7 @@ public class V8LogScannerAppl {
 			+ "\nevents in every *.log file. Also you can set filtering, grouping and ordering properties."
 			+ "\n\nMenu:", main);
 		
-		MenuCmd heapLogScan = new MenuCmd("1. Heap log scanning."
+		MenuCmd heapLogScan = new MenuCmd("2. Heap log scanning."
 			+ "\nPerfoms a concurrent Map-Reduction operation and can be used when there aren't memory limitations and "
 			+ "\nyou want to get a complete list of all filtered log events. The mode takes advantage of unsorted "
 			+ "\nparalell streams and performs mutable mapping and reduction over each step iteration through log files. "
@@ -173,7 +174,6 @@ public class V8LogScannerAppl {
 		MenuCmd menu = new MenuCmd(() -> {
 			String text = "SELECT FROM location."
 				+ "\nList of chosen paths to scan: ";
-			
 			if (logSize() == 0) 
 				text += "\n<Empty>";
 			else{
@@ -182,7 +182,6 @@ public class V8LogScannerAppl {
 						text = text.concat("\n" + client +" " + log);
 				}
 			}
-			
 			return text;
 			}
 		, parent);
@@ -198,7 +197,14 @@ public class V8LogScannerAppl {
 	}
 
 	public int logSize(){
-		return clientsManager.getClients().stream().mapToInt(n -> n.getProfile().getLogPaths().size()).sum();
+	  int sum = 0;
+	  for(V8LogScannerClient client : clientsManager) {
+	    sum += client.getProfile().getLogPaths().size();
+	  }
+	  int sum2 = clientsManager.getClients().get(0).getProfile().getLogPaths().size();
+	  int sum1 = V8LogScannerAppl.instance().clientsManager.getClients().get(0).getProfile().getLogPaths().size();
+		//int sum =  .stream().mapToInt(n -> n.getProfile().getLogPaths().size()).sum();
+		return sum;
 	}
 	
 	public String getFinalInfo(){
@@ -239,14 +245,18 @@ public class V8LogScannerAppl {
 		cmdAppl.runAppl(showResults);
 		resetResult();
 	}
-
-//Log files
+	
 	public void addLogPath(ScanProfile profile, String logPath){
 		List<String> sourceLogPaths = profile.getLogPaths();
 		boolean logExist = sourceLogPaths.stream().anyMatch(n -> n.compareTo(logPath) == 0);
 		if (!logExist){
 			sourceLogPaths.add(logPath);
 		}
+	}
+	
+	// for testing purposes
+	public void setApplConsole(ApplConsole cmdAppl) {
+	  this.cmdAppl = cmdAppl;
 	}
 	
 }

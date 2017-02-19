@@ -57,7 +57,6 @@ private ArrayList<String> result;
 		ReadableByteChannel channel = fs.getChannel();
 		CharsetDecoder decoder = charset.newDecoder();
 		reader = Channels.newReader(channel, decoder, -1);
-		
 		buf.limit(0);
 		limit = _limit;
 	}

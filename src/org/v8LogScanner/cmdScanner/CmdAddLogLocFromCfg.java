@@ -7,6 +7,7 @@ import java.util.List;
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.CmdCommand;
+import org.v8LogScanner.rgx.ScanProfile;
 
 public class CmdAddLogLocFromCfg implements CmdCommand{
 	
@@ -35,7 +36,7 @@ public class CmdAddLogLocFromCfg implements CmdCommand{
 		
 		int inputNum = Integer.parseInt(input);
 		
-		LanScanProfile profile = (LanScanProfile) client.getProfile(); 
+		ScanProfile profile = client.getProfile(); 
 		appl.addLogPath(profile, logsLoc.get(inputNum));
 	
 	}

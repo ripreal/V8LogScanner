@@ -15,6 +15,8 @@ public class ExcpReporting {
 	
 	public static void LogError(Object cls, Exception e ){
 		
+	  checkOut();
+		
 		Date currDate = new Date();
 		
 		String msg = String.format("ERROR, Time=%1$tF %2tT, Source=%3$2s, Class=%4$2s, Stack=", 
@@ -24,7 +26,10 @@ public class ExcpReporting {
 	}
 	
 	public static void logInfo(String info){
-		Date currDate = new Date();
+		
+	  checkOut();
+	  
+	  Date currDate = new Date();
 		
 		String msg = String.format("INFO, Time=%1$tF %2tT, %3$s", 
 				currDate, currDate.getTime(), info);
@@ -106,5 +111,20 @@ public class ExcpReporting {
 		msg = String.format(msg, dbNameOrDescr);
 		out.println(msg);
 	}
-
+	
+	private static void checkOut() throws ErrorStreamOutNotSet{
+	  if (out == null){
+	   throw new ErrorStreamOutNotSet(); 
+	  }
+	}
+	
+	public static class ErrorStreamOutNotSet extends RuntimeException {
+	  
+	  private static final long serialVersionUID = 1L;
+	  
+    public ErrorStreamOutNotSet() {
+      super("Global output stream for printing errors is not defined! Set out stream forr error inside the ExcpReporting module");
+    }
+    
+	}
 }

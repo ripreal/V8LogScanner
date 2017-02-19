@@ -15,7 +15,7 @@ import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.ScanProfile;
 
 //@RunWith(MockitoJUnitRunner.class)
-public class testV8LogScannerClient {
+public class TestV8LogScannerClient {
 	
 	@Test
 	public void tesCreateClientFromHostIP() throws Exception {
