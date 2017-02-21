@@ -70,20 +70,6 @@ public class SocketTemplates {
 	
 	//CONNECTION////////////////////
 	
-	/*public boolean connectToServerSocket(Socket clientSocket, byte[] ip, int port){
-		boolean connected = false;
-		try {
-			InetAddress ipAddr = InetAddress.getByAddress(ip);
-			SocketAddress socketPoint = new InetSocketAddress(ipAddr, port);
-			clientSocket.connect(socketPoint);
-			connected = true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			ExcpReporting.LogError(this, e);;
-		}
-		return connected;
-	}
-	*/
 	public Socket acceptClient(ServerSocket serverSocket){
 		
 		Socket socket = null;
