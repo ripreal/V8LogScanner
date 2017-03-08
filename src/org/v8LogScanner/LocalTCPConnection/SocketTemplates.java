@@ -148,6 +148,10 @@ public class SocketTemplates {
 		return socket.getInetAddress().getHostAddress();
 	}
 	
+	/**
+	 * Gets string representation of a network IP belonged to the local host. 
+	 * @return  network IP, if it is not exist return empty string.
+	 */
 	public String getHostIP(){
 		String localIP = "";
 		try {

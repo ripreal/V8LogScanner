@@ -16,7 +16,7 @@ public class CmdAddRgx implements CmdCommand {
 	public void execute() {
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		String[] message = {"input regular expression:"};
-		String userInput = appl.cmdAppl.askInput(
+		String userInput = appl.getConsole().askInput(
 			message, 
 			n ->{
 				try{

@@ -2,6 +2,9 @@ package test;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
+import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
+import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer.LanServerNotStarted;
 import org.v8LogScanner.commonly.Constants;
@@ -18,7 +21,8 @@ public class TestV8LogScannerServer {
     // start LAN server
     V8LogScannerServer server = new V8LogScannerServer(Constants.serverPort);
     Thread thread = new Thread(() -> server.Beginlistenning());
-
+    thread.start();
+    thread.interrupt();
   }
   
 }

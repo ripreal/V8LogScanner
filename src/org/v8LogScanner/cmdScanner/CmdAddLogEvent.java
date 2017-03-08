@@ -15,7 +15,7 @@ public class CmdAddLogEvent implements CmdCommand {
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		
 		EventTypes[] events = EventTypes.values();
-		String userInput = appl.cmdAppl.askInputFromList("Choose event to add:", events);
+		String userInput = appl.getConsole().askInputFromList("Choose event to add:", events);
 		if (userInput != null){
 			EventTypes event = (events[Integer.parseInt(userInput)]);
 			List<RegExp> rgxs = appl.profile.getRgxList();

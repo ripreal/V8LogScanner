@@ -16,21 +16,18 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 //DOMAIN SPECIFIC CONSOLE AND ITS METHODS
 
 public class V8LogScannerAppl {
-
-	public final MenuCmd main = new MenuCmd("Main menu:", null);
-	public final ClientsManager clientsManager;
-	public ScanProfile profile;
+  
+  public final ClientsManager clientsManager;
+  public ScanProfile profile;
+  
+	private MenuCmd main;
 	private static V8LogScannerAppl instance;
-	ApplConsole cmdAppl;
+	private ApplConsole cmdAppl; 
 	
-	private final String title = "1CV8 Log Scanner v.0.9"
-		+"\nRuns on " + Constants.osType
-		+"\n********************";
-
 	//subscription to the rgx and logs events 
 	public final ProcessEvent procEvent = new ProcessEvent(){
 		public void invoke(List<String> info) {
-			cmdAppl.showInfoStack(info);
+			cmdAppl.showInfo(info);
 		}
 	};
 	
@@ -53,32 +50,19 @@ public class V8LogScannerAppl {
 	
 	private V8LogScannerAppl(ApplConsole appl){
 		
+	  cmdAppl = appl;
+	  
+	  main = new MenuCmd("Main menu:", null);
+	  
 		clientsManager = new ClientsManager();
-		profile        = clientsManager.localClient().getProfile();
-		cmdAppl        = appl;
-		
-		profile.getRgxList().add(new RegExp());
-		
 		clientsManager.localClient().addListener(procEvent);
+		
+		profile = clientsManager.localClient().getProfile();
+		profile.addRegExp(new RegExp());
 	}
-
+	
 	public void runAppl() {
 		
-		/* todo transform to the test
-		ScanProfile lc_profile =  clientsManager.localClient().getProfile();
-		addLogPath(lc_profile, "C:\\Share\\1\\16042115.log");
-		addLogPath(lc_profile, "C:\\Share\\1\\16051609.log");
-		V8LogScannerClient lanClient;
-		
-		try {
-			lanClient = clientsManager.addClient("10.70.2.97", procEvent);
-			lc_profile =  lanClient.getProfile(); 
-			addLogPath(lc_profile, "C:\\Share\\1\\1604218.log");
-		} catch (LogScannerClientNotFoundServer e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		MenuCmd cursorLogScan = new MenuCmd("1. Cursor log scanning (recommends)."
 			+ "\nPerforms orderded Map-Reduce operation and can be used when memory should be consumed carefully or "
 			+ "\nyou want to use various ordering options. This operation takes user specified TOP amount of sorted events "
@@ -163,11 +147,19 @@ public class V8LogScannerAppl {
 		m_runServer.add(new MenuItemCmd("Run as lan TCP/IP server", new CmdRunAsLanServer()));
 		m_runServer.add(new MenuItemCmd("Run as fullREST server (not work yet!)", null));
 		
-		cmdAppl.setTitle(title);
+		cmdAppl.setTitle(
+      "1CV8 Log Scanner v.0.9"
+      +"\nRuns on " + Constants.osType
+      +"\n********************"
+    );
 		cmdAppl.runAppl(main);
 		
 		clientsManager.resetRemoteClients();
 		
+	}
+	
+	public ApplConsole getConsole() {
+	  return cmdAppl;
 	}
 	
 	public MenuCmd createAddLocMenu(MenuCmd parent, boolean withTopMenu){

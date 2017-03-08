@@ -30,7 +30,7 @@ public class CmdShowResults implements CmdCommand {
 		List<V8LogScannerClient> clients = appl.clientsManager.getClients();
 		
 	// Choose server which events receive 
-		String userInput = appl.cmdAppl.askInputFromList("input numeric index to choose server which events receive:", 
+		String userInput = appl.getConsole().askInputFromList("input numeric index to choose server which events receive:", 
 			clients);
 			
 		if (userInput == null)
@@ -42,7 +42,7 @@ public class CmdShowResults implements CmdCommand {
 		
 		// Choose key which list display 
 		for(int i = selector.size() - 1; i >= 0; i--){
-			appl.cmdAppl.out.println(
+			appl.getConsole().println(
 				String.format("\n%s. SIZE: %s,\n%s ", i, selector.get(i).size(), selector.get(i).getKey()));
 		}
 		
@@ -51,19 +51,19 @@ public class CmdShowResults implements CmdCommand {
 
 		userInput = "";
 		do{
-			userInput = appl.cmdAppl.askInput(msg, n -> true, false);
+			userInput = appl.getConsole().askInput(msg, n -> true, false);
 			
 			if (!Strokes.isNumeric(userInput))
 				break;
 			
 			int index = Integer.parseInt(userInput);
 			if (index >= selector.size()){
-				appl.cmdAppl.out.println("incorrect input!");
+				appl.getConsole().println("incorrect input!");
 				continue;
 			}
 			
 			List<String> keyVals = selector.get(index).getValue();
-			appl.cmdAppl.showInfoStack(keyVals);
+			appl.getConsole().showInfo(keyVals);
 		}
 		while(true);
 	}

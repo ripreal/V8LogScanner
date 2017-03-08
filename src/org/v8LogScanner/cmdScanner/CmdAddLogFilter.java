@@ -23,15 +23,15 @@ public class CmdAddLogFilter implements CmdCommand {
 	
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		
-		appl.cmdAppl.out.println();
+		appl.getConsole().println("");
 		
 		if (appl.profile.getRgxList().size() == 0){
-			appl.cmdAppl.showModalInfo("\n Log event list is empty! First add the log event.");
+			appl.getConsole().showModalInfo("\n Log event list is empty! First add the log event.");
 			return;
 		}
 
 		// asking about event for filter
-		String userInput = appl.cmdAppl.askInputFromList("Choose event to filter", appl.profile.getRgxList());
+		String userInput = appl.getConsole().askInputFromList("Choose event to filter", appl.profile.getRgxList());
 		
 		if (userInput == null)
 			return;
@@ -39,7 +39,7 @@ public class CmdAddLogFilter implements CmdCommand {
 	// Asking about prop for filter
 		RegExp rgx = appl.profile.getRgxList().get(Integer.parseInt(userInput));
 		ArrayList<PropTypes> props = rgx.getPropsForFiltering();
-		userInput = appl.cmdAppl.askInputFromList("Choose property to filter", props);
+		userInput = appl.getConsole().askInputFromList("Choose property to filter", props);
 		
 		if (userInput == null)
 			return;
@@ -51,7 +51,7 @@ public class CmdAddLogFilter implements CmdCommand {
 		if (RgxOpManager.isNumericProp(prop)){
 			ComparisonTypes[] compTypes = ComparisonTypes.values();
 			
-			userInput = appl.cmdAppl.askInputFromList("Choose comparison type", compTypes);
+			userInput = appl.getConsole().askInputFromList("Choose comparison type", compTypes);
 			if (userInput == null)
 				return;
 			
@@ -61,10 +61,10 @@ public class CmdAddLogFilter implements CmdCommand {
 		
 		if (userCompType == ComparisonTypes.range){
 		// Asking about filter value
-			appl.cmdAppl.out.println();
+			appl.getConsole().println("");
 			String[] message = new String[1];
 			message[0] = "Choose start of filter range (including):";
-			userInput = appl.cmdAppl.askInput(message, n -> !n.isEmpty(), true);
+			userInput = appl.getConsole().askInput(message, n -> !n.isEmpty(), true);
 			
 			userInput = fetchProp(userInput, prop);
 			
@@ -73,9 +73,9 @@ public class CmdAddLogFilter implements CmdCommand {
 
 			rgx.getFilter(prop).add(userInput);
 			
-			appl.cmdAppl.out.println();
+			appl.getConsole().println("");
 			message[0] = "Choose end of filter range (including):";
-			userInput = appl.cmdAppl.askInput(message, n -> !n.isEmpty(), true);
+			userInput = appl.getConsole().askInput(message, n -> !n.isEmpty(), true);
 			
 			userInput = fetchProp(userInput, prop);
 			
@@ -86,10 +86,10 @@ public class CmdAddLogFilter implements CmdCommand {
 		}
 		else{
 			// Asking about filter value
-			appl.cmdAppl.out.println();
+			appl.getConsole().println("");
 			String[] message = new String[1];
 			message[0] = "Input filter value. Notice that filter is case-sentitive:";
-			userInput = appl.cmdAppl.askInput(message, n -> !n.isEmpty(), true);
+			userInput = appl.getConsole().askInput(message, n -> !n.isEmpty(), true);
 			
 			userInput = fetchProp(userInput, prop);
 			
@@ -111,7 +111,7 @@ public class CmdAddLogFilter implements CmdCommand {
 			if (timeMatcher.find())
 				userInput = timeMatcher.group().replace(":", "");
 			else{
-				appl.cmdAppl.showModalInfo("incorrect format: need  mm:ss");
+				appl.getConsole().showModalInfo("incorrect format: need  mm:ss");
 				return null;
 			}
 		}

@@ -16,7 +16,7 @@ public class CmdChangeLogType implements CmdCommand {
 		
 		LogTypes[] logTypes = LogTypes.values();
 		
-		String userInput = appl.cmdAppl.askInputFromList("choose log type used to filter log files", logTypes);
+		String userInput = appl.getConsole().askInputFromList("choose log type used to filter log files", logTypes);
 		
 		if (userInput == null)
 			return;

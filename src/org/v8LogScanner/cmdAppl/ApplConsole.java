@@ -18,9 +18,9 @@ import org.v8LogScanner.commonly.Strokes;
 
 public class ApplConsole {
 	
-	public BufferedReader in  = null;
-	public PrintStream out    = null;
-	private String title = "New application";
+	private BufferedReader in = null;
+	private PrintStream out   = null;
+	private String title      = "New application";
 
 	public ApplConsole(InputStream in, PrintStream out){
 		this.in  = new BufferedReader(new InputStreamReader(in));
@@ -82,7 +82,6 @@ public class ApplConsole {
 			return true;
 	}
 	
-	
 	public void clearConsole(){
 		String osName = Constants.osType;
 		
@@ -97,7 +96,6 @@ public class ApplConsole {
 		else if (osName.matches("(?i).*linux.*"))
 			out.print("\033[H\033[2J");
 	}
-	
 	
 	public String askInput(String[] textMessage, Predicate<String> predicate, boolean clearConsole) {
 		
@@ -156,16 +154,13 @@ public class ApplConsole {
 		return askInputFromList(textMessage, intermArray, start, end);
 	}
 	
-	
 	public <F extends List<T>, T> String askInputFromList(String textMessage, F list){
 		return askInputFromList(textMessage, list, 0, list.size());
 	}
 	
-	
 	public <T> String askInputFromList(String textMessage, T[] list){
 		return askInputFromList(textMessage, list, 0, list.length);
 	}
-	
 	
 	public void showModalInfo(String text){
 		out.println(text);
@@ -176,24 +171,23 @@ public class ApplConsole {
 		}
 	}
 	
-	
-	
-	public <T> void showInfoStack(List<T> info){
+	public <T> void showInfo(List<T> info){
 		info.forEach(out :: println);
 	}
 	
+	public void println(String info) {
+	  out.println(info);
+	}
 	
 	public void showNumberedList(ArrayList<String> info){
 		for(int i = 0; i < info.size(); i++)
 			out.println(String.format("%s %s", i, info.get(i)));
 	}
 	
-	
 	public void showNumberedList(String[] info){
 		for(int i = 0; i < info.length; i++)
 			out.println(String.format("%s %s", i, info[i]));
 	}
-	
 	
 	public <F,T extends List<F>> boolean existsInList(String n, T list){
 		if (isValid(n) && Strokes.isNumeric(n)){
@@ -205,7 +199,6 @@ public class ApplConsole {
 		}
 	}
 	
-	
 	public <T> boolean existsInList(String n, T[] list){
 		if (n.matches("\\d+")){
 			int inputNum = Integer.parseInt(n, 10);
@@ -216,9 +209,7 @@ public class ApplConsole {
 		}
 	}
 	
-	
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
 }

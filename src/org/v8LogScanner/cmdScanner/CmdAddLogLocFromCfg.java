@@ -14,10 +14,10 @@ public class CmdAddLogLocFromCfg implements CmdCommand{
 	public void execute() {
 		
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
-		appl.cmdAppl.out.println();
+		appl.getConsole().println("");
 		
 		List<V8LogScannerClient> clients = appl.clientsManager.getClients();
-		String input = appl.cmdAppl.askInputFromList("Select numeric index of the server from list above", clients);
+		String input = appl.getConsole().askInputFromList("Select numeric index of the server from list above", clients);
 
 		if (input == null)
 			return;
@@ -29,7 +29,7 @@ public class CmdAddLogLocFromCfg implements CmdCommand{
 		if (logsLoc == null)
 			return;
 		
-		input = appl.cmdAppl.askInputFromList("Select logs location:", logsLoc);
+		input = appl.getConsole().askInputFromList("Select logs location:", logsLoc);
 		
 		if (input == null)
 			return;

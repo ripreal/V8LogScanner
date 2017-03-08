@@ -20,7 +20,7 @@ public class CmdSetTOP implements CmdCommand{
 		String[] message = new String[1];
 		message[0] = "Input integer number of events returned from each log file per every "+ Constants.logEventsCount +" events."
 			+ "\nThis option only works for the cursor log scanning:";
-		String userInput = appl.cmdAppl.askInput(
+		String userInput = appl.getConsole().askInput(
 			message, 
 			l_input -> Strokes.isNumeric(l_input),
 			true

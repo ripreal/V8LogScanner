@@ -17,7 +17,7 @@ public class CmdAddLogLocFromCfgAll implements CmdCommand {
 	public void execute() {
 		
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
-		appl.cmdAppl.out.println();
+		appl.getConsole().println("");
 		
 		Map<V8LogScannerClient, List<String>> allLogs = new HashMap<>();
 		appl.clientsManager.forEach(client -> allLogs.put(client, client.scanLogsInCfgFile()));

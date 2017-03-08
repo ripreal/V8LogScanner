@@ -18,7 +18,7 @@ public class CmdChangeLogRange implements CmdCommand {
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		
 		DateRanges[] ranges = DateRanges.values();
-		String userInput = appl.cmdAppl.askInputFromList("Choose a range to filter the log files or input your own range:", ranges);
+		String userInput = appl.getConsole().askInputFromList("Choose a range to filter the log files or input your own range:", ranges);
 		
 		if (userInput == null)
 			return;
@@ -28,15 +28,15 @@ public class CmdChangeLogRange implements CmdCommand {
 		
 		if (currRange == DateRanges.SET_OWN){
 		
-			appl.cmdAppl.out.println();
+			appl.getConsole().println("");
 			String[] message = new String[1];
 			message[0] = "Choose start of calendar date (with format - yymmddhh:)";
 			
 			Pattern pattern = Pattern.compile("^\\d{8}"); 
-			String startDate = appl.cmdAppl.askInput(message, n -> pattern.matcher(n).matches(), true);
+			String startDate = appl.getConsole().askInput(message, n -> pattern.matcher(n).matches(), true);
 			
 			message[0] = "Choose end of calendar date (with format - yymmddhh:)";
-			String endDate = appl.cmdAppl.askInput(message, n -> pattern.matcher(n).matches(), true);
+			String endDate = appl.getConsole().askInput(message, n -> pattern.matcher(n).matches(), true);
 			
 			appl.profile.setUserPeriod(startDate, endDate);
 		}

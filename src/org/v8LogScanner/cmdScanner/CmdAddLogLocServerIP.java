@@ -18,14 +18,14 @@ public class CmdAddLogLocServerIP implements CmdCommand {
 		
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		
-		appl.cmdAppl.out.println("Searching possible hosts from LAN... Wait until this process will be ended"
+		appl.getConsole().println("Searching possible hosts from LAN... Wait until this process will be ended"
 				+ "\nor input IP address (something like '127.0.0.1') or host name(something like 'pc01' without domain name) manually:");
-		appl.cmdAppl.out.println("Available hosts:");
+		appl.getConsole().println("Available hosts:");
 		V8LanLogScannerClient.beginGettingPossibleHosts(Constants.serverPort, host -> {
-			appl.cmdAppl.out.println(host);
+			appl.getConsole().println(host);
 		});
 		
-		String userInput = appl.cmdAppl.askInput(new String[0], n -> {
+		String userInput = appl.getConsole().askInput(new String[0], n -> {
 			if (n.matches("(\\d|\\.)+"))
 				return n.matches("\\d+\\.\\d+\\.\\d+\\.\\d+");
 			else
@@ -41,7 +41,7 @@ public class CmdAddLogLocServerIP implements CmdCommand {
 			appl.clientsManager.addClient(userInput, appl.procEvent);
 		} catch (LogScannerClientNotFoundServer e) {
 			ExcpReporting.LogError(this, e);
-			appl.cmdAppl.showModalInfo("Server not found!");
+			appl.getConsole().showModalInfo("Server not found!");
 		}
 		
 	}

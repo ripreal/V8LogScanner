@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager.LogScannerClientNotFoundServer;
+import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer.LanServerNotStarted;
 import org.v8LogScanner.cmdAppl.ApplConsole;
@@ -24,6 +25,21 @@ import org.v8LogScanner.commonly.ProcessEvent;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestCmdAppl {
+  
+  @Test
+  public void testExcpReporting() throws LogScannerClientNotFoundServer {
+    
+    ExcpReporting.out = null;
+    
+    V8LanLogScannerClient client = new V8LanLogScannerClient();
+    try {
+      client.cursorIndex();
+      fail("should throw ErrorStreamOutNotSet exception");
+    }
+    catch (ExcpReporting.ErrorStreamOutNotSet e){
+      assertTrue(true);
+    }
+  }
   
   @Test
   public void testRunAppl() throws IOException{
@@ -96,17 +112,5 @@ public class TestCmdAppl {
     scannerAppl.runAppl();
   }
   
-  @Test
-  public void testExcpReporting() throws LogScannerClientNotFoundServer {
-    
-    V8LogScannerAppl app = V8LogScannerAppl.instance();
-    try {
-      app.clientsManager.addClient("HostNotExist", (info) -> {});
-      fail("should throw ErrorStreamOutNotSet exception");
-    }
-    catch (ExcpReporting.ErrorStreamOutNotSet e){
-      assertTrue(true);
-    }
-  }
-  
 }
+

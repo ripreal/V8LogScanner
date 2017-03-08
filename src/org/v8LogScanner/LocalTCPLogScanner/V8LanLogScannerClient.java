@@ -94,6 +94,13 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
 	// GETTING RGX COMMAND	
 	
 	public int cursorIndex(){
+	  
+	  if (rgxOp == null) {
+	    RgxOpNotStarted exc = new RgxOpNotStarted();
+	    ExcpReporting.LogError(this.getClass(), exc);
+	    return 0;
+	  }
+	  
 		return rgxOp.cursorIndex();
 	}
 	
@@ -308,7 +315,17 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
 		invoke(procInfo);
 		procInfo.clear();
 	}
-
+	
+	public class RgxOpNotStarted extends Exception {
+	  
+	  private static final long serialVersionUID = 1L;
+	  
+	  public RgxOpNotStarted() {
+	    super("RgxOp has not been executed yet. First you should start executing");
+	  }
+	  
+	}
+	
 	
 }
 

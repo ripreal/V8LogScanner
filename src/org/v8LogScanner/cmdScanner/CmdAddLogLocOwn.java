@@ -20,7 +20,7 @@ public class CmdAddLogLocOwn implements CmdCommand{
 		
 		List<V8LogScannerClient> clients = appl.clientsManager.getClients();
 		
-		String userInput = appl.cmdAppl.askInputFromList("select host:", clients);
+		String userInput = appl.getConsole().askInputFromList("select host:", clients);
 		
 		if (userInput == null)
 			return;
@@ -28,7 +28,7 @@ public class CmdAddLogLocOwn implements CmdCommand{
 		V8LogScannerClient client = clients.get(Integer.parseInt(userInput));
 		
 		String[] message = {"Input 1c log location (directory or *.log file)"};
-		String path = appl.cmdAppl.askInput(
+		String path = appl.getConsole().askInput(
 			message,
 			n -> client.logPathExist(n), true);
 		if (path != null) {

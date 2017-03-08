@@ -31,11 +31,11 @@ public class CmdAddGroupBy implements CmdCommand{
 		
 		V8LogScannerAppl appl = V8LogScannerAppl.instance();
 		
-		appl.cmdAppl.out.println();
+		appl.getConsole().println("");
 		
 		// asking about group type (by file name or property)
 		GroupTypes[] groupTypes = GroupTypes.values();
-		String userInput = appl.cmdAppl.askInputFromList("Choose group type", groupTypes);
+		String userInput = appl.getConsole().askInputFromList("Choose group type", groupTypes);
 		
 		if (userInput == null)
 			return;
@@ -46,7 +46,7 @@ public class CmdAddGroupBy implements CmdCommand{
 			return;
 		
 		// asking about event for filter
-		userInput = appl.cmdAppl.askInputFromList("Choose event to group", appl.profile.getRgxList());
+		userInput = appl.getConsole().askInputFromList("Choose event to group", appl.profile.getRgxList());
 		
 		if (userInput == null)
 			return;
@@ -54,7 +54,7 @@ public class CmdAddGroupBy implements CmdCommand{
 	// Asking about prop for filter
 		RegExp rgx = appl.profile.getRgxList().get(Integer.parseInt(userInput));
 		ArrayList<PropTypes> props = rgx.getPropsForGrouping();
-		userInput = appl.cmdAppl.askInputFromList("Choose property to group", props);
+		userInput = appl.getConsole().askInputFromList("Choose property to group", props);
 		
 		if (userInput == null)
 			return;

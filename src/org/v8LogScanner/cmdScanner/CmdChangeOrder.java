@@ -23,7 +23,7 @@ public class CmdChangeOrder implements CmdCommand {
 		sortingProps[0] = "Events_amount";
 		sortingProps[1] = PropTypes.Duration.toString();
 		
-		String userInput = appl.cmdAppl.askInputFromList("input prop which will be used to sort result:", sortingProps);
+		String userInput = appl.getConsole().askInputFromList("input prop which will be used to sort result:", sortingProps);
 		
 		if (userInput == null){
 			return;
