@@ -73,7 +73,7 @@ public class V8LogScannerServer implements SocketEvent{
 					while(true){
 						TCPConnection connection = TCPConnection.createTCPConnection(serverSocket);
 						if (connection == null){
-							infoStream.println("Listening process was interrupted!");
+							infoStream.println("Listening process interrupted!");
 							break;
 						}
 						connection.addListener(V8LogScannerServer.this);
