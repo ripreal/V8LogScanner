@@ -14,86 +14,86 @@ import org.v8LogScanner.rgx.RegExp.PropTypes;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
 public abstract class AbstractOp extends ProcessListener implements IRgxOp {
-	
-	// Precompiled variables
-	protected ConcurrentMap<EventTypes, Pattern> eventPatterns = new ConcurrentHashMap<>();
-	protected ConcurrentMap<EventTypes, List<String>> groupPropsRgx = new ConcurrentHashMap<>();
-	protected ConcurrentMap<EventTypes, List<String>> cleanPropsRgx = new ConcurrentHashMap<>();
-	protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters = new ConcurrentHashMap<>();
-	protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes = new ConcurrentHashMap<>();
-	// Service variables
-	protected LinkedBlockingQueue<String> processingInfo = new LinkedBlockingQueue<>();
-	protected long inSize = 0;
-	protected long outSize = 0;
-	
-	public static IRgxOp buildRgxOp(ScanProfile profile){
-		
-		RgxOpTypes rgxOp = profile.getRgxOp();
-		
-		switch (rgxOp) {
-		case CURSOR_OP:
-			return new CursorOp(profile);
-		case HEAP_OP:
-			return new HeapOp(profile);
-		case USER_OP:
-			return new UserScanOp(profile);
-		default:
-			return new CursorOp(profile);
-		}
-	}
-	
-	// INTERFACE
-	
-	public final ArrayList<String> getProcessingInfo(){
-		
-		ArrayList<String> result = new ArrayList<>(); 
-		processingInfo.forEach(n -> result.add(processingInfo.poll()));
-		
-		return result;
-	}
-	
-	// PRIVATE
-	
-	protected final void precompile(List<RegExp> rgxList){
-		
-		cleanPropsRgx.clear();
-		groupPropsRgx.clear();
-		integerCompTypes.clear();
-		integerFilters.clear();
-		eventPatterns.clear();
-		groupPropsRgx.clear();
-		
-		for (RegExp rgx : rgxList){
-				
-			List<PropTypes> propTypes = rgx.getGroupingProps();
-			
-			if (propTypes.size() > 0){
-			
-				List<String> compiledProps = new ArrayList<String>();
-				propTypes.forEach(prop -> compiledProps.add(rgx.getThisPropText(prop)));
-				if (compiledProps.size() > 0)
-					groupPropsRgx.put(rgx.getEventType(), compiledProps);
-				
-				List<String> compiledCleanProps = new ArrayList<String>();
-				propTypes.forEach(prop -> compiledCleanProps.addAll(rgx.getPredecessorPropText(prop)));
-				if (compiledCleanProps.size() > 0)
-					cleanPropsRgx.put(rgx.getEventType(), compiledCleanProps);
-			}
-			else
-				cleanPropsRgx.put(rgx.getEventType(), rgx.getUnicRgxPropText());
-		}
-			
-		for (RegExp rgx : rgxList){
-			Pattern pattern = rgx.compileSpan(PropTypes.ANY, PropTypes.ANY);
-			integerCompTypes.put(rgx.getEventType(), rgx.getIntegerCompTypes());
-			integerFilters.put(rgx.getEventType(), rgx.getIntegerFilters());
-			eventPatterns.put(rgx.getEventType(), pattern);
-		}
-	}
+  
+  // Precompiled variables
+  protected ConcurrentMap<EventTypes, Pattern> eventPatterns = new ConcurrentHashMap<>();
+  protected ConcurrentMap<EventTypes, List<String>> groupPropsRgx = new ConcurrentHashMap<>();
+  protected ConcurrentMap<EventTypes, List<String>> cleanPropsRgx = new ConcurrentHashMap<>();
+  protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters = new ConcurrentHashMap<>();
+  protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes = new ConcurrentHashMap<>();
+  // Service variables
+  protected LinkedBlockingQueue<String> processingInfo = new LinkedBlockingQueue<>();
+  protected long inSize = 0;
+  protected long outSize = 0;
+  
+  public static IRgxOp buildRgxOp(ScanProfile profile){
+    
+    RgxOpTypes rgxOp = profile.getRgxOp();
+    
+    switch (rgxOp) {
+    case CURSOR_OP:
+      return new CursorOp(profile);
+    case HEAP_OP:
+      return new HeapOp(profile);
+    case USER_OP:
+      return new UserScanOp(profile);
+    default:
+      return new CursorOp(profile);
+    }
+  }
+  
+  // INTERFACE
+  
+  public final ArrayList<String> getProcessingInfo(){
+    
+    ArrayList<String> result = new ArrayList<>(); 
+    processingInfo.forEach(n -> result.add(processingInfo.poll()));
+    
+    return result;
+  }
+  
+  // PRIVATE
+  
+  protected final void precompile(List<RegExp> rgxList){
+    
+    cleanPropsRgx.clear();
+    groupPropsRgx.clear();
+    integerCompTypes.clear();
+    integerFilters.clear();
+    eventPatterns.clear();
+    groupPropsRgx.clear();
+    
+    for (RegExp rgx : rgxList){
+        
+      List<PropTypes> propTypes = rgx.getGroupingProps();
+      
+      if (propTypes.size() > 0){
+      
+        List<String> compiledProps = new ArrayList<String>();
+        propTypes.forEach(prop -> compiledProps.add(rgx.getThisPropText(prop)));
+        if (compiledProps.size() > 0)
+          groupPropsRgx.put(rgx.getEventType(), compiledProps);
+        
+        List<String> compiledCleanProps = new ArrayList<String>();
+        propTypes.forEach(prop -> compiledCleanProps.addAll(rgx.getPredecessorPropText(prop)));
+        if (compiledCleanProps.size() > 0)
+          cleanPropsRgx.put(rgx.getEventType(), compiledCleanProps);
+      }
+      else
+        cleanPropsRgx.put(rgx.getEventType(), rgx.getUnicRgxPropText());
+    }
+      
+    for (RegExp rgx : rgxList){
+      Pattern pattern = rgx.compileSpan(PropTypes.ANY, PropTypes.ANY);
+      integerCompTypes.put(rgx.getEventType(), rgx.getIntegerCompTypes());
+      integerFilters.put(rgx.getEventType(), rgx.getIntegerFilters());
+      eventPatterns.put(rgx.getEventType(), pattern);
+    }
+  }
 
-	protected final void saveProcessingInfo(String info){
-		processingInfo.offer(info);
-		invoke(getProcessingInfo());
-	}
-	
+  protected final void saveProcessingInfo(String info){
+    processingInfo.offer(info);
+    invoke(getProcessingInfo());
+  }
+  
 }

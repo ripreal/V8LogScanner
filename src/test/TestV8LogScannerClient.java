@@ -55,39 +55,39 @@ public class TestV8LogScannerClient {
     LanScanProfile profile = (LanScanProfile) clientLocal.getProfile();
     profile.getLogPaths().add("c:\\localFile");
     profile.getRgxList().add(new RegExp(EventTypes.EXCP));
-		
-		V8LanLogScannerClient clientLan = new V8LanLogScannerClient("11.11.11"); 
-		clm.addClient(clientLan);
-			
-		clientLan.setProfile(profile);
-		LanScanProfile lanProfile = (LanScanProfile) clientLan.getProfile();
-		lanProfile.getLogPaths().add("c:\\lanFile");
-		ScanProfile profile2 = profile.clone();
-		profile2.setLogPaths(clientLan.getProfile().getLogPaths());	
-		clientLan.setProfile(profile2);
-		
-		List<String> logFiles = new ArrayList<>();
-		List<RegExp> events = new ArrayList<>();
-		
-		clm.forEach(client -> {
-			logFiles.addAll(client.getProfile().getLogPaths());
-			events.addAll(client.getProfile().getRgxList());
-		});
-		assertEquals(logFiles.stream().distinct().count(), 2);
-		
-		long eventsCount = events
-		.stream()
-		.map(n -> n.getEventType())
-		.distinct().count();
-		assertEquals(eventsCount, 1l);
-		
-	}
-	
-	@Test
-	public void testPingServer() {
-	  String ip = SocketTemplates.instance().getHostIP();
+    
+    V8LanLogScannerClient clientLan = new V8LanLogScannerClient("11.11.11"); 
+    clm.addClient(clientLan);
+      
+    clientLan.setProfile(profile);
+    LanScanProfile lanProfile = (LanScanProfile) clientLan.getProfile();
+    lanProfile.getLogPaths().add("c:\\lanFile");
+    ScanProfile profile2 = profile.clone();
+    profile2.setLogPaths(clientLan.getProfile().getLogPaths());  
+    clientLan.setProfile(profile2);
+    
+    List<String> logFiles = new ArrayList<>();
+    List<RegExp> events = new ArrayList<>();
+    
+    clm.forEach(client -> {
+      logFiles.addAll(client.getProfile().getLogPaths());
+      events.addAll(client.getProfile().getRgxList());
+    });
+    assertEquals(logFiles.stream().distinct().count(), 2);
+    
+    long eventsCount = events
+    .stream()
+    .map(n -> n.getEventType())
+    .distinct().count();
+    assertEquals(eventsCount, 1l);
+    
+  }
+  
+  @Test
+  public void testPingServer() {
+    String ip = SocketTemplates.instance().getHostIP();
     V8LogScannerClient client = new V8LanLogScannerClient(ip);
     assertFalse(client.pingServer());
-	}
-	
+  }
+  
 }

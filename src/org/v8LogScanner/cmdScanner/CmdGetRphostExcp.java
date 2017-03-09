@@ -10,22 +10,22 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
 public class CmdGetRphostExcp implements CmdCommand {
 
-	public String getTip() {
-		return "";
-	}
-	
-	public void execute() {
-		
-		V8LogScannerAppl appl = V8LogScannerAppl.instance();
-		
-		appl.profile = new LanScanProfile(RgxOpTypes.HEAP_OP);
-		appl.clientsManager.localClient().setProfile(appl.profile);
-		
-		RegExp excp = new RegExp(EventTypes.EXCP);
-		excp.getGroupingProps().add(PropTypes.Descr);
-		
-		appl.profile.getRgxList().add(excp);
-		appl.profile.setLogType(LogTypes.RPHOST);
-		
-	}
+  public String getTip() {
+    return "";
+  }
+  
+  public void execute() {
+    
+    V8LogScannerAppl appl = V8LogScannerAppl.instance();
+    
+    appl.profile = new LanScanProfile(RgxOpTypes.HEAP_OP);
+    appl.clientsManager.localClient().setProfile(appl.profile);
+    
+    RegExp excp = new RegExp(EventTypes.EXCP);
+    excp.getGroupingProps().add(PropTypes.Descr);
+    
+    appl.profile.getRgxList().add(excp);
+    appl.profile.setLogType(LogTypes.RPHOST);
+    
+  }
 }

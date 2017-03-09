@@ -6,60 +6,60 @@ import java.util.List;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 public interface ScanProfile extends Serializable, Cloneable {
-	
-	public enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
-	public enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
-	public enum LogTypes   {RPHOST, CLIENT, ANY}
-	public enum DateRanges {ANY, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
-	
-	int getId();
-	
-	void setId();
-	
-	String getName();
-	
-	void setName(String name);
-	
-	List<String> getLogPaths();
+  
+  public enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
+  public enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
+  public enum LogTypes   {RPHOST, CLIENT, ANY}
+  public enum DateRanges {ANY, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
+  
+  int getId();
+  
+  void setId();
+  
+  String getName();
+  
+  void setName(String name);
+  
+  List<String> getLogPaths();
 
-	void setLogPaths(List<String> logPaths);
+  void setLogPaths(List<String> logPaths);
 
-	DateRanges getDateRange();
+  DateRanges getDateRange();
 
-	void setDateRange(DateRanges _dateRange);
+  void setDateRange(DateRanges _dateRange);
 
-	void setUserPeriod(String startDate, String endDate);
+  void setUserPeriod(String startDate, String endDate);
 
-	String[] getUserPeriod();
+  String[] getUserPeriod();
 
-	int getLimit();
+  int getLimit();
 
-	void setLimit(int limit);
+  void setLimit(int limit);
 
-	void setRgxOp(RgxOpTypes rgxOp);
+  void setRgxOp(RgxOpTypes rgxOp);
 
-	RgxOpTypes getRgxOp();
+  RgxOpTypes getRgxOp();
 
-	LogTypes getLogType();
+  LogTypes getLogType();
 
-	void setLogType(LogTypes _logType);
+  void setLogType(LogTypes _logType);
 
-	PropTypes getSortingProp();
+  PropTypes getSortingProp();
 
-	void setSortingProp(PropTypes sortingProp);
+  void setSortingProp(PropTypes sortingProp);
 
-	GroupTypes getGroupType();
+  GroupTypes getGroupType();
 
-	void setGroupType(GroupTypes userGroupType);
+  void setGroupType(GroupTypes userGroupType);
 
-	List<RegExp> getRgxList();
+  List<RegExp> getRgxList();
 
-	void setRgxList(List<RegExp> rgxList);
-	
-	void addRegExp(RegExp rgx);
-	
-	String getRgxExp();
+  void setRgxList(List<RegExp> rgxList);
+  
+  void addRegExp(RegExp rgx);
+  
+  String getRgxExp();
 
-	void setRgxExp(String rgx);
+  void setRgxExp(String rgx);
 
 }
