@@ -1,4 +1,4 @@
-package test;
+package org.v8LogScanner.testV8LogScanner;
 
 import org.junit.Before;
 import org.junit.Test;

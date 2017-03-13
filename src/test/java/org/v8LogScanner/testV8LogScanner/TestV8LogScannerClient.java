@@ -1,4 +1,4 @@
-package test;
+package org.v8LogScanner.testV8LogScanner;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
