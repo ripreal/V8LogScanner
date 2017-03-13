@@ -46,7 +46,7 @@ public class TestV8LogScannerClient {
     assertEquals(clientName.getHostIP(), hostIP);
     
   }
-  /*
+  
   public void testScanProfileSHouldContainEssentialParameters() throws Exception {
     
     ClientsManager clm = new ClientsManager();
@@ -82,7 +82,7 @@ public class TestV8LogScannerClient {
     assertEquals(eventsCount, 1l);
     
   }
-  
+  /*
   @Test
   public void testPingServer() {
     String ip = SocketTemplates.instance().getHostIP();
