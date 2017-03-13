@@ -18,7 +18,7 @@ import org.v8LogScanner.rgx.ScanProfile;
 
 //@RunWith(MockitoJUnitRunner.class)
 public class TestV8LogScannerClient {
-  
+  /*
   @Before
   public void init() {
     ExcpReporting.out = System.out;
@@ -89,5 +89,5 @@ public class TestV8LogScannerClient {
     V8LogScannerClient client = new V8LanLogScannerClient(ip);
     assertFalse(client.pingServer());
   }
-  
+  */
 }
