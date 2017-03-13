@@ -82,12 +82,12 @@ public class TestV8LogScannerClient {
     assertEquals(eventsCount, 1l);
     
   }
-  /*
+  
   @Test
   public void testPingServer() {
     String ip = SocketTemplates.instance().getHostIP();
     V8LogScannerClient client = new V8LanLogScannerClient(ip);
     assertFalse(client.pingServer());
   }
-  */
+  
 }
