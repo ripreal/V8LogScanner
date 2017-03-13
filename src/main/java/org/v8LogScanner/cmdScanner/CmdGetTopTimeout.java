@@ -28,10 +28,10 @@ public class CmdGetTopTimeout implements CmdCommand {
     appl.profile.getRgxList().add(ttimeout);
     
     // DATABASE DBV8DBEng log
-    RegExp fileTimeout = new RegExp(EventTypes.EXCP);
-    Filter<String> fl = fileTimeout.getFilter(PropTypes.Descr);
-    fl.add("Конфликт блокировок при выполнении транзакции");
-    appl.profile.getRgxList().add(fileTimeout);
+    //RegExp fileTimeout = new RegExp(EventTypes.EXCP);
+    //Filter<String> fl = fileTimeout.getFilter(PropTypes.Descr);
+    //fl.add("Конфликт блокировок при выполнении транзакции");
+    //appl.profile.getRgxList().add(fileTimeout);
     
   }
 }
