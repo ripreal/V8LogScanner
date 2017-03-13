@@ -18,7 +18,7 @@ import org.v8LogScanner.rgx.ScanProfile;
 
 //@RunWith(MockitoJUnitRunner.class)
 public class TestV8LogScannerClient {
-  /*
+  
   @Before
   public void init() {
     ExcpReporting.out = System.out;
@@ -46,7 +46,7 @@ public class TestV8LogScannerClient {
     assertEquals(clientName.getHostIP(), hostIP);
     
   }
-  
+  /*
   public void testScanProfileSHouldContainEssentialParameters() throws Exception {
     
     ClientsManager clm = new ClientsManager();
