@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
@@ -16,8 +17,7 @@ import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.ScanProfile;
 
-//@RunWith(MockitoJUnitRunner.class)
-public class TestV8LogScannerClient {
+public class TestV8ScannerClient {
   
   @Before
   public void init() {
@@ -47,6 +47,7 @@ public class TestV8LogScannerClient {
     
   }
   
+  @Test
   public void testScanProfileSHouldContainEssentialParameters() throws Exception {
     
     ClientsManager clm = new ClientsManager();
@@ -81,13 +82,5 @@ public class TestV8LogScannerClient {
     .distinct().count();
     assertEquals(eventsCount, 1l);
     
-  }
-  
-  @Test
-  public void testPingServer() {
-    String ip = SocketTemplates.instance().getHostIP();
-    V8LogScannerClient client = new V8LanLogScannerClient(ip);
-    assertFalse(client.pingServer());
-  }
-  
+  }  
 }
