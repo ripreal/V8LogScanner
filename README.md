@@ -34,10 +34,9 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 
 ### Examples for developers 
 
-Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps will be these:
+Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps would be these:
 
 ```
-
 V8LogScannerClient client = new V8LanLogScannerClient();
 
 ScanProfile profile = client.getProfile();
@@ -50,14 +49,18 @@ List<SelectorsEntry> logs = client.select(100, true);
 for (SelectorsEntry log : logs) {
   System.out.println(log);
 }
+```
+And result could be:
+```
+53:08.840011-20440475011,EXCPCNTX,0,SrcName=PROC,OSThread=4860,process=1cv8
+53:08.872005-0,EXCP,1,process=1cv8,ClientID=10,Exception=NetDataExchangeException,Descr='server_addr=(2)192.168.1.39:62233 descr=recv returns zero, disconnected line=2235 file=src\DataExchangeServerImpl.cpp'
+53:08.872006-0,EXCPCNTX,0,ClientComputerName=,ServerComputerName=,UserName=,ConnectString=
+53:08.872007-3,EXCPCNTX,0,SrcName=MEM,OSThread=1620,process=1cv8
 
+// and others up to 100 logs.
 ```
 
-And repeat
 
-```
-until finished
-```
 locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
 End with an example of getting some data out of the system or using it for a little demo
 
