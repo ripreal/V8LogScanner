@@ -5,7 +5,7 @@ If you want to run the V8 Log Scanner as console application on your local machi
 
 ### Integration with Maven
 
-It's possible to gets V8LogScanner integrated with java project on Maven. Put the dependency listened below inside <dependencies> section and the repository inside <repositories> section whitin your pom.xml 
+It's possible to gets V8LogScanner integrated with java project on Maven. Put the dependency listened below inside \<dependencies\> section and the repository inside \<repositories\> section whitin your pom.xml 
 
 ```
 <!-- put it inside <dependencies> section -->
