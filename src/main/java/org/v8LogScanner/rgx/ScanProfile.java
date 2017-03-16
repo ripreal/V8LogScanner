@@ -12,54 +12,56 @@ public interface ScanProfile extends Serializable, Cloneable {
   public enum LogTypes   {RPHOST, CLIENT, ANY}
   public enum DateRanges {ANY, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
   
-  int getId();
+  public int getId();
   
-  void setId();
+  public void setId();
   
-  String getName();
+  public String getName();
   
-  void setName(String name);
+  public void setName(String name);
   
-  List<String> getLogPaths();
-
-  void setLogPaths(List<String> logPaths);
-
-  DateRanges getDateRange();
-
-  void setDateRange(DateRanges _dateRange);
-
-  void setUserPeriod(String startDate, String endDate);
-
-  String[] getUserPeriod();
-
-  int getLimit();
-
-  void setLimit(int limit);
-
-  void setRgxOp(RgxOpTypes rgxOp);
-
-  RgxOpTypes getRgxOp();
-
-  LogTypes getLogType();
-
-  void setLogType(LogTypes _logType);
-
-  PropTypes getSortingProp();
-
-  void setSortingProp(PropTypes sortingProp);
-
-  GroupTypes getGroupType();
-
-  void setGroupType(GroupTypes userGroupType);
-
-  List<RegExp> getRgxList();
-
-  void setRgxList(List<RegExp> rgxList);
+  public List<String> getLogPaths();
   
-  void addRegExp(RegExp rgx);
-  
-  String getRgxExp();
+  public void addLogPath(String logPath);
 
-  void setRgxExp(String rgx);
+  public void setLogPaths(List<String> logPaths);
+
+  public DateRanges getDateRange();
+
+  public void setDateRange(DateRanges _dateRange);
+
+  public void setUserPeriod(String startDate, String endDate);
+
+  public String[] getUserPeriod();
+
+  public int getLimit();
+
+  public void setLimit(int limit);
+
+  public void setRgxOp(RgxOpTypes rgxOp);
+
+  public RgxOpTypes getRgxOp();
+
+  public LogTypes getLogType();
+
+  public void setLogType(LogTypes _logType);
+
+  public PropTypes getSortingProp();
+
+  public void setSortingProp(PropTypes sortingProp);
+
+  public GroupTypes getGroupType();
+
+  public void setGroupType(GroupTypes userGroupType);
+
+  public List<RegExp> getRgxList();
+
+  public void setRgxList(List<RegExp> rgxList);
+  
+  public void addRegExp(RegExp rgx);
+  
+  public String getRgxExp();
+
+  public void setRgxExp(String rgx);
 
 }

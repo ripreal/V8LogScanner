@@ -24,7 +24,7 @@ import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CmdApplTest {
+public class TestCmdAppl {
   
   @Test
   public void testExcpReporting() throws LogScannerClientNotFoundServer {
