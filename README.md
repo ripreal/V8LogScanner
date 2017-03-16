@@ -34,7 +34,7 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 
 ### Examples for developers 
 
-Let's say you wish to get a list of all EXCP events from a some \*.log files directory. The steps will be these:
+Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps will be these:
 
 ```
 
@@ -45,8 +45,11 @@ profile.getLogPaths().add("C:\\v8\\logs");
 profile.addRegExp(new RegxExp(EventTypes.EXCP));
 
 client.startRgxOp();
-List<SelectorsEntry> result = client.select(100, true);
+List<SelectorsEntry> logs = client.select(100, true);
 
+for (SelectorsEntry log : logs) {
+  System.out.println(log);
+}
 
 ```
 
