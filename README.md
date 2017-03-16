@@ -1,9 +1,15 @@
 ## V8 Log Scanner
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
 
-If you want to run the V8 Log Scanner as console application on your local machine look at .jar library located in /repo/org/v8LogScanner/v8LogScanner/1.0. For development and testing purposes you need Eclipse STS IDE, Java SE 1.8  and Maven building system. See notes below on how to deploy the project.
+## Running
 
-### Integration with Maven
+If you want to run the V8 Log Scanner as console application on your local machine look at executable .jar library located in /repo/org/v8LogScanner/v8LogScanner/1.0.
+
+## Development
+
+For development and testing purposes you need Eclipse STS IDE, Java SE 1.8  and Maven building system. See notes below on how to deploy the project.
+
+### Maven
 
 It's possible to gets V8LogScanner integrated with java project on Maven. Put the dependency listened below inside \<dependencies\> section and the repository inside \<repositories\> section whitin your pom.xml 
 
