@@ -57,7 +57,7 @@ And result could be:
 53:08.872006-0,EXCPCNTX,0,ClientComputerName=,ServerComputerName=,UserName=,ConnectString=
 53:08.872007-3,EXCPCNTX,0,SrcName=MEM,OSThread=1620,process=1cv8
 
-// and others up to 100 logs.
+// and others up to 100 logs since we set limit   
 ```
 
 
