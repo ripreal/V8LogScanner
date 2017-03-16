@@ -3,7 +3,7 @@
 
 ## Running
 
-If you want to run the V8 Log Scanner as console application on your local machine look at executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
+If you want to run the V8 Log Scanner as console application on your local machine download a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
 
 ## Development
 
@@ -11,7 +11,7 @@ For development and testing purposes you need Eclipse STS IDE, Java SE 1.8  and 
 
 ### Maven
 
-It's possible to gets V8LogScanner integrated with java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
+It's possible to gets V8LogScanner integrated with your java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
 
 ```
 <!-- put it inside <dependencies> section -->
@@ -32,7 +32,9 @@ It's possible to gets V8LogScanner integrated with java project on Maven. Put th
   </repository>
 ```
 
-### Installing
+### Examples for developers 
+
+Let's say you wish to get all EXCP events of all \*.log files locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
 
 A step by step series of examples that tell you have to get a development env running
 
