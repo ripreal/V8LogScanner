@@ -34,15 +34,20 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 
 ### Examples for developers 
 
-Let's say you wish to get a list of all EXCP events from \*.log files directory.
-locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+Let's say you wish to get a list of all EXCP events from \*.log files directory. The steps will be these:
 
 ```
-Give the example
+
+V8LogScannerClient client = new V8LanLogScannerClient();
+
+ScanProfile profile = client.getProfile();
+profile.getLogPaths().add("C:\\v8\\logs");
+profile.addRegExp(new RegxExp(EventTypes.EXCP));
+
+client.startRgxOp();
+List<SelectorsEntry> result = client.select(100, true);
+
+
 ```
 
 And repeat
@@ -50,7 +55,7 @@ And repeat
 ```
 until finished
 ```
-
+locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
 End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
