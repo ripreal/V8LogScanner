@@ -3,22 +3,19 @@
 
 If you want to run the V8 Log Scanner as console application on your local machine look at .jar library located in /repo/org/v8LogScanner/v8LogScanner/1.0. For development and testing purposes you need Eclipse STS IDE, Java SE 1.8  and Maven building system. See notes below on how to deploy the project.
 
-## 
+### Integration with Maven
 
-
-### Maven dependency
-
-It's possible to download the V8LogScanner.jar from web repository in your java project with Maven. Insert dependency in your pom.xml 
-
+It's possible to gets V8LogScanner integrated with java project on Maven. Put the dependency listened below inside <dependencies> section and the repository inside <repositories> section whitin your pom.xml 
 
 ```
-
+<!-- put it inside <dependencies> section -->
   <dependency>
     <groupId>org.v8LogScanner</groupId>
     <artifactId>v8LogScanner</artifactId>
     <version>1.0</version>      
   </dependency>
 
+<!-- put it inside <repositories> section -->
   <repository>
     <id>v8LogScannerRepo</id>
     <name>v8LogScannerRepo</name>
