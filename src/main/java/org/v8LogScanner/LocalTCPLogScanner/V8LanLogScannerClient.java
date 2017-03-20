@@ -14,6 +14,7 @@ import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.AbstractOp;
 import org.v8LogScanner.rgx.IRgxOp;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.GroupTypes;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
@@ -216,14 +217,14 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   }
   
   @SuppressWarnings("unchecked")
-  public List<SelectorEntry> select(int count, boolean forward){
+  public List<SelectorEntry> select(int count, SelectDirections direction){
     
     if (isLocalHost())
-      return rgxOp.select(count, forward);
+      return rgxOp.select(count, direction);
     
     V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.SELECT_RGX_RESULT);
     dataToServer.putData("count", count);
-    dataToServer.putData("forward", forward);
+    dataToServer.putData("direction", direction);
     
     V8LogScannerData dataFromServer = send(dataToServer);
     

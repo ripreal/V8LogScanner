@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.rgx.HeapSelector;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.ScanProfile.GroupTypes;
 
 public class HeapOp extends AbstractOp{
@@ -102,8 +103,8 @@ public class HeapOp extends AbstractOp{
     outSize = 0;
   }
   
-  public List<SelectorEntry> select(int count, boolean forward) {
-    return selector.select(count, forward);
+  public List<SelectorEntry> select(int count, SelectDirections direction) {
+    return selector.select(count, direction);
   }
   
   public int cursorIndex(){

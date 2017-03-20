@@ -27,6 +27,8 @@ public class SelectorEntry implements Serializable {
     return value.size();
   }
   
-  
+  public String toString() {
+    return value.toString();
+  }
   
 }

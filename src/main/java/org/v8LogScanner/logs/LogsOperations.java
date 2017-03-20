@@ -13,6 +13,7 @@ import org.v8LogScanner.commonly.ProcessListener;
 import org.v8LogScanner.commonly.SimpleTable;
 import org.v8LogScanner.commonly.Strokes;
 import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.logs.LogsDirVisitor.AcceptedLogTypes;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.DateRanges;
 import org.v8LogScanner.rgx.ScanProfile.LogTypes;
@@ -41,11 +42,13 @@ public class LogsOperations extends ProcessListener  {
       Date startDate = getStartDatePattern(profile);
       Date endDate = getEndDatePattern(profile);
       
-      String checkedDirPattern = "";
-      if (Files.isDirectory(Paths.get(fileName)));
-        checkedDirPattern = dirPattern;
-        
-      LogsDirVisitor visitor = new LogsDirVisitor(checkedDirPattern,  startDate, endDate); 
+      LogsDirVisitor visitor = new LogsDirVisitor(startDate, endDate);
+      
+      if (Files.isDirectory(Paths.get(fileName)))
+        visitor.setDirPattern(dirPattern);
+      else
+        visitor.acceptLogType(AcceptedLogTypes.ALL);
+
       try {
         Files.walkFileTree(Paths.get(fileName), visitor);
       } catch (IOException e) {

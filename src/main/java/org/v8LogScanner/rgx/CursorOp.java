@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 public class CursorOp extends AbstractOp {
@@ -105,8 +106,8 @@ public class CursorOp extends AbstractOp {
       calc.getTime());
   }
 
-  public List<SelectorEntry> select(int count, boolean forward) {
-    return selector.select(count, forward);
+  public List<SelectorEntry> select(int count, SelectDirections direction) {
+    return selector.select(count, direction);
   }
   
   public int cursorIndex(){

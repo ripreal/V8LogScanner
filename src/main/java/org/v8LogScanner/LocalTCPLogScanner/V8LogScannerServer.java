@@ -21,6 +21,7 @@ import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.rgx.SelectorEntry;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.ScanProfile;
 
 public class V8LogScannerServer implements SocketEvent{
@@ -223,8 +224,8 @@ public class V8LogScannerServer implements SocketEvent{
   private V8LogScannerData select(V8LogScannerData dataFromClient){
     
     int amount = (int) dataFromClient.getData("count");
-    boolean forward = (boolean) dataFromClient.getData("forward");
-    List<SelectorEntry> serverSelections = localClient.select(amount, forward); 
+    SelectDirections direction = (SelectDirections) dataFromClient.getData("direction");
+    List<SelectorEntry> serverSelections = localClient.select(amount, direction); 
     
     V8LogScannerData answerData = new V8LogScannerData(dataFromClient.command);
     answerData.putData("selection", serverSelections);

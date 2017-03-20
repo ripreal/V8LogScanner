@@ -12,6 +12,7 @@ import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.ScanProfile;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 //DOMAIN SPECIFIC CONSOLE AND ITS METHODS
 
@@ -37,15 +38,6 @@ public class V8LogScannerAppl {
       instance = new V8LogScannerAppl(new ApplConsole());
     }
     return instance;
-  }
-  
-  public static void main(String[] args){
-    
-    ExcpReporting.out = System.out;
-    
-    V8LogScannerAppl appl = V8LogScannerAppl.instance();
-    appl.runAppl();
-    
   }
   
   private V8LogScannerAppl(ApplConsole appl){
@@ -231,8 +223,8 @@ public class V8LogScannerAppl {
   public void showResults(){
     
     MenuCmd showResults = new MenuCmd(() -> String.format("Results:\n%s", getFinalInfo()), null);
-    showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(true), showResults));
-    showResults.add(new MenuItemCmd("Show previous top 100 keys", new CmdShowResults(false), showResults));
+    showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(SelectDirections.FORWARD), showResults));
+    showResults.add(new MenuItemCmd("Show previous top 100 keys", new CmdShowResults(SelectDirections.BACKWARD), showResults));
     
     cmdAppl.runAppl(showResults);
     resetResult();

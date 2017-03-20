@@ -1,5 +1,7 @@
 package org.v8LogScanner.logs;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -13,22 +15,31 @@ import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.SimpleTable;
 
 public class LogsDirVisitor extends SimpleFileVisitor<Path> {
-
+  
+  public enum AcceptedLogTypes {ALL, LOG}
+  
   private Pattern dirPattern = null;
   private Date startDate = null;
   private Date endDate = null;
   private Date currfileDate = null;
   private boolean currDirAccepted = true;
   private SimpleTable logFilesData = new SimpleTable("filePath, size, fileDate");
+  private AcceptedLogTypes acceptedType = AcceptedLogTypes.LOG;
   
-  public LogsDirVisitor(String textPattern, Date _startDate, Date _endDate){
-
-    // Empty string means that file instead directory was passed for walking tree.
-    if (!textPattern.isEmpty())
-      dirPattern = Pattern.compile(textPattern, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-    
+  public LogsDirVisitor(Date _startDate, Date _endDate){
     startDate = _startDate;
     endDate = _endDate;
+  }
+  
+  public void setDirPattern(String dirPattern) {
+    // Empty string means that file instead directory was passed for walking tree.
+    if (!dirPattern.isEmpty())
+      this.dirPattern = Pattern.compile(dirPattern, 
+          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+  }
+  
+  public void acceptLogType(AcceptedLogTypes acceptedType) {
+    this.acceptedType = acceptedType;
   }
   
   public SimpleTable getLogFilesData(){ return logFilesData;}
@@ -88,7 +99,7 @@ public class LogsDirVisitor extends SimpleFileVisitor<Path> {
       return false;
     
     String currFileName = file.getFileName().toString();
-    if (!isAcceptableFile(currFileName))
+    if (acceptedType == AcceptedLogTypes.LOG && logFileMatches(currFileName))
       return false;
     // this operator must be placed above null checking of startDate and endDate 
     currfileDate = LogsOperations.parseDate(currFileName);
@@ -104,7 +115,7 @@ public class LogsDirVisitor extends SimpleFileVisitor<Path> {
     return isAcceptable;
   }
   
-  private boolean isAcceptableFile(String onlyFileName){
+  private boolean logFileMatches(String onlyFileName){
     return onlyFileName.matches("(?i).*\\.log$");
   }
 
@@ -117,5 +128,6 @@ public class LogsDirVisitor extends SimpleFileVisitor<Path> {
     newRow.put("fileDate", currfileDate);
     return newRow;
   }
+ 
 }
 

@@ -4,15 +4,16 @@ import java.util.List;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.commonly.Strokes;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.SelectorEntry;
 
 public class CmdShowResults implements CmdCommand {
   
   private int count = 100;
-  private boolean forward = true;
+  private SelectDirections direction = SelectDirections.FORWARD;
   
-  public CmdShowResults(boolean _forward){
-    forward = _forward;
+  public CmdShowResults(SelectDirections direction){
+    this.direction = direction;
   }
   
   public String getTip() {
@@ -38,7 +39,7 @@ public class CmdShowResults implements CmdCommand {
   
     V8LogScannerClient userClient = clients.get(Integer.parseInt(userInput));
     
-    List<SelectorEntry> selector = userClient.select(count, forward);
+    List<SelectorEntry> selector = userClient.select(count, direction);
     
     // Choose key which list display 
     for(int i = selector.size() - 1; i >= 0; i--){

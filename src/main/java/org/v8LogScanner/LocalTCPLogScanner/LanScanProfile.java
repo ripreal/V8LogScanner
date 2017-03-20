@@ -81,10 +81,17 @@ public class LanScanProfile implements ScanProfile{
     
     return cloned;
   }
-
-
+  
   public void addRegExp(RegExp rgx) {
     if (!rgxList.stream().anyMatch(el -> el.compareTo(rgx) == 0))
       rgxList.add(rgx);
+  }
+
+
+  public void addLogPath(String logPath) {
+    boolean logExist = sourceLogPaths.stream().anyMatch(n -> n.compareTo(logPath) == 0);
+    if (!logExist){
+      sourceLogPaths.add(logPath);
+    }
   }
 }

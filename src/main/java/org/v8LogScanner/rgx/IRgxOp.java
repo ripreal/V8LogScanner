@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.v8LogScanner.commonly.PerfCalc;
 import org.v8LogScanner.commonly.ProcessEvent;
+import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 
 public interface IRgxOp{
   
@@ -19,7 +20,7 @@ public interface IRgxOp{
     
   public String getFinalInfo(String logDescr);
   
-  public List<SelectorEntry> select(int count, boolean forward);
+  public List<SelectorEntry> select(int count, SelectDirections direction);
   
   public int cursorIndex();
   

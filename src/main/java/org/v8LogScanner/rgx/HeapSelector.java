@@ -19,14 +19,14 @@ public class HeapSelector implements IRgxSelector{
     return rgxResult;
   }
   
-  public List<SelectorEntry> select(int count, boolean forward){
+  public List<SelectorEntry> select(int count, SelectDirections direction){
     
-    if (forward && cursorIndex == rgxResult.size() - 1)
+    if (direction == SelectDirections.FORWARD && cursorIndex == rgxResult.size() - 1)
       cursorIndex = 0;
     
-    if(!forward && cursorIndex == 0)
+    if(direction == SelectDirections.BACKWARD && cursorIndex == 0)
       cursorIndex = Math.max(rgxResult.size() - count, 0);
-    else if(!forward){
+    else if(direction == SelectDirections.BACKWARD){
       count = Math.min(cursorIndex, count);
       cursorIndex = cursorIndex - count;
     }
@@ -45,7 +45,7 @@ public class HeapSelector implements IRgxSelector{
       selected.add(row);
     });
     
-    if (forward)
+    if (direction == SelectDirections.FORWARD)
       cursorIndex = Math.min(cursorIndex + selected.size(), rgxResult.size() - 1);
     
     if (cursorIndex < 0)
@@ -62,4 +62,6 @@ public class HeapSelector implements IRgxSelector{
     rgxResult.clear();
     cursorIndex = 0;
   }
+
+  
 }
