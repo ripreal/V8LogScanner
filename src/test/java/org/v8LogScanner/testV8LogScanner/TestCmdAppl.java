@@ -92,8 +92,8 @@ public class TestCmdAppl {
     StringBuilder sb = new StringBuilder();
     sb.append("1");   //1. Cursor log scanning(recommends)
     sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
-    sb.append("\n1"); //1. Add single log from cfg file
-    sb.append("\n0"); //1. Select logs location:
+    sb.append("\n3"); //3. Add own log location
+    sb.append("\nC:\\v8\\logs"); // Here we print log location
     sb.append("\n7"); //7. Exit
     sb.append("\n9"); //9. Start
     sb.append("\n");

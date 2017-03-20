@@ -1,11 +1,12 @@
 package org.v8LogScanner.testV8LogScanner;
 
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
