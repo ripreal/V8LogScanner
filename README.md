@@ -1,15 +1,15 @@
-### V8 Log Scanner
+## V8 Log Scanner
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
 
 ### Running built-in console application
 
 If you want to run the V8 Log Scanner as console application on your local machine download a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
 
-### Using in own projects
+## Using in own projects
 
 For development purposes you need the Java SE 1.8  and the Maven building system. See notes below on how to install the project.
 
-## Install with Maven
+### Install with Maven
 
 It's possible to gets V8LogScanner integrated with your java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
 
@@ -32,7 +32,7 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
   </repository>
 ```
 
-## Examples for developers 
+### Examples for developers 
 
 Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps would be these:
 
