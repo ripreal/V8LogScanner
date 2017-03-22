@@ -1,7 +1,5 @@
 package org.v8LogScanner.logs;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -99,7 +97,7 @@ public class LogsDirVisitor extends SimpleFileVisitor<Path> {
       return false;
     
     String currFileName = file.getFileName().toString();
-    if (acceptedType == AcceptedLogTypes.LOG && logFileMatches(currFileName))
+    if (acceptedType == AcceptedLogTypes.LOG && !logFileMatches(currFileName))
       return false;
     // this operator must be placed above null checking of startDate and endDate 
     currfileDate = LogsOperations.parseDate(currFileName);

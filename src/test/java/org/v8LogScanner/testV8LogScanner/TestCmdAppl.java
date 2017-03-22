@@ -8,23 +8,32 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager.LogScannerClientNotFoundServer;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
-import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer.LanServerNotStarted;
 import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.MenuCmd;
 import org.v8LogScanner.cmdAppl.MenuItemCmd;
 import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
-import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
-import org.v8LogScanner.commonly.ProcessEvent;
+import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestCmdAppl {
+  
+  private String logFileName = "";
+  
+  @Before
+  public void setup() {
+    V8LogFileConstructor constructor = new V8LogFileConstructor();
+    logFileName = constructor
+      .addEXCP()
+      .build(LogFileTypes.FILE);
+  }
   
   @Test
   public void testExcpReporting() throws LogScannerClientNotFoundServer {
@@ -69,22 +78,7 @@ public class TestCmdAppl {
   public void testRunCmdScannerApp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
     
     ExcpReporting.out = System.out;
-    
-    /* todo transform to the test
-    ScanProfile lc_profile =  clientsManager.localClient().getProfile();
-    addLogPath(lc_profile, "C:\\Share\\1\\16042115.log");
-    addLogPath(lc_profile, "C:\\Share\\1\\16051609.log");
-    V8LogScannerClient lanClient;
-    
-    try {
-      lanClient = clientsManager.addClient("10.70.2.97", procEvent);
-      lc_profile =  lanClient.getProfile(); 
-      addLogPath(lc_profile, "C:\\Share\\1\\1604218.log");
-    } catch (LogScannerClientNotFoundServer e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    */
+
     //out
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(outStream);
@@ -93,24 +87,20 @@ public class TestCmdAppl {
     sb.append("1");   //1. Cursor log scanning(recommends)
     sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
     sb.append("\n3"); //3. Add own log location
-    sb.append("\nC:\\v8\\logs"); // Here we print log location
+    sb.append(String.format("\n%s", logFileName)); // Here we print log location
     sb.append("\n7"); //7. Exit
     sb.append("\n9"); //9. Start
     sb.append("\n");
     ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
     ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
     
-    ApplConsole appl = new ApplConsole(in, System.out);
+    ApplConsole appl = new ApplConsole(in, out);
     V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
     scannerAppl.setApplConsole(appl);
     
-    if (scannerAppl.clientsManager.localClient().scanLogsInCfgFile().size() == 0) {
-      // remove comment when auto creating logcfg xml wil be released
-      //fail("To test correctly you should put at least one log location inside your logcfg.xml file!");
-      return;
-    }
-    
     scannerAppl.runAppl();
+    
+    V8LogFileConstructor.deleteLogFile(logFileName);
   }
   
 }

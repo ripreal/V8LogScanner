@@ -56,7 +56,7 @@ public class CmdAddLogFilter implements CmdCommand {
         return;
       
       userCompType = compTypes[Integer.parseInt(userInput)];
-      rgx.getFilter(prop).comparisonType = userCompType;
+      rgx.getFilter(prop).comparisonType(userCompType);
     }
     
     if (userCompType == ComparisonTypes.range){

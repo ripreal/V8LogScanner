@@ -8,7 +8,6 @@ import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.MenuCmd;
 import org.v8LogScanner.cmdAppl.MenuItemCmd;
 import org.v8LogScanner.commonly.Constants;
-import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.ScanProfile;

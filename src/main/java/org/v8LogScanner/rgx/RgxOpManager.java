@@ -6,8 +6,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.v8LogScanner.commonly.Strokes;
+
 import org.v8LogScanner.commonly.Filter.ComparisonTypes;
+import org.v8LogScanner.commonly.Strokes;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 

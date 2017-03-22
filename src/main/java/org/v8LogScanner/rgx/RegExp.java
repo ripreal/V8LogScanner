@@ -307,7 +307,9 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     return textProp;
   }
   
-  private RgxNode getProp(PropTypes prop){
+  private RgxNode getProp(PropTypes prop) throws PropertyNotFoundException {
+    if (!rgxNode.getIndexator().containsKey(prop))
+      throw new PropertyNotFoundException();
     return rgxNode.getElements().get(rgxNode.getIndexator().get(prop));
   }
   
@@ -353,7 +355,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
           && isNumericProp(_node.pType)
           ){
         
-        filterMap.put(_node.pType, _node.getFilter().comparisonType);
+        filterMap.put(_node.pType, _node.getFilter().comparisonType());
       }
     }
     return filterMap;
@@ -420,6 +422,14 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     return eventType.equals(other.getEventType());
   }
 }
+
+  class PropertyNotFoundException extends RuntimeException {
+    private static final long serialVersionUID = -5042838545940786464L;
+    public PropertyNotFoundException() {
+      super("Property doesn't exist in this rgx event!");
+    }
+  }
+
   ////////////////////////////////////////////////////////////
   // NODES
   ////////////////////////////////////////////////////////////
@@ -427,7 +437,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
   
   private static final long serialVersionUID = -4628782283441175339L;
   
-  protected Filter<String> filter = new Filter<String>();
+  protected Filter<String> filter = new StrokeFilter();
   final List<PropTypes> grouping_props = new LinkedList<>();
   private LinkedList<RgxNode> elements = new LinkedList<RgxNode>();
   private HashMap<PropTypes, Integer> indexator = new HashMap<>();
@@ -685,6 +695,10 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     
     private static final long serialVersionUID = 6890230705651035556L;
     public final String name = "\\d{2}:\\d{2}\\.\\d+-";
+    
+    public Time() {
+      this.filter = new TimeFilter();
+    }
     
     @Override
     public String interpret(){

@@ -2,46 +2,85 @@ package org.v8LogScanner.testV8LogScanner;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
+import org.v8LogScanner.commonly.Filter;
+import org.v8LogScanner.commonly.Filter.ComparisonTypes;
 import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
+import org.v8LogScanner.rgx.RegExp.PropTypes;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.SelectorEntry;
+import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
 public class TestCursorOp {
+  
+  private V8LogFileConstructor constructor;
+  
+  @Before
+  public void setup() {
+    constructor = new V8LogFileConstructor();
+  }
   
   @Test 
   public void testStartRgxOp() throws Exception {
     
+    String logFileName = constructor
+        .addEXCP()
+        .build(LogFileTypes.FILE);
+    
     V8LogScannerClient client = new V8LanLogScannerClient();
     
-    Path path = Files.createTempFile("v8LogScanner", "");
-    BufferedWriter writer = Files.newBufferedWriter(path);
-    writer.write(logFile());
-    writer.close();
-    
     ScanProfile profile = client.getProfile();
-    profile.addLogPath(path.toString());
+    profile.addLogPath(logFileName);
     profile.addRegExp(new RegExp(EventTypes.EXCP));
     client.startRgxOp();
     List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
     
     assertEquals(3, logs.size());
     
+    V8LogFileConstructor.deleteLogFile(logFileName);
+    
   }
   
-  private String logFile() {
-    return "52:13.872002-0,EXCP,0,process=1cv8c,setTerminateHandler=setTerminateHandler"
-        +"\n52:13.887000-0,EXCP,0,process=1cv8c,setUnhandledExceptionFilter=setUnhandledExceptionFilter"
-        +"\n52:17.725002-0,EXCP,2,process=1cv8c,Exception=580392e6-ba49-4280-ac67-fcd6f2180121,Descr='src\\VResourceSessionImpl.cpp(507):";
+  @Test
+  public void testfilterEvent() {
+   
+    String logFileName = constructor
+        .addEXCP()
+        .build(LogFileTypes.FILE);
+    
+    // TEST TIME FILTER
+    V8LogScannerClient client = new V8LanLogScannerClient();
+    
+    ScanProfile profile = client.getProfile();
+    profile.addLogPath(logFileName);
+    
+    RegExp excp = new RegExp(EventTypes.EXCP);
+    Filter<String> timeFilter = excp.getFilter(PropTypes.Time);
+    timeFilter.comparisonType(ComparisonTypes.equal);
+    timeFilter.add("52:17");
+    profile.addRegExp(excp);
+    
+    client.startRgxOp();
+    List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
+    
+    assertEquals(1, logs.size());
+    
+    // TEST DESCR FILTER
+    excp.getFilter(PropTypes.Time).reset();
+    excp.getFilter(PropTypes.Descr).add("VResourceSessionImpl.cpp");
+    
+    client.startRgxOp();
+    logs = client.select(100, SelectDirections.FORWARD);
+    assertEquals(1, logs.size());
+    
+    V8LogFileConstructor.deleteLogFile(logFileName);
+    
   }
-
 }

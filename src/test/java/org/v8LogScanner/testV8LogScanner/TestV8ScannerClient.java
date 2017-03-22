@@ -4,15 +4,16 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
+import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
@@ -63,7 +64,7 @@ public class TestV8ScannerClient {
       
     clientLan.setProfile(profile);
     LanScanProfile lanProfile = (LanScanProfile) clientLan.getProfile();
-    lanProfile.getLogPaths().add("c:\\lanFile");
+    lanProfile.addLogPath("c:\\lanFile");
     ScanProfile profile2 = profile.clone();
     profile2.setLogPaths(clientLan.getProfile().getLogPaths());  
     clientLan.setProfile(profile2);
@@ -83,5 +84,6 @@ public class TestV8ScannerClient {
     .distinct().count();
     assertEquals(eventsCount, 1l);
     
-  }  
+  }
+  
 }

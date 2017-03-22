@@ -7,8 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Pattern;
-import org.v8LogScanner.commonly.ProcessListener;
+
 import org.v8LogScanner.commonly.Filter.ComparisonTypes;
+import org.v8LogScanner.commonly.ProcessListener;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;

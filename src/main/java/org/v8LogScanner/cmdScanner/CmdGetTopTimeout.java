@@ -2,8 +2,8 @@ package org.v8LogScanner.cmdScanner;
 
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.cmdAppl.CmdCommand;
-import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.rgx.RegExp;
+import org.v8LogScanner.rgx.StrokeFilter;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;

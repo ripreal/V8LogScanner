@@ -4,7 +4,6 @@
 package org.v8LogScanner.cmdScanner;
 
 import java.util.List;
-import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.rgx.ScanProfile;
