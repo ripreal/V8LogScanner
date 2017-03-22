@@ -37,15 +37,16 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps would be these:
 
 ```
-V8LogScannerClient client = new V8LanLogScannerClient("127.0.0.1"); // First, create client containing IP for computer with *.log files
+V8LogScannerClient client =
+  new V8LanLogScannerClient("127.0.0.1");              // First, create client containing IP for computer with *.log files
 
-ScanProfile profile = client.getProfile();              // obtain profile with scan settings
-profile.addLogPath("C:\\v8\\logs");                     // specify directory with *.log files to scan 
-profile.addRegExp(new RegxExp(EventTypes.EXCP));        // specify the EXCP events to seek inside each of *.log file
+ScanProfile profile = client.getProfile();             // obtain profile with scan settings
+profile.addLogPath("C:\\v8\\logs");                    // specify directory with *.log files to scan 
+profile.addRegExp(new RegxExp(EventTypes.EXCP));       // specify the EXCP events to seek inside each of *.log file
 
-client.startRgxOp();                                    // run logs processing. It may takes a time depends on size and
-                                                        // qunatity logs on scanning computer
-List<SelectorsEntry> logs = client.select(100, true);   // get list with results 
+client.startRgxOp();                                   // run logs processing. It may takes a time depends on size and
+                                                       // qunatity logs on scanning computer
+List<SelectorsEntry> logs = client.select(100, true);  // get list with results 
 
 for (SelectorsEntry log : logs) {
   System.out.println(log);
