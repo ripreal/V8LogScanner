@@ -161,10 +161,7 @@ public class LogsOperations extends ProcessListener  {
     return "";
   }
   
-  private static Date getStartDatePattern(ScanProfile profile){
-    
-    DateRanges dateRanges = profile.getDateRange();
-    String userStartDate  = profile.getUserPeriod()[0];
+  private static Date getStartDatePattern(DateRanges dateRanges, String userStartDate){
     
     Calendar currCalendar = Calendar.getInstance();
     
@@ -206,10 +203,17 @@ public class LogsOperations extends ProcessListener  {
     return currCalendar.getTime();
   }
   
-  private static Date getEndDatePattern(ScanProfile profile){
-    
-    DateRanges dateRanges = profile.getDateRange();
-    String userEndDate    = profile.getUserPeriod()[1];
+  public static String getStartDate(DateRanges dateRanges, String userStartDate ){
+    Date startDate = getStartDatePattern(dateRanges, userStartDate);
+    return String.format("%1$tY.%1$tm.%1$td", startDate);
+  }
+  
+  public static String getEndDate(DateRanges dateRanges, String userEndDate ){
+    Date endDate = getEndDatePattern(dateRanges, userEndDate);
+    return String.format("%1$tY.%1$tm.%1$td", endDate);
+  }
+  
+  private static Date getEndDatePattern(DateRanges dateRanges, String userEndDate){
     
     Calendar currCalendar = Calendar.getInstance();
     
@@ -287,17 +291,25 @@ public class LogsOperations extends ProcessListener  {
   public static String getDatePresentation(ScanProfile profile){
     
     DateRanges dateRange = profile.getDateRange();
+    
+    String userStartDate = "";
+    String userEndDate = "";
+    if (profile.getUserPeriod().length > 1) { 
+      userStartDate  = profile.getUserPeriod()[0];
+      userEndDate  = profile.getUserPeriod()[1];
+    }
+    
     if(dateRange == DateRanges.ANY)
       return dateRange.toString();
     else if (dateRange == DateRanges.LAST_HOUR){
-      Date startDate = getStartDatePattern(profile);
-      Date endDate = getEndDatePattern(profile);
+      String startDate = getStartDate(dateRange, userStartDate);
+      String endDate = getEndDate(dateRange, userEndDate);
       return String.format("%1$thh - %2$thh", startDate, endDate);
     }
     else{
-      Date startDate = getStartDatePattern(profile);
-      Date endDate = getEndDatePattern(profile);
-      return String.format("%1$tY.%1$tm.%1$td - %2$tY.%2$tm.%2$td", startDate, endDate);
+      String startDate = getStartDate(dateRange, userStartDate);
+      String endDate = getEndDate(dateRange, userEndDate);
+      return String.format("%s - %s", startDate, endDate);
     }
   }
   
