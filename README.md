@@ -46,7 +46,8 @@ profile.addRegExp(new RegxExp(EventTypes.EXCP));       // specify the EXCP event
 
 client.startRgxOp();                                   // run logs processing. It may takes a time depends on size and
                                                        // qunatity logs on scanning computer
-List<SelectorsEntry> logs = client.select(100, true);  // get list with results 
+List<SelectorsEntry> logs = client.select(100,         // get cursor list with first top 100 results 
+  SelectDirections.FORWARD);                           
 
 for (SelectorsEntry log : logs) {
   System.out.println(log);
