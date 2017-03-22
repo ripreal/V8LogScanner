@@ -1,15 +1,15 @@
-## V8 Log Scanner
+### V8 Log Scanner
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
 
-## Running
+### Running built-in console application
 
 If you want to run the V8 Log Scanner as console application on your local machine download a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
 
-## Development
+### Using in own projects
 
-For development and testing purposes you need Eclipse STS IDE, Java SE 1.8  and Maven building system. See notes below on how to deploy the project.
+For development purposes you need the Java SE 1.8  and the Maven building system. See notes below on how to deploy the project.
 
-### Maven
+## Maven
 
 It's possible to gets V8LogScanner integrated with your java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
 
@@ -32,19 +32,20 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
   </repository>
 ```
 
-### Examples for developers 
+## Examples for developers 
 
 Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps would be these:
 
 ```
-V8LogScannerClient client = new V8LanLogScannerClient();
+V8LogScannerClient client = new V8LanLogScannerClient("127.0.0.1"); // First, create client containing IP for computer with *.log files
 
-ScanProfile profile = client.getProfile();
-profile.getLogPaths().add("C:\\v8\\logs");
-profile.addRegExp(new RegxExp(EventTypes.EXCP));
+ScanProfile profile = client.getProfile();              // obtain profile with scan settings
+profile.addLogPath("C:\\v8\\logs");                     // specify directory with *.log files to scan 
+profile.addRegExp(new RegxExp(EventTypes.EXCP));        // specify the EXCP events to seek inside each of *.log file
 
-client.startRgxOp();
-List<SelectorsEntry> logs = client.select(100, true);
+client.startRgxOp();                                    // run logs processing. It may takes a time depends on size and
+                                                        // qunatity logs on scanning computer
+List<SelectorsEntry> logs = client.select(100, true);   // get list with results 
 
 for (SelectorsEntry log : logs) {
   System.out.println(log);
