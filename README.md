@@ -7,9 +7,9 @@ If you want to run the V8 Log Scanner as console application on your local machi
 
 ### Using in own projects
 
-For development purposes you need the Java SE 1.8  and the Maven building system. See notes below on how to deploy the project.
+For development purposes you need the Java SE 1.8  and the Maven building system. See notes below on how to install the project.
 
-## Maven
+## Install with Maven
 
 It's possible to gets V8LogScanner integrated with your java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
 
