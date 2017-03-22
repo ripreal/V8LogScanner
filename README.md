@@ -38,7 +38,8 @@ Let's say you wish to output a list of all EXCP events from a some \*.log files 
 
 ```
 V8LogScannerClient client =
-  new V8LanLogScannerClient("127.0.0.1");              // First, create client containing IP for computer with *.log files
+  new V8LanLogScannerClient("127.0.0.1");              // First, create client containing IP for computer 
+                                                       // with *.log files
 
 ScanProfile profile = client.getProfile();             // obtain profile with scan settings
 profile.addLogPath("C:\\v8\\logs");                    // specify directory with *.log files to scan 
@@ -46,14 +47,14 @@ profile.addRegExp(new RegxExp(EventTypes.EXCP));       // specify the EXCP event
 
 client.startRgxOp();                                   // run logs processing. It may takes a time depends on size and
                                                        // qunatity logs on scanning computer
-List<SelectorsEntry> logs = client.select(100,         // get cursor list with first top 100 results 
-  SelectDirections.FORWARD);                           
+List<SelectorsEntry> logs = client.select(100,         
+  SelectDirections.FORWARD);                           // get cursor list with first top 100 results                            
 
 for (SelectorsEntry log : logs) {
   System.out.println(log);
 }
 ```
-And result could be:
+And result can be:
 ```
 53:08.840011-20440475011,EXCPCNTX,0,SrcName=PROC,OSThread=4860,process=1cv8
 53:08.872005-0,EXCP,1,process=1cv8,ClientID=10,Exception=NetDataExchangeException,Descr='server_addr=(2)192.168.1.39:62233 descr=recv returns zero, disconnected line=2235 file=src\DataExchangeServerImpl.cpp'
@@ -107,7 +108,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Ripreal** - *Initial work*
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
