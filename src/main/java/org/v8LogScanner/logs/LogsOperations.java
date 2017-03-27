@@ -36,12 +36,19 @@ public class LogsOperations extends ProcessListener  {
     
     invoke(getProcessingInfo());
     
+    String userStartDate = "";
+    String userEndDate = "";
+    if (profile.getUserPeriod().length > 1) { 
+      userStartDate  = profile.getUserPeriod()[0];
+      userEndDate  = profile.getUserPeriod()[1];
+    }
+    
     for (String fileName : sourceLogPaths){
-      
+     
       String dirPattern = getDirPattern(logType);
-      Date startDate = getStartDatePattern(profile);
-      Date endDate = getEndDatePattern(profile);
-      
+      Date startDate = getStartDatePattern(profile.getDateRange(), userStartDate);
+      Date endDate = getEndDatePattern(profile.getDateRange(), userEndDate);
+     
       LogsDirVisitor visitor = new LogsDirVisitor(startDate, endDate);
       
       if (Files.isDirectory(Paths.get(fileName)))
