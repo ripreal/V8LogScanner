@@ -212,12 +212,12 @@ public class LogsOperations extends ProcessListener  {
   
   public static String getStartDate(DateRanges dateRanges, String userStartDate ){
     Date startDate = getStartDatePattern(dateRanges, userStartDate);
-    return String.format("%1$tY.%1$tm.%1$td", startDate);
+    return formatVariants(dateRanges, startDate);
   }
   
   public static String getEndDate(DateRanges dateRanges, String userEndDate ){
     Date endDate = getEndDatePattern(dateRanges, userEndDate);
-    return String.format("%1$tY.%1$tm.%1$td", endDate);
+    return formatVariants(dateRanges, endDate);
   }
   
   private static Date getEndDatePattern(DateRanges dateRanges, String userEndDate){
@@ -260,6 +260,17 @@ public class LogsOperations extends ProcessListener  {
     currCalendar.set(Calendar.SECOND, 59);
     currCalendar.set(Calendar.MILLISECOND, 0);
     return currCalendar.getTime();
+  }
+  
+  private static String formatVariants(DateRanges dateRanges, Date date) {
+    switch (dateRanges) {
+    case LAST_HOUR:
+      return String.format("%1$tH:%1$tM:%1$tS", date);
+    case ANY: 
+      return "";
+    default: 
+      return String.format("%1$tY.%1$tm.%1$td", date);
+    }
   }
   
   public static Date parseDate(String date_str){
