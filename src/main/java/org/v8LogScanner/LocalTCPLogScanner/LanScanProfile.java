@@ -87,7 +87,6 @@ public class LanScanProfile implements ScanProfile{
       rgxList.add(rgx);
   }
 
-
   public void addLogPath(String logPath) {
     boolean logExist = sourceLogPaths.stream().anyMatch(n -> n.compareTo(logPath) == 0);
     if (!logExist){
