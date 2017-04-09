@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.commonly.Filter;
@@ -30,17 +31,18 @@ public class TestCursorOp {
   @Test 
   public void testStartRgxOp() throws Exception {
     
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient(); 
+    
     String logFileName = constructor
         .addEXCP()
         .build(LogFileTypes.FILE);
     
-    V8LogScannerClient client = new V8LanLogScannerClient();
-    
-    ScanProfile profile = client.getProfile();
+    ScanProfile profile = localClient.getProfile();
     profile.addLogPath(logFileName);
     profile.addRegExp(new RegExp(EventTypes.EXCP));
-    client.startRgxOp();
-    List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
     
     assertEquals(3, logs.size());
     

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
 import org.v8LogScanner.commonly.ProcessEvent;
+import org.v8LogScanner.rgx.ScanProfile;
 
 public class ClientsManager implements Iterable<V8LogScannerClient>{
   
@@ -24,14 +25,12 @@ public class ClientsManager implements Iterable<V8LogScannerClient>{
   public V8LogScannerClient addClient(String host, ProcessEvent e) throws LogScannerClientNotFoundServer{
     
     boolean isIP = SocketTemplates.instance().isConformIpv4(host);
-    
-    V8LogScannerClient found = null;
     for(V8LogScannerClient client : clients){
       if (isIP && client.getHostIP().compareTo(host) == 0){
-        return found;
+        return client;
       }
       else if (!isIP && client.getHostName().contains(host)) {
-        return found;
+        return client;
       }
     }
     
@@ -81,5 +80,14 @@ public class ClientsManager implements Iterable<V8LogScannerClient>{
     }
   }
 
-  
+  public void startRgxOp() {
+    ScanProfile localProfile = localClient.getProfile();
+    forEach(client -> {
+      // Each client profile has unique log paths so we take them
+      ScanProfile cloned = localProfile.clone();
+      cloned.setLogPaths(client.getProfile().getLogPaths());
+      client.setProfile(cloned);
+    });
+    forEach(client -> client.startRgxOp());
+  }
 }

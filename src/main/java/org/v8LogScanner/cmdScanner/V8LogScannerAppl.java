@@ -205,19 +205,10 @@ public class V8LogScannerAppl {
   }
   
   public void startRgxOP() {
-    
-    clientsManager.forEach(client -> {
-      LanScanProfile lanProfile = (LanScanProfile) profile;
-      ScanProfile cloned = lanProfile.clone();
-      cloned.setLogPaths(client.getProfile().getLogPaths());
-      client.setProfile(cloned);
-    });
-    
     cmdAppl.clearConsole();
-    clientsManager.forEach(client -> client.startRgxOp());
+    clientsManager.startRgxOp();
     showResults();
-    
-  } 
+  }
   
   public void showResults(){
     

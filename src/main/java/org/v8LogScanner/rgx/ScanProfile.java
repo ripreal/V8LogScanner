@@ -64,4 +64,5 @@ public interface ScanProfile extends Serializable, Cloneable {
 
   public void setRgxExp(String rgx);
 
+  public ScanProfile clone();
 }
