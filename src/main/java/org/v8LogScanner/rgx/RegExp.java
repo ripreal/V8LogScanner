@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
@@ -25,7 +27,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     ApplicationName, ConnectID, SessionID, Usr, WaitConnections, Locks, Regions,
     Context, DeadlockConnectionIntersections, Interface, Sql, Trans, Dbpid, Sdbl,
     Func};
-    
+  
   public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng};
   private EventTypes eventType;
   private final RgxNode rgxNode = new RgxNode(); 
@@ -238,13 +240,33 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     return getProp(key).getFilter();
   }
   
-  public List<Filter<String>> getFilters() {
-    List<Filter<String>> result = new ArrayList<>();
+  public Map<PropTypes, Filter<String>> getFilters() {
+    Map<PropTypes, Filter<String>> result = new HashMap<>();
     for(RgxNode el : rgxNode.getElements()){
-      if (el.getFilter().isActive());
-        result.add(el.getFilter());
+      if (el.getFilter().isActive()){
+        result.merge(el.getType(), el.getFilter(), 
+          (val1, val2) -> {
+            val1.getElements().addAll(val2.getElements());
+            return val1;
+          });
+      }
     }
     return result;
+  }
+  
+  public void setFilters(Map<PropTypes, Filter<String>> filters) {
+    Set<PropTypes> filterProps = filters.keySet();
+    for(PropTypes uProp : filterProps) {
+      try {
+        Filter<String> filter = getFilter(uProp);
+        filter.reset();
+        filter.getElements().addAll(filters.get(uProp).getElements());
+      }
+      catch (PropertyNotFoundException e){
+        // Do nothing, user made a mistake with 
+        // choosing prop for this regExp type
+      }
+    }
   }
   
   public ArrayList<String> getUnicRgxPropText(){
