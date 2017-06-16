@@ -8,9 +8,9 @@ public interface Filter<T1> extends Iterable<T1>, Serializable {
   
   public enum ComparisonTypes {equal, greater, less, range};
   
-  public ComparisonTypes comparisonType();
+  public ComparisonTypes getComparisonType();
   
-  public void comparisonType(ComparisonTypes comparisonType);
+  public void setComparisonType(ComparisonTypes comparisonType);
   
   public Filter<T1> add(T1 val);
 

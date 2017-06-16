@@ -54,12 +54,12 @@ public class StrokeFilter implements Filter<String>{
   }
 
   @Override
-  public ComparisonTypes comparisonType() {
+  public ComparisonTypes getComparisonType() {
     return comparisonType;
   }
 
   @Override
-  public void comparisonType(ComparisonTypes comparisonType) {
+  public void setComparisonType(ComparisonTypes comparisonType) {
     this.comparisonType = comparisonType;
   }
 }

@@ -377,7 +377,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
           && isNumericProp(_node.pType)
           ){
         
-        filterMap.put(_node.pType, _node.getFilter().comparisonType());
+        filterMap.put(_node.pType, _node.getFilter().getComparisonType());
       }
     }
     return filterMap;

@@ -65,7 +65,7 @@ public class TestCursorOp {
     
     RegExp excp = new RegExp(EventTypes.EXCP);
     Filter<String> timeFilter = excp.getFilter(PropTypes.Time);
-    timeFilter.comparisonType(ComparisonTypes.equal);
+    timeFilter.setComparisonType(ComparisonTypes.equal);
     timeFilter.add("52:17");
     profile.addRegExp(excp);
     
