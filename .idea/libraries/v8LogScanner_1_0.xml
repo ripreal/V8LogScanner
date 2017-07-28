@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="v8LogScanner-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/repo/org/v8LogScanner/v8LogScanner/1.0/v8LogScanner-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

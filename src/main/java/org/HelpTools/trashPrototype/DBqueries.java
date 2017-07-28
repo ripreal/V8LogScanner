@@ -1,6 +1,7 @@
 package org.HelpTools.trashPrototype;
 
 public abstract class DBqueries {
+  
   /*
   protected MSSQLConnection connection = null;
   
