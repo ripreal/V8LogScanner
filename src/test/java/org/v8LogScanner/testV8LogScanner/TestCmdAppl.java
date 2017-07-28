@@ -20,6 +20,7 @@ import org.v8LogScanner.cmdAppl.MenuCmd;
 import org.v8LogScanner.cmdAppl.MenuItemCmd;
 import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
 @RunWith(MockitoJUnitRunner.class)
