@@ -84,10 +84,15 @@ public class V8LogScannerAppl {
       + "\n\nMenu:", main);
     
     MenuCmd m_autoModes = new MenuCmd("4. Auto profiles."
-        + "This is a useful list of a everyday logs operations based on kb.1c.ru and 1CFresh servise maintaing routines"
-        + "\nSuggest you visit that resources before starting with this mode.", main);
+      + "This is a useful list of a everyday logs operations based on kb.1c.ru and 1CFresh servise maintaing routines"
+      + "\nSuggest you visit that resources before starting with this mode.", main);
+
+    MenuCmd m_config = new MenuCmd("5. Configure logcfg.xml."
+      + "Turns on a log journal to be written and allows you to specify various setting inside logcfg.xml file"
+      + "\nThis step must be done before you start using any of log scanning operations because they operate on "
+      + "\n*.log files created by correct logcfg.xml file", main);
     
-    MenuCmd m_runServer = new MenuCmd("5. Run as server", main);
+    MenuCmd m_runServer = new MenuCmd("6. Run as server", main);
     
     //Event handlers
     
@@ -132,8 +137,12 @@ public class V8LogScannerAppl {
     m_autoModes.add(new MenuItemCmd("Find top slowest SQL and SDBL events grouped by 'Context'", new CmdGetTopSlowestSql(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top slowest sql texts", new CmdGetTopSlowestSqlText(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top most frequent TTIMEOUT events (not finished)'", new CmdGetTopTimeout(), cursorLogScan));
-    
+
+
     // Item 5.
+    main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
+
+    // Item 6.
     main.add(new MenuItemCmd("Run as server", null, m_runServer));
     m_runServer.add(new MenuItemCmd("Run as lan TCP/IP server", new CmdRunAsLanServer()));
     m_runServer.add(new MenuItemCmd("Run as fullREST server (not work yet!)", null));
