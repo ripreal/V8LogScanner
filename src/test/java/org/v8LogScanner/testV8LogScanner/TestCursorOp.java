@@ -22,7 +22,7 @@ import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 public class TestCursorOp {
   
   private V8LogFileConstructor constructor;
-  
+
   @Before
   public void setup() {
     constructor = new V8LogFileConstructor();

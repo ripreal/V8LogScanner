@@ -1,5 +1,7 @@
 package org.v8LogScanner.testV8LogScanner;
 
+import org.v8LogScanner.commonly.fsys;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.v8LogScanner.commonly.fsys;
 
 // BUILDER PATTERN 
   
@@ -30,26 +33,12 @@ public class V8LogFileConstructor {
     case TEXT:
       return preparedText;
     case FILE:
-      return saveInFileSystem(preparedText);
+      return fsys.createTempFile(preparedText);
     default:
       return "";
     }
   }
-  
-  private String saveInFileSystem(String text) {
-    String fileName = "";
-    try {
-      Path path = Files.createTempFile("v8LogScanner", "");
-      BufferedWriter writer = Files.newBufferedWriter(path);
-      writer.write(text);
-      writer.close();
-      fileName = path.toString();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return fileName;
-  }
-  
+
   public static void deleteLogFile(String fileName) {
     try {
       Files.deleteIfExists(Paths.get(fileName));
