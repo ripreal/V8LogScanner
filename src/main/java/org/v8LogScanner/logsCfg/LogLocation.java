@@ -7,9 +7,9 @@ public class LogLocation {
 
     public LogLocation() {}
 
-    public LogLocation(String location, int history) {
+    public LogLocation(String location, String history) {
         this.location = location;
-        this.history = String.valueOf(history);
+        this.history = history;
     }
 
     public void setLocation(String location) { this.location = location; }

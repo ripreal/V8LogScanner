@@ -26,28 +26,26 @@ public class fsys {
 
   public static String readAllFromFile(Path path){
     
-    String result = "";
+    List<String> result = new ArrayList<>();
       try(SeekableByteChannel sbc = Files.newByteChannel(path)) {
         ByteBuffer buf = ByteBuffer.allocate(1024*128);
         while (sbc.read(buf) > 0) {
           buf.rewind();
-          result += Charset.defaultCharset().decode(buf);
+          result.add(Charset.defaultCharset().decode(buf).toString());
           buf.flip();
           }
       }
       catch (IOException e) {
         ExcpReporting.LogError(fsys.class, e);
       }
-      return result;
+      return String.join("\n", result);
   }
 
   // requires large amount of memory
   public static List<String> readAllFromFileToList(String fullFileName){
 
     List<String> result = new ArrayList<>();
-    try {
-      BufferedReader inputStream = new BufferedReader(new FileReader(fullFileName));
-
+    try(BufferedReader inputStream = new BufferedReader(new FileReader(fullFileName))) {
       String l;
       while((l = inputStream.readLine()) != null) {
         result.add(l);

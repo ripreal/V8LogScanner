@@ -12,6 +12,7 @@ import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessListener;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
+import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.AbstractOp;
 import org.v8LogScanner.rgx.IRgxOp;
 import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
@@ -34,6 +35,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   
   private ScanProfile profile;
   private IRgxOp rgxOp;
+  private String logcfg = "";
   
   /**
    * 
@@ -252,7 +254,25 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     String info = (String) dataFromServer.getData("finalInfo");
     return info;
   }
-  
+
+  public List<String> getCfgPaths(){
+
+    if (isLocalHost()){
+      LogBuilder builder = new LogBuilder();
+      return builder.getCfgPaths();
+    }
+
+    V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.GET_CFG_PATHS);
+
+    V8LogScannerData dataFromServer = send(dataToServer);
+
+    if (dataFromServer == null)
+      return null;
+
+    List<String> cfgPaths = (List<String>) dataFromServer.getData("cfgPaths");
+    return cfgPaths;
+  }
+
   // Proxy methods
   
   @Override

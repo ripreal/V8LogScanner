@@ -7,8 +7,8 @@ import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.logsCfg.LogEvent;
 import org.v8LogScanner.rgx.RegExp;
-
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,24 @@ public class TestLogBuilder {
     }
 
     @Test
+    public void testReadCfgFile() {
+
+        testFileName = fsys.createTempFile("");
+
+        File file = builder
+            .addLocLocation()
+            .buildAllEvents();
+        String source_res = fsys.readAllFromFile(file.toPath());
+
+        file = builder
+            .readCfgFile(file.getPath())
+            .writeToXmlFile();
+        String parse_res = fsys.readAllFromFile(file.toPath());
+
+        assertTrue(source_res.compareTo(parse_res) == 0);
+    }
+
+    @Test
     public void testBuildAllEvents() throws Exception {
 
         File file = builder
@@ -47,10 +65,53 @@ public class TestLogBuilder {
     public void testBuildSQlEvents() throws Exception {
 
         File file = builder
-        .addLocLocation(testFileName, 1)
+        .addLocLocation(testFileName, "1")
         .buildSQlEvents();
 
         assertTrue(file.exists());
     }
 
+    @Test
+    public void testBuildExcpEvents() throws Exception {
+
+        File file = builder
+        .addLocLocation(testFileName, "1")
+        .buildExcpEvents();
+
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testBuildEverydayEvents() throws Exception {
+
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .buildEverydayEvents();
+
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testBuildLongEvents() throws Exception {
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .buildLongEvents();
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testInvestigateNonEffectiveQueries() throws Exception {
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .buildInvestigateNonEffectiveQueries("DefUser","test");
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testBuild1cLocksEvents() throws Exception {
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .build1cLocksEvents();
+        assertTrue(file.exists());
+    }
 }

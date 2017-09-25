@@ -10,10 +10,7 @@ import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 public interface IRgxOp{
   
   public final PerfCalc calc = new PerfCalc();
-  
-  /** 
-   * @param parameterObject
-   */
+
   public void execute(List<String> logFiles);
   
   public ArrayList<String> getProcessingInfo();

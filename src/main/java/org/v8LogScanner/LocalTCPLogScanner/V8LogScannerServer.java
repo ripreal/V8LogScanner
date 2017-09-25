@@ -174,6 +174,9 @@ public class V8LogScannerServer implements SocketEvent{
     case GET_RGX_INFO:
       answerData = getFinalInfo(dataFromClient);
       break;
+      case GET_CFG_PATHS:
+        answerData = getCfgPaths(dataFromClient);
+        break;
     case PATH_EXIST:
       answerData = logPathExist(dataFromClient);
       break;
@@ -238,7 +241,14 @@ public class V8LogScannerServer implements SocketEvent{
     dataToClient.putData("finalInfo", localClient.getFinalInfo());
     
     return dataToClient;
-    
+  }
+
+  private V8LogScannerData getCfgPaths(V8LogScannerData dataFromClient){
+
+    V8LogScannerData dataToClient = new V8LogScannerData(dataFromClient.command);
+    dataToClient.putData("cfgPaths", localClient.getCfgPaths());
+
+    return dataToClient;
   }
   
   private V8LogScannerData logPathExist(V8LogScannerData dataFromClient){

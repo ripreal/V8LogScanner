@@ -65,7 +65,7 @@ public class TestCmdAppl {
     
     ApplConsole appl = new ApplConsole(in, out);
     
-    // Test click on menuitem
+    // Test click on menu item
     
     MenuCmd mainMenu = new MenuCmd("main", null);
     mainMenu.add(new MenuItemCmd("first item", null));
@@ -103,6 +103,6 @@ public class TestCmdAppl {
     
     V8LogFileConstructor.deleteLogFile(logFileName);
   }
-  
+
 }
 
