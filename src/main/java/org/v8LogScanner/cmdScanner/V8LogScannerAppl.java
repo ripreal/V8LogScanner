@@ -1,7 +1,11 @@
 package org.v8LogScanner.cmdScanner;
 
+import java.io.*;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.ApplConsole;
@@ -146,10 +150,15 @@ public class V8LogScannerAppl {
 
     // Item 5.
     main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
-    m_config.add(new MenuItemCmd("Show current logcfg.xml config", new CmdGetCfgContent(), m_config));
-    m_config.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
-    m_config.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), m_config));
-    m_config.add(new MenuItemCmd("Add event", new CmdAddEventToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add all events", new CmdAddAllEventsToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add sql events", new CmdAddLogLocFromCfgAll(), m_config));
+    m_config.add(new MenuItemCmd("Add excp events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add 1c lock events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add non-effective queries by user", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add any long events (gt 20 sec)", new CmdAddLogLocServerIP(), m_config));
+
+    MenuCmd menuManualCfg = createManualCfgMenu(m_config);
+    m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
 
     // Item 6.
     main.add(new MenuItemCmd("Run as server", null, m_runServer));
@@ -197,6 +206,19 @@ public class V8LogScannerAppl {
     return menu;
   }
 
+  public MenuCmd createManualCfgMenu(MenuCmd parent){
+    MenuCmd menu = new MenuCmd(
+      () -> {return "Manual logs..."; },
+      parent
+    );
+    menu.add(new MenuItemCmd("Add event", new CmdAddEventToCfg(), menu));
+    menu.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), menu));
+    menu.add(new MenuItemCmd("connect to other server", new CmdAddLogLocServerIP(), menu));
+    menu.add(new MenuItemCmd("Show current logcfg.xml config", new CmdGetCfgContent(), menu));
+
+    return menu;
+  }
+
   public int logSize(){
     int sum = 0;
     for(V8LogScannerClient client : clientsManager) {
@@ -225,11 +247,17 @@ public class V8LogScannerAppl {
       client.getCfgPaths().forEach((path) -> paths.add("\n" + client + " " + path));
     });
 
-    String descr = paths.size() == 0 ?
+    StringBuilder sb = new StringBuilder();
+    sb.append(paths.size() == 0 ?
       "\n\n1C Enterpise is not installed on a machine (no folders with path \\1cv8\\conf was found)!":
-      "\n\nFound valid log_cfg paths:" + String.join("\n", paths);
+      "\n\nFound valid logcfg.xml on:" + String.join("\n", paths) + "\nContent:\n"
+    );
 
-    return descr;
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    logBuilder.writeToStream(baos);
+    sb.append(baos.toString());
+
+    return sb.toString();
   }
 
   public void resetResult(){
@@ -264,5 +292,5 @@ public class V8LogScannerAppl {
   public void setApplConsole(ApplConsole cmdAppl) {
     this.cmdAppl = cmdAppl;
   }
-  
+
 }

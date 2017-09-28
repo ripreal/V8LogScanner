@@ -1,5 +1,6 @@
 package org.v8LogScanner.LocalTCPLogScanner;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -255,7 +256,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     return info;
   }
 
-  public List<String> getCfgPaths(){
+  public List<Path> getCfgPaths(){
 
     if (isLocalHost()){
       LogBuilder builder = new LogBuilder();
@@ -269,7 +270,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     if (dataFromServer == null)
       return null;
 
-    List<String> cfgPaths = (List<String>) dataFromServer.getData("cfgPaths");
+    List<Path> cfgPaths = (List<Path>) dataFromServer.getData("cfgPaths");
     return cfgPaths;
   }
 

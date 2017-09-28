@@ -14,6 +14,7 @@ import org.v8LogScanner.commonly.SimpleTable;
 import org.v8LogScanner.commonly.Strokes;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsDirVisitor.AcceptedLogTypes;
+import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.DateRanges;
 import org.v8LogScanner.rgx.ScanProfile.LogTypes;
@@ -95,7 +96,7 @@ public class LogsOperations extends ProcessListener  {
     return logFiles.unloadColumn("filePath", new ArrayList<String>());
   }
   
-  public static ArrayList<String> scanLogsInCfgFile(){
+  public static List<Path> scanCfgPaths(){
     
     List<String> logcfg = Constants.V8_Dirs();
     
@@ -119,20 +120,27 @@ public class LogsOperations extends ProcessListener  {
       ///ExcpReporting.LogError(LogsOperations.class, e);
     }
     
-    Pattern pattern = Pattern.compile("<log.*?\\blocation\\b=\".+?(?=\")", 
+    /* Pattern pattern = Pattern.compile("<log.*?\\blocation\\b=\".+?(?=\")",
       Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-    
-    ArrayList<String> logPaths = new ArrayList<>();
+
     for(Path filePath : cfgFiles){
       String cgfString = fsys.readAllFromFile(filePath);
       Matcher matcher = pattern.matcher(cgfString);
       while(matcher.find())
         logPaths.add(matcher.group().replaceFirst("<log.*?\\blocation\\b=\"", ""));
     }
-    
+
     return logPaths;
+    */
+    return cfgFiles;
   }
-  
+
+  public static List<String> scanLogsInCfgFile() {
+    LogBuilder builder = new LogBuilder(scanCfgPaths());
+    builder.readCfgFile();
+    return builder.getLocations();
+  }
+
   private void saveProcessingInfo(SimpleTable _logFiles){
     
     for (SimpleTable.Entry row : _logFiles){

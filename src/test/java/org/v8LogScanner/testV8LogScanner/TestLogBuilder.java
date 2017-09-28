@@ -4,12 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.logsCfg.LogEvent;
 import org.v8LogScanner.rgx.RegExp;
 import java.io.File;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +25,21 @@ public class TestLogBuilder {
     public void setup() {
         testFileName = fsys.createTempFile("");
 
-        List<String> cfgs = new ArrayList<>(1);
-        cfgs.add(testFileName);
+        List<Path> cfgs = new ArrayList<>(1);
+        cfgs.add(new File(testFileName).toPath());
         builder = new LogBuilder(cfgs);
     }
 
     @After
     public void clean() {
+        builder.clearAll();
         fsys.deleteFile(testFileName);
+    }
+
+    @Test
+    public void testNewLogBuilder() {
+        List<String> files = LogsOperations.scanLogsInCfgFile();
+        assertTrue(true);
     }
 
     @Test
@@ -40,11 +49,13 @@ public class TestLogBuilder {
 
         File file = builder
             .addLocLocation()
-            .buildAllEvents();
+            .buildEverydayEvents()
+            .writeToXmlFile();
         String source_res = fsys.readAllFromFile(file.toPath());
 
         file = builder
-            .readCfgFile(file.getPath())
+            .setCfgPaths(file.toPath())
+            .readCfgFile()
             .writeToXmlFile();
         String parse_res = fsys.readAllFromFile(file.toPath());
 
@@ -56,7 +67,8 @@ public class TestLogBuilder {
 
         File file = builder
         .addLocLocation()
-        .buildAllEvents();
+        .buildAllEvents()
+        .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -66,7 +78,8 @@ public class TestLogBuilder {
 
         File file = builder
         .addLocLocation(testFileName, "1")
-        .buildSQlEvents();
+        .buildSQlEvents()
+        .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -76,7 +89,8 @@ public class TestLogBuilder {
 
         File file = builder
         .addLocLocation(testFileName, "1")
-        .buildExcpEvents();
+        .buildExcpEvents()
+        .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -86,7 +100,8 @@ public class TestLogBuilder {
 
         File file = builder
             .addLocLocation(testFileName, "1")
-            .buildEverydayEvents();
+            .buildEverydayEvents()
+            .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -95,7 +110,8 @@ public class TestLogBuilder {
     public void testBuildLongEvents() throws Exception {
         File file = builder
             .addLocLocation(testFileName, "1")
-            .buildLongEvents();
+            .buildLongEvents()
+            .writeToXmlFile();
         assertTrue(file.exists());
     }
 
@@ -103,7 +119,8 @@ public class TestLogBuilder {
     public void testInvestigateNonEffectiveQueries() throws Exception {
         File file = builder
             .addLocLocation(testFileName, "1")
-            .buildInvestigateNonEffectiveQueries("DefUser","test");
+            .buildInvestigateNonEffectiveQueries("DefUser","test")
+            .writeToXmlFile();
         assertTrue(file.exists());
     }
 
@@ -111,7 +128,8 @@ public class TestLogBuilder {
     public void testBuild1cLocksEvents() throws Exception {
         File file = builder
             .addLocLocation(testFileName, "1")
-            .build1cLocksEvents();
+            .build1cLocksEvents()
+            .writeToXmlFile();
         assertTrue(file.exists());
     }
 }

@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.net.ServerSocket;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
@@ -15,6 +17,8 @@ import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.ScanProfile;
@@ -85,5 +89,5 @@ public class TestV8ScannerClient {
     assertEquals(eventsCount, 1l);
     
   }
-  
+
 }

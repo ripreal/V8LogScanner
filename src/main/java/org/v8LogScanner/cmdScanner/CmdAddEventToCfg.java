@@ -8,6 +8,7 @@ import org.v8LogScanner.rgx.RegExp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class CmdAddEventToCfg implements CmdCommand{
 
@@ -32,7 +33,7 @@ public class CmdAddEventToCfg implements CmdCommand{
       } else if (Integer.parseInt(choicesRes) == 0) {
         logEvent = new LogEvent();
       } else {
-          String eventIndex = appl.getConsole().askInputFromList("Input index of a prop from the list", events);
+          String eventIndex = appl.getConsole().askInputFromList("Input prop:", events);
           if (eventIndex == null)
             return;
           logEvent = events.get(Integer.parseInt(eventIndex));
@@ -42,9 +43,11 @@ public class CmdAddEventToCfg implements CmdCommand{
     }
 
     // Input prop <eq></eq>
+    Set<RegExp.PropTypes> allProps = LogEvent.allowedProps();
+
     String propTypeIndex =  appl.getConsole().askInputFromList(
-      "Input index of a prop from the list",
-      RegExp.PropTypes.values()
+      "Input prop:",
+      allProps
     );
 
     if(propTypeIndex == null)
@@ -57,17 +60,18 @@ public class CmdAddEventToCfg implements CmdCommand{
       return;
 
     String compTypeIndex =  appl.getConsole().askInputFromList(
-      "Input index of a comparison type from the list",
+      "Input comparison type:",
       LogEvent.LogEventComparisons.values()
     );
 
     if(compTypeIndex == null)
       return;
 
-    RegExp.PropTypes propType = RegExp.PropTypes.values()[Integer.parseInt(propTypeIndex)];
+    RegExp.PropTypes propType = allProps.toArray(new RegExp.PropTypes[0])[Integer.parseInt(propTypeIndex)];
 
     logEvent.setProp(propType);
     logEvent.setVal(propType, valProp);
     logEvent.setComparison(propType, LogEvent.LogEventComparisons.values()[Integer.parseInt(compTypeIndex)]);
+    appl.logBuilder.addEvent(logEvent);
   }
 }

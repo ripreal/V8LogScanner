@@ -1,6 +1,7 @@
 package org.v8LogScanner.logsCfg;
 
 import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -11,6 +12,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,114 +23,69 @@ public class LogBuilder {
     private List<LogLocation> locations = new ArrayList<>();
     private List<LogProperty> properties = new ArrayList<>();
     private LogDump dumps = new LogDump();
-    private List<String> cfgPaths = null;
+    private List<Path> cfgPaths = null;
     private boolean allowPLanSql = false;
 
     public LogBuilder() {
-        cfgPaths = LogConfig.cfgPaths();
+        cfgPaths = LogsOperations.scanCfgPaths();
     }
 
-    public LogBuilder(List<String> cfgPaths) {
+    public LogBuilder(List<Path> cfgPaths) {
         this.cfgPaths = cfgPaths;
     }
 
     public File writeToXmlFile() {
         File logFile = null;
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            Document doc = docFactory.newDocumentBuilder().newDocument();
+            DOMSource source = buildXmlDoc();
 
-            // root elements
-            Element root = doc.createElement(LogConfig.CONFIG_TAG_NAME);
-            root.setAttribute(LogConfig.CONFIG_PROP_NAME, LogConfig.CONFIG_PROP_VAL);
-            doc.appendChild(root);
-
-            Element dumpEl = doc.createElement(LogConfig.DUMP_TAG_NAME);
-            dumpEl.setAttribute(LogConfig.CREATE_NAME, dumps.getCreate());
-            root.appendChild(dumpEl);
-
-            Element logEl = doc.createElement(LogConfig.LOC_TAG_NAME);
-            for(LogLocation loc : locations) {
-
-                logEl.setAttribute(LogConfig.LOC_HISTORY_NAME, loc.getHistory());
-                logEl.setAttribute(LogConfig.LOC_LOCATION_NAME, loc.getLocation());
-
-                events.forEach((event) -> {
-                    Element eventEl = doc.createElement(LogConfig.EVENT_TAG_NAME);
-                    for(LogEvent.EventRow eventRow : event) {
-                        Element eventPropEl = doc.createElement(eventRow.getComparison());
-                        eventPropEl.setAttribute(LogConfig.PROP_NAME, eventRow.getKey());
-                        eventPropEl.setAttribute(LogConfig.VAL_NAME, eventRow.getVal());
-                        eventEl.appendChild(eventPropEl);
-                    };
-                    logEl.appendChild(eventEl);
-                });
-
-                properties.forEach((prop) -> {
-                    Element propEl = doc.createElement(LogConfig.PROP_NAME);
-                    propEl.setAttribute(LogConfig.PROPERTY_PROP_NAME, prop.getName());
-
-                    Element dummyEl = doc.createElement("dummy");
-                    propEl.appendChild(dummyEl);
-
-                    logEl.appendChild(propEl);
-                });
-
-                root.appendChild(logEl);
-            }
-
-            if (allowPLanSql) {
-                Element planEl = doc.createElement(LogConfig.PLAN__SQL_TAG_NAME);
-                root.appendChild(planEl);
-            }
-
-            // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-            DOMSource source = new DOMSource(doc);
-            for(String path : cfgPaths) {
-                logFile = new File(path);
+            for (Path path : cfgPaths) {
+                logFile = new File(path.toUri());
+                Transformer transformer = initTransformer();
                 StreamResult streamresult = new StreamResult(logFile);
                 transformer.transform(source, streamresult);
-
-                //StreamResult streamresult_test = new StreamResult(System.out);
-                //transformer.transform(source, streamresult_test);
                 removeNodeElement(logFile, ".*dummy.*");
             };
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | TransformerException | IOException  e) {
             e.printStackTrace();
-            // no need to handle this
         }
+
         return logFile;
     }
 
-    public LogBuilder readCfgFile(String path) throws RuntimeException {
-
-        events.clear();
-        locations.clear();
-        properties.clear();
-        dumps = new LogDump();
-
-        File logFile = new File(path);
-
-        if (!logFile.exists())
-            throw new RuntimeException("file does not exists!");
-
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    public void writeToStream(OutputStream stream) {
         try {
-            Document doc = docFactory.newDocumentBuilder().parse(logFile);
+            Transformer transformer = initTransformer();
+            StreamResult streamresult = new StreamResult(stream);
+            transformer.transform(buildXmlDoc(), streamresult);
+        } catch (TransformerException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
-            if (!doc.getDocumentElement().getTagName().matches(LogConfig.CONFIG_TAG_NAME))
-                throw new RuntimeException(String.format(
-                    "Wrong file format. Root element must start with <%s> tag",LogConfig.CONFIG_TAG_NAME));
+    public LogBuilder readCfgFile() throws RuntimeException {
 
-            parseLogCfg(doc.getFirstChild().getChildNodes());
+        clearAll();
 
-        } catch (SAXException | ParserConfigurationException | IOException e) {
-            throw new RuntimeException(e.getStackTrace().toString());
+        for (Path path : cfgPaths) {
+            File logFile = new File(path.toUri());
+
+            if (!logFile.exists())
+                throw new RuntimeException("file does not exists!");
+
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            try {
+                Document doc = docFactory.newDocumentBuilder().parse(logFile);
+
+                if (!doc.getDocumentElement().getTagName().matches(LogConfig.CONFIG_TAG_NAME))
+                    throw new RuntimeException(String.format(
+                            "Wrong file format. Root element must start with <%s> tag", LogConfig.CONFIG_TAG_NAME));
+
+                parseLogCfg(doc.getFirstChild().getChildNodes());
+
+            } catch (SAXException | ParserConfigurationException | IOException e) {
+                throw new RuntimeException(e.getStackTrace().toString());
+            }
         }
         return this;
     }
@@ -137,11 +94,10 @@ public class LogBuilder {
      * Contruct log file for analyzing all events logged by 1c
      * @return prepared but not written text file with settings
      */
-    public File buildAllEvents() {
+    public LogBuilder buildAllEvents() {
         return this
-        .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "")
-        .addLogProperty("all")
-        .writeToXmlFile();
+            .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "")
+            .addLogProperty("all");
     }
 
     /**
@@ -150,15 +106,14 @@ public class LogBuilder {
      * Note you need to add the location tag in on order to get *.log file working.
      * @return prepared but not written text file with settings.
      */
-    public File buildSQlEvents() {
+    public LogBuilder buildSQlEvents() {
         return this
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dbmssql")
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dbpostgrs")
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "db2")
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dboracle")
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
-            .addLogProperty("all")
-            .writeToXmlFile();
+            .addLogProperty("all");
     }
 
     /**
@@ -166,11 +121,10 @@ public class LogBuilder {
      * Note you need to add the location tag in on order to get *.log file working.
      * @return prepared but not written text file with settings
      */
-    public File buildExcpEvents() {
+    public LogBuilder buildExcpEvents() {
         return this
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
-            .addLogProperty("all")
-            .writeToXmlFile();
+            .addLogProperty("all");
     }
 
     /**
@@ -178,7 +132,7 @@ public class LogBuilder {
      * Note you need to add the location tag in on order to get *.log file working.
      * @return prepared but not written text file with settings
      */
-    public File buildLongEvents() {
+    public LogBuilder buildLongEvents() {
 
         LogEvent longEv = new LogEvent();
 
@@ -192,8 +146,7 @@ public class LogBuilder {
 
         return this
             .addEvent(longEv)
-            .addLogProperty("all")
-            .writeToXmlFile();
+            .addLogProperty("all");
     }
 
     /**
@@ -201,13 +154,12 @@ public class LogBuilder {
      * Note you need to add the location tag in on order to get *.log file working.
      * @return prepared but not written text file with settings
      */
-    public File build1cLocksEvents(){
+    public LogBuilder build1cLocksEvents(){
         return this
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TLOCK.toString())
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TTIMEOUT.toString())
             .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString())
-            .addLogProperty("all")
-            .writeToXmlFile();
+            .addLogProperty("all");
     }
 
     /**
@@ -218,7 +170,7 @@ public class LogBuilder {
      * @param infobase_name name of base in conection string
      * @return prepared but not written text file with settings
      */
-    public File buildInvestigateNonEffectiveQueries(String user, String infobase_name){
+    public LogBuilder buildInvestigateNonEffectiveQueries(String user, String infobase_name){
 
         LogEvent event = new LogEvent();
 
@@ -237,8 +189,7 @@ public class LogBuilder {
         return this
             .addEvent(event)
             .addLogProperty("all")
-            .setPlanSql(true)
-            .writeToXmlFile();
+            .setPlanSql(true);
     }
 
     /**
@@ -246,7 +197,7 @@ public class LogBuilder {
      * Note you need to add the location tag in on order to get *.log file working.
      * @return prepared but not written text file with settings
      */
-    public File buildEverydayEvents() {
+    public LogBuilder buildEverydayEvents() {
         return this
         .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
         .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "conn")
@@ -254,8 +205,7 @@ public class LogBuilder {
         .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "ADMIN")
         .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "SESN")
         .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "CLSTR")
-        .addLogProperty("all")
-        .writeToXmlFile();
+        .addLogProperty("all");
     }
 
     public LogBuilder addLocLocation(String location, String history) {
@@ -279,7 +229,7 @@ public class LogBuilder {
     }
 
     public LogBuilder addEvent() {
-        events.add(new LogEvent());
+        events.add(new LogEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, ""));
         return this;
     }
 
@@ -312,8 +262,14 @@ public class LogBuilder {
        return this;
     }
 
-    public List<String> getCfgPaths() {
+    public List<Path> getCfgPaths() {
         return cfgPaths;
+    }
+
+    public LogBuilder setCfgPaths(Path cfgPaths) {
+        this.cfgPaths.clear();
+        this.cfgPaths.add(cfgPaths);
+        return this;
     }
 
     public List<String> getLocations() {
@@ -324,6 +280,72 @@ public class LogBuilder {
 
     public void clearLocations() {
         locations.clear();
+    }
+
+    public void clearAll() {
+        events.clear();
+        locations.clear();
+        properties.clear();
+        dumps = new LogDump();
+    }
+
+    private Transformer initTransformer() throws TransformerConfigurationException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        return transformer;
+    }
+
+    private DOMSource buildXmlDoc() throws ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        Document doc = docFactory.newDocumentBuilder().newDocument();
+
+        // root elements
+        Element root = doc.createElement(LogConfig.CONFIG_TAG_NAME);
+        root.setAttribute(LogConfig.CONFIG_PROP_NAME, LogConfig.CONFIG_PROP_VAL);
+        doc.appendChild(root);
+
+        Element dumpEl = doc.createElement(LogConfig.DUMP_TAG_NAME);
+        dumpEl.setAttribute(LogConfig.CREATE_NAME, dumps.getCreate());
+        root.appendChild(dumpEl);
+
+        Element logEl = doc.createElement(LogConfig.LOC_TAG_NAME);
+        for(LogLocation loc : locations) {
+
+            logEl.setAttribute(LogConfig.LOC_HISTORY_NAME, loc.getHistory());
+            logEl.setAttribute(LogConfig.LOC_LOCATION_NAME, loc.getLocation());
+
+            events.forEach((event) -> {
+                Element eventEl = doc.createElement(LogConfig.EVENT_TAG_NAME);
+                for(LogEvent.EventRow eventRow : event) {
+                    Element eventPropEl = doc.createElement(eventRow.getComparison());
+                    eventPropEl.setAttribute(LogConfig.PROP_NAME, eventRow.getKey());
+                    eventPropEl.setAttribute(LogConfig.VAL_NAME, eventRow.getVal());
+                    eventEl.appendChild(eventPropEl);
+                };
+                logEl.appendChild(eventEl);
+            });
+
+            properties.forEach((prop) -> {
+                Element propEl = doc.createElement(LogConfig.PROP_NAME);
+                propEl.setAttribute(LogConfig.PROPERTY_PROP_NAME, prop.getName());
+
+                Element dummyEl = doc.createElement("dummy");
+                propEl.appendChild(dummyEl);
+
+                logEl.appendChild(propEl);
+            });
+
+            root.appendChild(logEl);
+        }
+
+        if (allowPLanSql) {
+            Element planEl = doc.createElement(LogConfig.PLAN__SQL_TAG_NAME);
+            root.appendChild(planEl);
+        }
+
+        return new DOMSource(doc);
     }
 
     private void removeNodeElement(File logFile, String pattern) throws IOException {

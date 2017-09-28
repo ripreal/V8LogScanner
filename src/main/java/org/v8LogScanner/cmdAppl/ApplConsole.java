@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import org.v8LogScanner.commonly.Constants;
@@ -126,17 +127,22 @@ public class ApplConsole {
     return userInput;
   }
 
-  private <F extends List<T>, T> String askInputFromList(String promt, F list, int start, int end){
-    
+  private <F extends Collection<T>, T> String askInputFromList(String promt, F list, int start, int end){
+
     if (list.size() == 1)
       return "0";
     
     out.println();
     
     String[] messages = new String[end + 1];
-    
-    for(int i = start; i < end; i++)
-      messages[i] = String.format("%s %s", i, list.get(i));
+
+    int i = 0;
+    for (T item : list) {
+      if (i >= end)
+        break;
+      messages[i] = String.format("%s %s", i, item);
+      i++;
+    }
     messages[end] = promt;
     
     String userInput = askInput(
@@ -154,7 +160,7 @@ public class ApplConsole {
     return askInputFromList(textMessage, intermArray, start, end);
   }
   
-  public <F extends List<T>, T> String askInputFromList(String textMessage, F list){
+  public <F extends Collection<T>, T> String askInputFromList(String textMessage, F list){
     return askInputFromList(textMessage, list, 0, list.size());
   }
   
@@ -189,7 +195,7 @@ public class ApplConsole {
       out.println(String.format("%s %s", i, info[i]));
   }
   
-  public <F,T extends List<F>> boolean existsInList(String n, T list){
+  public <F,T extends Collection<F>> boolean existsInList(String n, T list){
     if (isValid(n) && Strokes.isNumeric(n)){
       int inputNum = Integer.parseInt(n, 10);
       return list.size() > inputNum;

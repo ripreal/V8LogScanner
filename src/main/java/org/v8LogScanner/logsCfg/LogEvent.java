@@ -15,7 +15,6 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
 
     public LogEvent() {
         init();
-        rows.put(RegExp.PropTypes.ANY, new EventRow(LogEventComparisons.ne, ""));
     }
 
     private static void init() {
@@ -116,9 +115,10 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
     @Override
     public String toString() {
         List<String> entriesLine = new ArrayList<>(rows.size());
-        rows.entrySet().forEach((entry) -> entriesLine.add(entry.getValue().toString()));
-        String t = String.join("\n", entriesLine);
-        return t;
+        for(EventRow row : this) {
+            entriesLine.add(row.toString());
+        }
+        return String.join("\n", entriesLine);
     }
 
     public class EventRow {

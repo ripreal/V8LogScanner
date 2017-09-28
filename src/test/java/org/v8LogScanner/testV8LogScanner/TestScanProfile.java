@@ -53,4 +53,5 @@ public class TestScanProfile {
     boolean sent = templates.sendData(client, profile);
     assertTrue(sent);
   }
+
 }

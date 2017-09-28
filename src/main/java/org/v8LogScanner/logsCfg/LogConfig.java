@@ -3,6 +3,7 @@ package org.v8LogScanner.logsCfg;
 import org.v8LogScanner.commonly.Constants;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +24,4 @@ public class LogConfig {
     public static final String PROPERTY_TAG_NAME = "property";
     public static final String PROPERTY_PROP_NAME = "name";
 
-    public static final List<String> cfgPaths() {
-        List<String> result = new ArrayList<>();
-        for(String dir : Constants.V8_Dirs()) {
-            if (!new File(dir).exists())
-                continue;
-            result.add(dir + "\\conf\\logcfg.xml");
-        }
-        return result;
-    }
 }

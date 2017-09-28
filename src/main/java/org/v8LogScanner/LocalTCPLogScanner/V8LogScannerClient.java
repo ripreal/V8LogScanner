@@ -1,5 +1,6 @@
 package org.v8LogScanner.LocalTCPLogScanner;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import org.v8LogScanner.rgx.SelectorEntry;
@@ -37,5 +38,5 @@ public interface V8LogScannerClient {
   
   public void addListener(ProcessEvent e);
 
-  public List<String> getCfgPaths();
+  public List<Path> getCfgPaths();
 }
