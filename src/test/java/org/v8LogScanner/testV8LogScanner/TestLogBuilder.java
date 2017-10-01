@@ -37,12 +37,6 @@ public class TestLogBuilder {
     }
 
     @Test
-    public void testNewLogBuilder() {
-        List<String> files = LogsOperations.scanLogsInCfgFile();
-        assertTrue(true);
-    }
-
-    @Test
     public void testReadCfgFile() {
 
         testFileName = fsys.createTempFile("");

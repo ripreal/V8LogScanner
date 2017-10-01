@@ -97,10 +97,10 @@ public class V8LogScannerAppl {
       + "This is a useful list of a everyday logs operations based on kb.1c.ru and 1CFresh servise maintaing routines"
       + "\nSuggest you visit that resources before starting with this mode.", main);
 
-    MenuCmd m_config = new MenuCmd("5. Configure logcfg.xml."
+    MenuCmd m_config = new MenuCmd(() -> "5. Configure logcfg.xml."
       + "\nTurns on a log journal to be written and allows you to specify various setting inside logcfg.xml file"
-      + "\nThis step should be done before you start using any of log scanning operations because they operate on a logcfg.xml settings"
-      + "\n*.log files created by correct logcfg.xml file" + getCfgConfigureDescr(), main);
+      + "\nThis step should be done before you start using any of log scanning operations because they operate "
+      + "\non a logcfg.xml settings created by the correct logcfg.xml file" + getCfgConfigureDescr(), main);
     
     MenuCmd m_runServer = new MenuCmd("6. Run as server", main);
     
@@ -150,12 +150,14 @@ public class V8LogScannerAppl {
 
     // Item 5.
     main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
-    m_config.add(new MenuItemCmd("Add all events", new CmdAddAllEventsToCfg(), m_config));
-    m_config.add(new MenuItemCmd("Add sql events", new CmdAddLogLocFromCfgAll(), m_config));
-    m_config.add(new MenuItemCmd("Add excp events", new CmdAddLogLocOwn(), m_config));
-    m_config.add(new MenuItemCmd("Add 1c lock events", new CmdAddLogLocOwn(), m_config));
-    m_config.add(new MenuItemCmd("Add non-effective queries by user", new CmdAddLogLocOwn(), m_config));
-    m_config.add(new MenuItemCmd("Add any long events (gt 20 sec)", new CmdAddLogLocServerIP(), m_config));
+    m_config.add(new MenuItemCmd("Add new event", new CmdAddEventToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add \"all\" events", new CmdAddAllEventsToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddLogLocFromCfgAll(), m_config));
+    m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add \"any long\" events (gt 20 sec)", new CmdAddLogLocServerIP(), m_config));
+    m_config.add(new MenuItemCmd("Clear all", new CmdClearAllFromCfg(), m_config));
 
     MenuCmd menuManualCfg = createManualCfgMenu(m_config);
     m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
@@ -211,7 +213,6 @@ public class V8LogScannerAppl {
       () -> {return "Manual logs..."; },
       parent
     );
-    menu.add(new MenuItemCmd("Add event", new CmdAddEventToCfg(), menu));
     menu.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), menu));
     menu.add(new MenuItemCmd("connect to other server", new CmdAddLogLocServerIP(), menu));
     menu.add(new MenuItemCmd("Show current logcfg.xml config", new CmdGetCfgContent(), menu));
@@ -252,11 +253,16 @@ public class V8LogScannerAppl {
       "\n\n1C Enterpise is not installed on a machine (no folders with path \\1cv8\\conf was found)!":
       "\n\nFound valid logcfg.xml on:" + String.join("\n", paths) + "\nContent:\n"
     );
-
+    logBuilder.readCfgFile();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     logBuilder.writeToStream(baos);
     sb.append(baos.toString());
 
+    int maxLength = 1000;
+    if (sb.length() > maxLength) {
+      sb.setLength(1000);
+      sb.append("...");
+    }
     return sb.toString();
   }
 

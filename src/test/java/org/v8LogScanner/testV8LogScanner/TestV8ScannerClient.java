@@ -18,6 +18,7 @@ import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
@@ -88,6 +89,12 @@ public class TestV8ScannerClient {
     .distinct().count();
     assertEquals(eventsCount, 1l);
     
+  }
+
+  @Test
+  public void testScanLogsInCfgFile() {
+    List<String> files = LogsOperations.scanLogsInCfgFile();
+    assertNotNull(files);
   }
 
 }

@@ -256,21 +256,24 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     return info;
   }
 
-  public List<Path> getCfgPaths(){
+  public List<String> getCfgPaths(){
 
     if (isLocalHost()){
       LogBuilder builder = new LogBuilder();
-      return builder.getCfgPaths();
+      // Path is not serializable so it is transformed before sending to the client
+      List<Path> paths = builder.getCfgPaths();
+      List<String> resultPaths = new ArrayList<>();
+      paths.forEach((item) -> resultPaths.add(item.toString()));
+      return resultPaths;
     }
 
     V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.GET_CFG_PATHS);
-
     V8LogScannerData dataFromServer = send(dataToServer);
 
     if (dataFromServer == null)
       return null;
 
-    List<Path> cfgPaths = (List<Path>) dataFromServer.getData("cfgPaths");
+    List<String> cfgPaths = (List<String>) dataFromServer.getData("cfgPaths");
     return cfgPaths;
   }
 

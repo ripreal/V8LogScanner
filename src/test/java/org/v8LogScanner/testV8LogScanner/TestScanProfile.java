@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
+import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
+import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerData;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.rgx.RegExp;
@@ -51,6 +53,32 @@ public class TestScanProfile {
     Socket client = templates.createClientSocket(ip, Constants.serverPort);
     
     boolean sent = templates.sendData(client, profile);
+
+    try{server.close();}
+    catch(Exception e){}
+
+    assertTrue(sent);
+  }
+
+  @Test
+  public void testSerialisationGetCfgPaths() {
+    SocketTemplates templates = SocketTemplates.instance();
+    ServerSocket server = templates.createServerSocket(Constants.serverPort);
+    assertNotNull(server);
+
+    String ip = templates.getHostIP(server);
+    Socket client = templates.createClientSocket(ip, Constants.serverPort);
+
+    V8LanLogScannerClient clientScanner = new V8LanLogScannerClient();
+
+    V8LogScannerData dataToClient = new V8LogScannerData(V8LogScannerData.ScannerCommands.GET_CFG_PATHS);
+    dataToClient.putData("cfgPaths", clientScanner.getCfgPaths());
+
+    boolean sent = templates.sendData(client, dataToClient);
+
+    try{server.close();}
+    catch(Exception e){}
+
     assertTrue(sent);
   }
 

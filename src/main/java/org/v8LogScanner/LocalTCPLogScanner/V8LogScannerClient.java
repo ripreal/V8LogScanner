@@ -38,5 +38,5 @@ public interface V8LogScannerClient {
   
   public void addListener(ProcessEvent e);
 
-  public List<Path> getCfgPaths();
+  public List<String> getCfgPaths();
 }

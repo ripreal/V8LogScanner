@@ -1,13 +1,14 @@
 package org.v8LogScanner.logsCfg;
 
+import com.sun.javafx.fxml.PropertyNotFoundException;
 import org.v8LogScanner.rgx.*;
 
 import java.math.BigInteger;
 import java.util.*;
 
 public class LogEvent implements Iterable<LogEvent.EventRow>{
-    // eg = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
-    public enum LogEventComparisons {eg, like, ne, gt, ge, lt, le};
+    // eq = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
+    public enum LogEventComparisons {eq, like, ne, gt, ge, lt, le};
 
     private HashMap<RegExp.PropTypes, EventRow> rows = new HashMap<>();
 
@@ -47,14 +48,20 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
     }
 
     // MANAGER METHODS
-    public static RegExp.PropTypes parseProp(String prop) {
+    public static RegExp.PropTypes parseProp(String prop) throws RuntimeException {
         init();
-        return tags.entrySet()
-                .stream()
-                .filter((item) -> item.getValue().contains(prop))
-                .findFirst()
-                .get()
-                .getKey();
+        try {
+            return tags.entrySet()
+                    .stream()
+                    .filter((item) -> item.getValue().contains(prop))
+                    .findFirst()
+                    .get()
+                    .getKey();
+        }
+        catch(NoSuchElementException e){
+            throw new RuntimeException(String.format(
+                "Error. Unknown event property '%s' happen during parsing a log file! It skipped", prop));
+        }
     }
 
     public static Set<RegExp.PropTypes> allowedProps() {
@@ -79,7 +86,8 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
     }
 
     public void setComparison(RegExp.PropTypes prop, String comparison) {
-        setComparison(prop, LogEventComparisons.valueOf(comparison));
+        LogEventComparisons comp = LogEventComparisons.valueOf(comparison);
+        setComparison(prop, comp);
     }
 
     public void setVal(RegExp.PropTypes prop, String val) {
@@ -171,4 +179,6 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
         }
     }
 
+    public class UnknowPropertyFound extends RuntimeException {
+    }
 }

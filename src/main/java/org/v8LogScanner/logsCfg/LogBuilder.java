@@ -108,11 +108,11 @@ public class LogBuilder {
      */
     public LogBuilder buildSQlEvents() {
         return this
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dbmssql")
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dbpostgrs")
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "db2")
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "dboracle")
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbmssql")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbpostgrs")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "db2")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dboracle")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
             .addLogProperty("all");
     }
 
@@ -123,7 +123,7 @@ public class LogBuilder {
      */
     public LogBuilder buildExcpEvents() {
         return this
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
             .addLogProperty("all");
     }
 
@@ -156,9 +156,9 @@ public class LogBuilder {
      */
     public LogBuilder build1cLocksEvents(){
         return this
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TLOCK.toString())
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TTIMEOUT.toString())
-            .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString())
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TLOCK.toString())
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TTIMEOUT.toString())
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString())
             .addLogProperty("all");
     }
 
@@ -176,7 +176,7 @@ public class LogBuilder {
 
         event.setProp(RegExp.PropTypes.Event);
         event.setVal(RegExp.PropTypes.Event, RegExp.EventTypes.DBMSSQL.toString());
-        event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eg);
+        event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
 
         event.setProp(RegExp.PropTypes.ProcessName);
         event.setVal(RegExp.PropTypes.ProcessName, "%" + infobase_name + "%");
@@ -184,7 +184,7 @@ public class LogBuilder {
 
         event.setProp(RegExp.PropTypes.Usr);
         event.setVal(RegExp.PropTypes.Usr, user);
-        event.setComparison(RegExp.PropTypes.Usr, LogEvent.LogEventComparisons.eg);
+        event.setComparison(RegExp.PropTypes.Usr, LogEvent.LogEventComparisons.eq);
 
         return this
             .addEvent(event)
@@ -199,12 +199,12 @@ public class LogBuilder {
      */
     public LogBuilder buildEverydayEvents() {
         return this
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "excp")
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "conn")
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "PROC")
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "ADMIN")
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "SESN")
-        .addEvent(LogEvent.LogEventComparisons.eg, RegExp.PropTypes.Event, "CLSTR")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "conn")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "PROC")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "ADMIN")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
         .addLogProperty("all");
     }
 
@@ -383,10 +383,15 @@ public class LogBuilder {
                     Node propNode = propList.item(j);
                     NamedNodeMap attributes = propNode.getAttributes();
                     if (attributes  != null) { // tag with non emty attribute means prop tag found
-                        RegExp.PropTypes propName = LogEvent.parseProp(attributes.getNamedItem(LogConfig.PROP_NAME).getNodeValue());
-                        event.setProp(propName);
-                        event.setVal(propName, attributes.getNamedItem(LogConfig.VAL_NAME).getNodeValue());
-                        event.setComparison(propName, propNode.getNodeName());
+                        try {
+                            RegExp.PropTypes propName = LogEvent.parseProp(attributes.getNamedItem(LogConfig.PROP_NAME).getNodeValue());
+                            event.setProp(propName);
+                            event.setVal(propName, attributes.getNamedItem(LogConfig.VAL_NAME).getNodeValue());
+                            event.setComparison(propName, propNode.getNodeName());
+                        }
+                        catch(RuntimeException e){
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
                 events.add(event);
