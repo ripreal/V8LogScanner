@@ -1,5 +1,6 @@
 package org.v8LogScanner.logsCfg;
 
+import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp;
@@ -63,7 +64,7 @@ public class LogBuilder {
         }
     }
 
-    public LogBuilder readCfgFile() throws RuntimeException {
+    public LogBuilder readCfgFile(){
 
         clearAll();
 
@@ -78,13 +79,13 @@ public class LogBuilder {
                 Document doc = docFactory.newDocumentBuilder().parse(logFile);
 
                 if (!doc.getDocumentElement().getTagName().matches(LogConfig.CONFIG_TAG_NAME))
-                    throw new RuntimeException(String.format(
+                    throw new CfgParsingError(String.format(
                             "Wrong file format. Root element must start with <%s> tag", LogConfig.CONFIG_TAG_NAME));
 
                 parseLogCfg(doc.getFirstChild().getChildNodes());
-
-            } catch (SAXException | ParserConfigurationException | IOException e) {
-                throw new RuntimeException(e.getStackTrace().toString());
+            }
+            catch (CfgParsingError | SAXException | ParserConfigurationException | IOException e) {
+                ExcpReporting.LogError(this, e);
             }
         }
         return this;
@@ -233,6 +234,10 @@ public class LogBuilder {
         return this;
     }
 
+    public void removeLogEvent(LogEvent event) {
+        events.remove(event);
+    }
+
     public LogBuilder addLogProperty(String name) {
         properties.add(new LogProperty(name));
         return this;
@@ -287,6 +292,7 @@ public class LogBuilder {
         locations.clear();
         properties.clear();
         dumps = new LogDump();
+        addLocLocation(); // loc by default
     }
 
     private Transformer initTransformer() throws TransformerConfigurationException {
@@ -361,7 +367,7 @@ public class LogBuilder {
         fsys.writeInNewFile(processedStrings, logFile);
     }
 
-    private void parseLogCfg(NodeList nodeList) {
+    private void parseLogCfg(NodeList nodeList) throws CfgParsingError {
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -372,10 +378,11 @@ public class LogBuilder {
             } else if (nodeName.matches("(?i)" + LogConfig.LOC_TAG_NAME)) {
                 NamedNodeMap attributes = node.getAttributes();
                 addLocLocation(
-                        attributes.getNamedItem(LogConfig.LOC_LOCATION_NAME).getNodeValue().toString(),
-                        attributes.getNamedItem(LogConfig.LOC_HISTORY_NAME).getNodeValue().toString()
+                    attributes.getNamedItem(LogConfig.LOC_LOCATION_NAME).getNodeValue().toString(),
+                    attributes.getNamedItem(LogConfig.LOC_HISTORY_NAME).getNodeValue().toString()
                 );
                 parseLogCfg(node.getChildNodes());
+
             } else if (nodeName.matches("(?i)" + LogConfig.EVENT_TAG_NAME)) {
                 NodeList propList = node.getChildNodes();
                 LogEvent event = new LogEvent();
@@ -390,7 +397,8 @@ public class LogBuilder {
                             event.setComparison(propName, propNode.getNodeName());
                         }
                         catch(RuntimeException e){
-                            System.out.println(e.getMessage());
+                            throw new CfgParsingError("Error. Cannont parse one or more <event> attributes. Non-parseable attributes set by default"
+                            +"\njava exception: " + e.getMessage());
                         }
                     }
                 }

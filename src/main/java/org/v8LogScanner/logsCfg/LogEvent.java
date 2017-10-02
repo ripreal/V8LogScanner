@@ -162,7 +162,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
             this.comparison = comparison;
         }
         public String getComparison() {
-            return comparison.toString();
+            return comparison == null ? LogEventComparisons.eq.toString() : comparison.toString();
         }
 
         private void setVal(String val) {

@@ -57,9 +57,8 @@ public class V8LogScannerAppl {
     profile = clientsManager.localClient().getProfile();
     profile.addRegExp(new RegExp());
 
-    logBuilder.addLocLocation();
-    logBuilder.addEvent();
-    logBuilder.addEvent();
+    logBuilder.readCfgFile();
+
   }
   
   public void runAppl() {
@@ -152,12 +151,13 @@ public class V8LogScannerAppl {
     main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
     m_config.add(new MenuItemCmd("Add new event", new CmdAddEventToCfg(), m_config));
     m_config.add(new MenuItemCmd("Add \"all\" events", new CmdAddAllEventsToCfg(), m_config));
-    m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddLogLocFromCfgAll(), m_config));
-    m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddLogLocOwn(), m_config));
-    m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAddLogLocOwn(), m_config));
-    m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddLogLocOwn(), m_config));
+    m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddSqlEvent(), m_config));
+    m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddExcpEvents(), m_config));
+    m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAdd1CLockEvents(), m_config));
+    m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
     m_config.add(new MenuItemCmd("Add \"any long\" events (gt 20 sec)", new CmdAddLogLocServerIP(), m_config));
-    m_config.add(new MenuItemCmd("Clear all", new CmdClearAllFromCfg(), m_config));
+    m_config.add(new MenuItemCmd("Remove event", new CmdRemoveEventFromCfg(), m_config));
+    m_config.add(new MenuItemCmd("Write to logcfg.xml", new CmdWriteToCfg(), m_config));
 
     MenuCmd menuManualCfg = createManualCfgMenu(m_config);
     m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
@@ -173,7 +173,6 @@ public class V8LogScannerAppl {
       +"\n********************"
     );
     cmdAppl.runAppl(main);
-    
     clientsManager.resetRemoteClients();
     
   }
@@ -214,8 +213,8 @@ public class V8LogScannerAppl {
       parent
     );
     menu.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), menu));
+    menu.add(new MenuItemCmd("Clear all", new CmdClearAllFromCfg(), menu));
     menu.add(new MenuItemCmd("connect to other server", new CmdAddLogLocServerIP(), menu));
-    menu.add(new MenuItemCmd("Show current logcfg.xml config", new CmdGetCfgContent(), menu));
 
     return menu;
   }
@@ -253,8 +252,9 @@ public class V8LogScannerAppl {
       "\n\n1C Enterpise is not installed on a machine (no folders with path \\1cv8\\conf was found)!":
       "\n\nFound valid logcfg.xml on:" + String.join("\n", paths) + "\nContent:\n"
     );
-    logBuilder.readCfgFile();
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    logBuilder.readCfgFile();
     logBuilder.writeToStream(baos);
     sb.append(baos.toString());
 
