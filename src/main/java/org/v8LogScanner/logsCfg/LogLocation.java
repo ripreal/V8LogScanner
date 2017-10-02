@@ -19,4 +19,13 @@ public class LogLocation {
 
     public void setHistory(int history) {this.history = String.valueOf(history);}
     public String getHistory() {return history;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null || (!(obj instanceof LogLocation)))
+            return false;
+        return (location.compareTo(((LogLocation) obj).getLocation()) == 0);
+    }
 }

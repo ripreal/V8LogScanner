@@ -16,4 +16,14 @@ public class LogProperty {
         this.name = name;
     }
     public String getName() {return name;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+
+            return true;
+        if (obj == null || (!(obj instanceof LogProperty)))
+            return false;
+        return (name.compareTo(((LogProperty) obj).getName()) == 0);
+    }
 }

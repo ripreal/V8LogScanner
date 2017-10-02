@@ -255,8 +255,7 @@ public class V8LogScannerAppl {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     logBuilder.readCfgFile();
-    logBuilder.writeToStream(baos);
-    sb.append(baos.toString());
+    sb.append(logBuilder.getContent());
 
     int maxLength = 1000;
     if (sb.length() > maxLength) {

@@ -1,6 +1,5 @@
 package org.v8LogScanner.logsCfg;
 
-import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp;
@@ -18,23 +17,72 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * <p>Create a reactive object representation of the logcfg.xml used by 1c enterprise platform</p>
+ *
+ * <p>Note that LogBuilder requires installed 1c enterpise in order to read and write existing logcxfg.xml files
+ *
+ * @author R.I.P.real
+ * @see <a href="https://github.com/ripreal/>repository with examples</a>
+ */
 public class LogBuilder {
-
+    /**
+     * It maintains structured <events> block of a cfg file
+     */
     private List<LogEvent> events = new ArrayList<>();
+
+    /**
+     * It maintains structured <log> block of a cfg file
+     */
     private List<LogLocation> locations = new ArrayList<>();
+
+    /**
+     * It maintains structured <property> block of a cfg file
+     */
     private List<LogProperty> properties = new ArrayList<>();
+
+    /**
+     * It maintains structured <dump> tag of a cfg file
+     */
     private LogDump dumps = new LogDump();
+
+    /**
+     * The file paths which logcfg.xml file save to
+     */
     private List<Path> cfgPaths = null;
+
+    /**
+     * It keeps <plansql> tag
+     */
     private boolean allowPLanSql = false;
 
+    /**
+     * Stores reactive xml-DOM representaion of a LOgBuilder object model
+     */
+    private String content = "";
+
+    /**
+     * If this constructor is used then logcfg.xml paths
+     * will be taken from default 1c enterpise catalogs
+     */
     public LogBuilder() {
         cfgPaths = LogsOperations.scanCfgPaths();
     }
 
+    /**
+     * Create new builder from desired logcfg.xml paths. Default 1c enterprise paths will be ignored
+     * @param cfgPaths
+     */
     public LogBuilder(List<Path> cfgPaths) {
         this.cfgPaths = cfgPaths;
     }
 
+    /**
+     * Construct a logcfg.xml file from the object model and save it to specified
+     * location (put in the conctructor or a setter)
+     *
+     * @return written file by the specified location
+     */
     public File writeToXmlFile() {
         File logFile = null;
         try {
@@ -54,16 +102,10 @@ public class LogBuilder {
         return logFile;
     }
 
-    public void writeToStream(OutputStream stream) {
-        try {
-            Transformer transformer = initTransformer();
-            StreamResult streamresult = new StreamResult(stream);
-            transformer.transform(buildXmlDoc(), streamresult);
-        } catch (TransformerException | ParserConfigurationException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Parse file located by cfg path specified as costrunctor parameter or in setter
+     * @return itself
+     */
     public LogBuilder readCfgFile(){
 
         clearAll();
@@ -85,9 +127,11 @@ public class LogBuilder {
                 parseLogCfg(doc.getFirstChild().getChildNodes());
             }
             catch (CfgParsingError | SAXException | ParserConfigurationException | IOException e) {
-                ExcpReporting.LogError(this, e);
+                e.printStackTrace();
             }
         }
+        writeToItself();
+
         return this;
     }
 
@@ -97,8 +141,9 @@ public class LogBuilder {
      */
     public LogBuilder buildAllEvents() {
         return this
-            .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "")
-            .addLogProperty("all");
+            .addLocLocation()
+            .addLogProperty()
+            .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "");
     }
 
     /**
@@ -109,12 +154,13 @@ public class LogBuilder {
      */
     public LogBuilder buildSQlEvents() {
         return this
+            .addLocLocation()
+            .addLogProperty()
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbmssql")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbpostgrs")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "db2")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dboracle")
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
-            .addLogProperty("all");
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp");
     }
 
     /**
@@ -124,8 +170,9 @@ public class LogBuilder {
      */
     public LogBuilder buildExcpEvents() {
         return this
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
-            .addLogProperty("all");
+            .addLocLocation()
+            .addLogProperty()
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp");
     }
 
     /**
@@ -146,8 +193,9 @@ public class LogBuilder {
         longEv.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.ge);
 
         return this
-            .addEvent(longEv)
-            .addLogProperty("all");
+            .addLocLocation()
+            .addLogProperty()
+            .addEvent(longEv);
     }
 
     /**
@@ -157,10 +205,11 @@ public class LogBuilder {
      */
     public LogBuilder build1cLocksEvents(){
         return this
+            .addLocLocation()
+            .addLogProperty()
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TLOCK.toString())
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TTIMEOUT.toString())
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString())
-            .addLogProperty("all");
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString());
     }
 
     /**
@@ -188,8 +237,9 @@ public class LogBuilder {
         event.setComparison(RegExp.PropTypes.Usr, LogEvent.LogEventComparisons.eq);
 
         return this
+            .addLocLocation()
+            .addLogProperty()
             .addEvent(event)
-            .addLogProperty("all")
             .setPlanSql(true);
     }
 
@@ -200,38 +250,63 @@ public class LogBuilder {
      */
     public LogBuilder buildEverydayEvents() {
         return this
+        .addLocLocation()
+        .addLogProperty()
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "conn")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "PROC")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "ADMIN")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
-        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
-        .addLogProperty("all");
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR");
     }
 
+    /**
+     * add user defined log location inside <log> tag. Path is not checked.
+     * @param location - folder that is used to create logs
+     * @param history - amount of hours in which file will be stored on a disk.
+     * @return itself
+     */
     public LogBuilder addLocLocation(String location, String history) {
         locations.add(new LogLocation(location, history));
-        return this;
+        return this.addLogProperty();
     }
 
+    /**
+     * Add default cfg location and also new <log> tag which is located </>on c:\\v8logs\. Path allowance is not checked.
+     * @return itself
+     */
     public LogBuilder addLocLocation() {
-        locations.add(new LogLocation());
+        if (locations.size() == 0)
+            locations.add(new LogLocation());
         return this;
     }
 
+    /**
+     * add new <event> tag to the <log> with attributes defined by user.
+     * @param comparison
+     * @param event
+     * @param val
+     * @return
+     */
     public LogBuilder addEvent(LogEvent.LogEventComparisons comparison, RegExp.PropTypes event, String  val) {
         events.add(new LogEvent(comparison, event, val));
-        return this;
+        return this.addLocLocation().addLogProperty();
     }
+
+    /**
+     *
+     * @param event
+     * @return
+     */
 
     public LogBuilder addEvent(LogEvent event) {
         events.add(event);
-        return this;
+        return this.addLocLocation().addLogProperty();
     }
 
     public LogBuilder addEvent() {
         events.add(new LogEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, ""));
-        return this;
+        return this.addLocLocation().addLogProperty();
     }
 
     public void removeLogEvent(LogEvent event) {
@@ -239,8 +314,10 @@ public class LogBuilder {
     }
 
     public LogBuilder addLogProperty(String name) {
-        properties.add(new LogProperty(name));
-        return this;
+        LogProperty prop = new LogProperty(name);
+        if (!properties.contains(prop))
+            properties.add(prop);
+        return this.addLocLocation();
     }
 
     public LogBuilder setCreateDumps(boolean create) {
@@ -254,8 +331,10 @@ public class LogBuilder {
     }
 
     public LogBuilder addLogProperty() {
-        properties.add(new LogProperty());
-        return this;
+        if (properties.size() == 0) {
+            properties.add(new LogProperty());
+        }
+        return this.addLocLocation();
     }
 
     public List<LogEvent> getLogEvents() {
@@ -292,7 +371,36 @@ public class LogBuilder {
         locations.clear();
         properties.clear();
         dumps = new LogDump();
-        addLocLocation(); // loc by default
+    }
+
+    /**
+     * Recieve a actual xml-DOM representation of a object model logcfg.xml
+     * @return xml-DOM of a logcfg.xml
+     */
+    public String getContent() {
+        return content;
+    }
+
+    // PRIVATE SECTION
+
+    private void writeToItself() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        writeToStream(baos);
+        content = baos.toString();
+    }
+
+    /**
+     * Construct a text of a logcfg.xml file from the object model and pass it to the stream
+     * @param stream - a stream for the output of the logcfg.xml content
+     */
+    private void writeToStream(OutputStream stream) {
+        try {
+            Transformer transformer = initTransformer();
+            StreamResult streamresult = new StreamResult(stream);
+            transformer.transform(buildXmlDoc(), streamresult);
+        } catch (TransformerException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     private Transformer initTransformer() throws TransformerConfigurationException {
