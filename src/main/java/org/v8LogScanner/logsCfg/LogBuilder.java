@@ -61,6 +61,8 @@ public class LogBuilder {
      */
     private String content = "";
 
+    private final String DUMMY = "dummy";
+
     /**
      * If this constructor is used then logcfg.xml paths
      * will be taken from default 1c enterpise catalogs
@@ -93,7 +95,7 @@ public class LogBuilder {
                 Transformer transformer = initTransformer();
                 StreamResult streamresult = new StreamResult(logFile);
                 transformer.transform(source, streamresult);
-                removeNodeElement(logFile, ".*dummy.*");
+                removeNodeElement(logFile, ".*" + DUMMY + ".*");
             };
         } catch (ParserConfigurationException | TransformerException | IOException  e) {
             e.printStackTrace();
@@ -113,8 +115,10 @@ public class LogBuilder {
         for (Path path : cfgPaths) {
             File logFile = new File(path.toUri());
 
-            if (!logFile.exists())
-                throw new RuntimeException("file does not exists!");
+            if (!logFile.exists()) {
+                //"file does not exists!"
+                continue;
+            }
 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             try {
@@ -386,7 +390,8 @@ public class LogBuilder {
     private void writeToItself() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeToStream(baos);
-        content = baos.toString();
+        String res = baos.toString();
+        content = removeNodeElement(res.split("[\\r]"), ".*" + DUMMY + "."); ;
     }
 
     /**
@@ -398,6 +403,7 @@ public class LogBuilder {
             Transformer transformer = initTransformer();
             StreamResult streamresult = new StreamResult(stream);
             transformer.transform(buildXmlDoc(), streamresult);
+
         } catch (TransformerException | ParserConfigurationException e) {
             e.printStackTrace();
         }
@@ -445,7 +451,7 @@ public class LogBuilder {
                 Element propEl = doc.createElement(LogConfig.PROP_NAME);
                 propEl.setAttribute(LogConfig.PROPERTY_PROP_NAME, prop.getName());
 
-                Element dummyEl = doc.createElement("dummy");
+                Element dummyEl = doc.createElement(DUMMY);
                 propEl.appendChild(dummyEl);
 
                 logEl.appendChild(propEl);
@@ -473,6 +479,16 @@ public class LogBuilder {
             .collect(Collectors.toList());
 
         fsys.writeInNewFile(processedStrings, logFile);
+    }
+
+    private String removeNodeElement(String[] text, String pattern) {
+
+        List<String> textResult = new ArrayList<>(text.length);
+        for (int i = 0; i < text.length; i++) {
+            if (!text[i].matches(pattern))
+                textResult.add(text[i]);
+        }
+        return String.join("", textResult);
     }
 
     private void parseLogCfg(NodeList nodeList) throws CfgParsingError {

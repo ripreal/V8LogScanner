@@ -26,6 +26,8 @@ public class LogLocation {
             return true;
         if (obj == null || (!(obj instanceof LogLocation)))
             return false;
-        return (location.compareTo(((LogLocation) obj).getLocation()) == 0);
+        String other = ((LogLocation) obj).getLocation();
+        other = other == null ? "" : other;
+        return location.compareTo(other) == 0;
     }
 }

@@ -2,11 +2,11 @@ package org.v8LogScanner.logsCfg;
 
 public class LogProperty {
 
-    public enum logProperties {all, sql, plansqltext}
+    private String name = "all";
 
-    private String name;
+    public LogProperty() {
 
-    public LogProperty() { }
+    }
 
     public LogProperty(String name) {
         this.name = name;
@@ -20,10 +20,12 @@ public class LogProperty {
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
-
             return true;
         if (obj == null || (!(obj instanceof LogProperty)))
             return false;
-        return (name.compareTo(((LogProperty) obj).getName()) == 0);
+
+        String other = ((LogProperty) obj).getName();
+        other = other == null ? "" : other;
+        return name.compareTo(other) == 0;
     }
 }
