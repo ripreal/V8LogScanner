@@ -61,9 +61,13 @@ public class MenuCmd {
     if (menuFromItem != null)
       return menuFromItem;
     else if (item.equals(back))
-      return parent;
+      return clickBack();
     else 
       return this;
+  }
+
+  public MenuCmd clickBack() {
+    return parent;
   }
   
   public int size(){
@@ -71,6 +75,6 @@ public class MenuCmd {
   }
   
   private void addBack(){
-    back = new MenuItemCmd("Exit", null, null);
+    back = new MenuItemCmd("Exit(q)", null, null);
   }
 }

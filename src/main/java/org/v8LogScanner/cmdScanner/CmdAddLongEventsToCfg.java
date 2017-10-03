@@ -1,9 +1,8 @@
 package org.v8LogScanner.cmdScanner;
 
-import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 
-public class CmdAddAllEventsToCfg implements CmdCommand {
+public class CmdAddLongEventsToCfg implements CmdCommand {
     @Override
     public String getTip() {
         return "";
@@ -11,6 +10,6 @@ public class CmdAddAllEventsToCfg implements CmdCommand {
 
     @Override
     public void execute() {
-        V8LogScannerAppl.instance().logBuilder.buildAllEvents();
+        V8LogScannerAppl.instance().logBuilder.buildLongEvents();
     }
 }

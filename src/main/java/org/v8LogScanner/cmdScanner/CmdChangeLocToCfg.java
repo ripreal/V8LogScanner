@@ -34,8 +34,6 @@ public class CmdChangeLocToCfg implements CmdCommand{
     if (history == null) {
       return;
     }
-
-    appl.logBuilder.clearLocations();
     appl.logBuilder.addLocLocation(path, history);
   }
 }

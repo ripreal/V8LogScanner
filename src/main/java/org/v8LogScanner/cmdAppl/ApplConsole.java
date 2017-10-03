@@ -40,10 +40,12 @@ public class ApplConsole {
       {
         if (isValid(userInput)){
           
-          if (userInput.compareTo("q") == 0)
-            break;
+          if (userInput.compareTo("q") == 0) {
+            currMenu = currMenu.clickBack();
+            if (currMenu == null)
+                break;
+          }
           else if (Strokes.isNumeric(userInput)){
-          
             int inputNum = 0;
             inputNum = Integer.parseInt(userInput);
             if (inputNum <= currMenu.size()){

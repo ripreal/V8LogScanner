@@ -39,9 +39,7 @@ public class CursorOp extends AbstractOp {
     calc.start();
     
     saveProcessingInfo("\n*START CURSOR LOG SCANNING...");
-    
-    //resetResult();
-      
+
     precompile(rgxList);
     
     List<String> reducedLogs = new ArrayList<>();
@@ -73,7 +71,6 @@ public class CursorOp extends AbstractOp {
     totalKeys = rgxResult.keySet().size();
     selector.setResult(rgxResult);
     calc.end();
-    
   }
   
   public void resetResult(){

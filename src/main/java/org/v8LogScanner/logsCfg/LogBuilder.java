@@ -1,5 +1,6 @@
 package org.v8LogScanner.logsCfg;
 
+import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * <p>Create a reactive object representation of the logcfg.xml used by 1c enterprise platform</p>
+ * <p>Create a reactive object representation of the logcfg.xml that can be aplied to 1c enterprise platform</p>
  *
  * <p>Note that LogBuilder requires installed 1c enterpise in order to read and write existing logcxfg.xml files
  *
@@ -63,6 +64,10 @@ public class LogBuilder {
 
     private final String DUMMY = "dummy";
 
+    private final LogLocation DEFAULT_LOG_LOC = new LogLocation();
+
+    // INTERFACE
+
     /**
      * If this constructor is used then logcfg.xml paths
      * will be taken from default 1c enterpise catalogs
@@ -88,19 +93,13 @@ public class LogBuilder {
     public File writeToXmlFile() {
         File logFile = null;
         try {
-            DOMSource source = buildXmlDoc();
-
             for (Path path : cfgPaths) {
                 logFile = new File(path.toUri());
-                Transformer transformer = initTransformer();
-                StreamResult streamresult = new StreamResult(logFile);
-                transformer.transform(source, streamresult);
-                removeNodeElement(logFile, ".*" + DUMMY + ".*");
+                fsys.writeInNewFile(content, path.toString());
             };
-        } catch (ParserConfigurationException | TransformerException | IOException  e) {
-            e.printStackTrace();
+        } catch (IOException  e) {
+            ExcpReporting.LogError(this, e);
         }
-
         return logFile;
     }
 
@@ -114,12 +113,10 @@ public class LogBuilder {
 
         for (Path path : cfgPaths) {
             File logFile = new File(path.toUri());
-
             if (!logFile.exists()) {
                 //"file does not exists!"
                 continue;
             }
-
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             try {
                 Document doc = docFactory.newDocumentBuilder().parse(logFile);
@@ -131,12 +128,10 @@ public class LogBuilder {
                 parseLogCfg(doc.getFirstChild().getChildNodes());
             }
             catch (CfgParsingError | SAXException | ParserConfigurationException | IOException e) {
-                e.printStackTrace();
+                ExcpReporting.LogError(this, e);
             }
         }
-        writeToItself();
-
-        return this;
+        return updateContent();
     }
 
     /**
@@ -147,7 +142,8 @@ public class LogBuilder {
         return this
             .addLocLocation()
             .addLogProperty()
-            .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "");
+            .addEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, "")
+            .updateContent();
     }
 
     /**
@@ -164,7 +160,8 @@ public class LogBuilder {
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbpostgrs")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "db2")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dboracle")
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp");
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
+            .updateContent();
     }
 
     /**
@@ -176,7 +173,8 @@ public class LogBuilder {
         return this
             .addLocLocation()
             .addLogProperty()
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp");
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
+            .updateContent();
     }
 
     /**
@@ -199,7 +197,8 @@ public class LogBuilder {
         return this
             .addLocLocation()
             .addLogProperty()
-            .addEvent(longEv);
+            .addEvent(longEv)
+            .updateContent();
     }
 
     /**
@@ -213,7 +212,8 @@ public class LogBuilder {
             .addLogProperty()
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TLOCK.toString())
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TTIMEOUT.toString())
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString());
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, RegExp.EventTypes.TDEADLOCK.toString())
+            .updateContent();
     }
 
     /**
@@ -244,7 +244,8 @@ public class LogBuilder {
             .addLocLocation()
             .addLogProperty()
             .addEvent(event)
-            .setPlanSql(true);
+            .setPlanSql(true)
+            .updateContent();
     }
 
     /**
@@ -261,7 +262,8 @@ public class LogBuilder {
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "PROC")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "ADMIN")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
-        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR");
+        .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
+        .updateContent();
     }
 
     /**
@@ -271,8 +273,9 @@ public class LogBuilder {
      * @return itself
      */
     public LogBuilder addLocLocation(String location, String history) {
+        locations.remove(DEFAULT_LOG_LOC);
         locations.add(new LogLocation(location, history));
-        return this.addLogProperty();
+        return this.addLogProperty().updateContent();
     }
 
     /**
@@ -281,8 +284,8 @@ public class LogBuilder {
      */
     public LogBuilder addLocLocation() {
         if (locations.size() == 0)
-            locations.add(new LogLocation());
-        return this;
+            locations.add(DEFAULT_LOG_LOC);
+        return updateContent();
     }
 
     /**
@@ -294,7 +297,10 @@ public class LogBuilder {
      */
     public LogBuilder addEvent(LogEvent.LogEventComparisons comparison, RegExp.PropTypes event, String  val) {
         events.add(new LogEvent(comparison, event, val));
-        return this.addLocLocation().addLogProperty();
+        return this
+            .addLocLocation()
+            .addLogProperty()
+            .updateContent();
     }
 
     /**
@@ -305,40 +311,51 @@ public class LogBuilder {
 
     public LogBuilder addEvent(LogEvent event) {
         events.add(event);
-        return this.addLocLocation().addLogProperty();
+        return this
+            .addLocLocation()
+            .addLogProperty()
+            .updateContent();
     }
 
     public LogBuilder addEvent() {
         events.add(new LogEvent(LogEvent.LogEventComparisons.ne, RegExp.PropTypes.Event, ""));
-        return this.addLocLocation().addLogProperty();
+        return this
+            .addLocLocation()
+            .addLogProperty()
+            .updateContent();
     }
 
     public void removeLogEvent(LogEvent event) {
         events.remove(event);
+        updateContent();
     }
 
     public LogBuilder addLogProperty(String name) {
         LogProperty prop = new LogProperty(name);
         if (!properties.contains(prop))
             properties.add(prop);
-        return this.addLocLocation();
+        return this
+            .addLocLocation()
+            .updateContent();
     }
 
     public LogBuilder setCreateDumps(boolean create) {
         dumps.setCreate(create);
-        return this;
+        return this.updateContent();
     }
 
     public LogBuilder setCreateDumps(String create) {
         setCreateDumps(Boolean.parseBoolean(create));
-        return this;
+        return this.updateContent();
     }
 
     public LogBuilder addLogProperty() {
         if (properties.size() == 0) {
             properties.add(new LogProperty());
         }
-        return this.addLocLocation();
+        return this
+            .addLocLocation()
+            .updateContent();
     }
 
     public List<LogEvent> getLogEvents() {
@@ -347,7 +364,8 @@ public class LogBuilder {
 
     public LogBuilder setPlanSql(boolean allow) {
         allowPLanSql = allow;
-       return this;
+       return this
+           .updateContent();
     }
 
     public List<Path> getCfgPaths() {
@@ -366,15 +384,12 @@ public class LogBuilder {
         return res;
     }
 
-    public void clearLocations() {
-        locations.clear();
-    }
-
     public void clearAll() {
         events.clear();
         locations.clear();
         properties.clear();
         dumps = new LogDump();
+        updateContent();
     }
 
     /**
@@ -385,27 +400,28 @@ public class LogBuilder {
         return content;
     }
 
-    // PRIVATE SECTION
+    // PRIVATE
 
-    private void writeToItself() {
+    private LogBuilder updateContent() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        writeToStream(baos);
+        buildAndWrite(baos);
         String res = baos.toString();
-        content = removeNodeElement(res.split("[\\r]"), ".*" + DUMMY + "."); ;
+        content = removeNodeElement(res.split("[\\r]"), "(?s).*" + DUMMY + ".*"); ;
+        return this;
     }
 
     /**
      * Construct a text of a logcfg.xml file from the object model and pass it to the stream
      * @param stream - a stream for the output of the logcfg.xml content
      */
-    private void writeToStream(OutputStream stream) {
+    private void buildAndWrite(OutputStream stream) {
         try {
             Transformer transformer = initTransformer();
             StreamResult streamresult = new StreamResult(stream);
             transformer.transform(buildXmlDoc(), streamresult);
 
         } catch (TransformerException | ParserConfigurationException e) {
-            e.printStackTrace();
+            ExcpReporting.LogError(this, e);
         }
     }
 
@@ -466,19 +482,6 @@ public class LogBuilder {
         }
 
         return new DOMSource(doc);
-    }
-
-    private void removeNodeElement(File logFile, String pattern) throws IOException {
-
-        List<String> strings = fsys.readAllFromFileToList(logFile.getAbsolutePath());
-
-        List<String> processedStrings =
-        strings
-            .stream()
-            .filter((el) -> !el.matches(pattern))
-            .collect(Collectors.toList());
-
-        fsys.writeInNewFile(processedStrings, logFile);
     }
 
     private String removeNodeElement(String[] text, String pattern) {
