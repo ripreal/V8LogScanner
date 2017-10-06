@@ -15,7 +15,8 @@ final public class Constants {
   
   // using to limit event portion for one iteration pass in RgxReader
   public final static int logEventsCount = 10000;
-  
+  1
+
   public final static List<String> V8_Dirs(){
     List<String> dirs = new ArrayList<>();
     if (osType.matches("(?i).*windows.*")){
@@ -32,4 +33,13 @@ final public class Constants {
   // for lan log scanning
   public final static int serverPort = 48151;
 
+  public final static List<String> sql_lock_texts() {
+    // MS SQl
+    List<String> result = new ArrayList<>();
+    result.add("Lock request timeout period exceeded");
+    result.add("Превышено время ожидания запроса на блокировку");
+    result.add("was deadlocked on lock resources with another process");
+    result.add("вызвала взаимоблокировку ресурсов");
+    return result;
+  }
 }

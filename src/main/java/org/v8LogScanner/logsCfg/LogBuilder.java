@@ -266,6 +266,15 @@ public class LogBuilder {
         .updateContent();
     }
 
+    public LogBuilder buildSqlLockEvents() {
+
+        return
+            addLocLocation()
+            .addLogProperty();
+           // .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Descr, )
+          //  .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Descr, )
+    }
+
     /**
      * add user defined log location inside <log> tag. Path is not checked.
      * @param location - folder that is used to create logs
