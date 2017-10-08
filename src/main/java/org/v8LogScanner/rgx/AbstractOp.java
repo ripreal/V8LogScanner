@@ -18,10 +18,10 @@ public abstract class AbstractOp extends ProcessListener implements IRgxOp {
   
   // Precompiled variables
   protected ConcurrentMap<RegExp, Pattern> eventPatterns = new ConcurrentHashMap<>();
-  protected ConcurrentMap<EventTypes, List<String>> groupPropsRgx = new ConcurrentHashMap<>();
-  protected ConcurrentMap<EventTypes, List<String>> cleanPropsRgx = new ConcurrentHashMap<>();
-  protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters = new ConcurrentHashMap<>();
-  protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes = new ConcurrentHashMap<>();
+  protected ConcurrentMap<RegExp, List<String>> groupPropsRgx = new ConcurrentHashMap<>();
+  protected ConcurrentMap<RegExp, List<String>> cleanPropsRgx = new ConcurrentHashMap<>();
+  protected ConcurrentMap<RegExp, ConcurrentMap<PropTypes, List<String>>> integerFilters = new ConcurrentHashMap<>();
+  protected ConcurrentMap<RegExp, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes = new ConcurrentHashMap<>();
   // Service variables
   protected LinkedBlockingQueue<String> processingInfo = new LinkedBlockingQueue<>();
   protected long inSize = 0;
@@ -73,21 +73,21 @@ public abstract class AbstractOp extends ProcessListener implements IRgxOp {
         List<String> compiledProps = new ArrayList<String>();
         propTypes.forEach(prop -> compiledProps.add(rgx.getThisPropText(prop)));
         if (compiledProps.size() > 0)
-          groupPropsRgx.put(rgx.getEventType(), compiledProps);
+          groupPropsRgx.put(rgx, compiledProps);
         
         List<String> compiledCleanProps = new ArrayList<String>();
         propTypes.forEach(prop -> compiledCleanProps.addAll(rgx.getPredecessorPropText(prop)));
         if (compiledCleanProps.size() > 0)
-          cleanPropsRgx.put(rgx.getEventType(), compiledCleanProps);
+          cleanPropsRgx.put(rgx, compiledCleanProps);
       }
       else
-        cleanPropsRgx.put(rgx.getEventType(), rgx.getUnicRgxPropText());
+        cleanPropsRgx.put(rgx, rgx.getUnicRgxPropText());
     }
       
     for (RegExp rgx : rgxList){
       Pattern pattern = rgx.compileSpan(PropTypes.ANY, PropTypes.ANY);
-      integerCompTypes.put(rgx.getEventType(), rgx.getIntegerCompTypes());
-      integerFilters.put(rgx.getEventType(), rgx.getIntegerFilters());
+      integerCompTypes.put(rgx, rgx.getIntegerCompTypes());
+      integerFilters.put(rgx, rgx.getIntegerFilters());
       eventPatterns.put(rgx, pattern);
     }
   }

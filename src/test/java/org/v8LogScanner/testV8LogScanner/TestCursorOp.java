@@ -161,7 +161,6 @@ public class TestCursorOp {
   @Test
   public void testBuildSqlLockError() {
     String logFileName = constructor
-      .addEXCP()
       .addSQlDEADLOCK()
       .addSQlTimeout()
       .build(LogFileTypes.FILE);

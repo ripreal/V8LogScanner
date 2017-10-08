@@ -78,9 +78,9 @@ public class RgxOpManager{
    * Method signature is suitable for RgxGrouper function
    */
   public static String getEventProperty(String input, ConcurrentMap<RegExp, Pattern> eventPatterns,
-      ConcurrentMap<EventTypes, List<String>> cleanProps, ConcurrentMap<EventTypes, List<String>> groupProps){
-    
-    EventTypes foundEvent = anyMatch(input, eventPatterns);
+      ConcurrentMap<RegExp, List<String>> cleanProps, ConcurrentMap<RegExp, List<String>> groupProps){
+
+    RegExp foundEvent = anyMatch(input, eventPatterns);
     if (foundEvent == null)
       return input;
     
@@ -110,8 +110,8 @@ public class RgxOpManager{
    * @param input
    * @return
    */
-  private static String cleanEventProperty(String input, 
-      EventTypes foundEvent, ConcurrentMap<EventTypes, List<String>> props){
+  private static String cleanEventProperty(String input,
+      RegExp foundEvent, ConcurrentMap<RegExp, List<String>> props){
     
     List<String> unicRgx = props.get(foundEvent);
     
@@ -134,11 +134,11 @@ public class RgxOpManager{
    */
   public static boolean anyMatch(String input, 
       ConcurrentMap<RegExp, Pattern> eventPatterns,
-      ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters, 
-      ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes){
+      ConcurrentMap<RegExp, ConcurrentMap<PropTypes, List<String>>> integerFilters,
+      ConcurrentMap<RegExp, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes){
     
     boolean isMatch = false;
-    EventTypes foundEvent = anyMatch(input, eventPatterns);
+    RegExp foundEvent = anyMatch(input, eventPatterns);
     
     if (foundEvent != null){
       isMatch = true;
@@ -163,9 +163,9 @@ public class RgxOpManager{
     return isMatch;
   }
   
-  public static EventTypes anyMatch(String input, ConcurrentMap<RegExp, Pattern> eventPatterns){
-    
-    EventTypes foundEvent = null;
+  public static RegExp anyMatch(String input, ConcurrentMap<RegExp, Pattern> eventPatterns){
+
+    RegExp foundEvent = null;
     
     Matcher matcher;
     Set<RegExp> keys = eventPatterns.keySet();
@@ -173,7 +173,7 @@ public class RgxOpManager{
       Pattern pattern = eventPatterns.get(event);
       matcher = pattern.matcher(input);
       if (matcher.find()){
-        foundEvent = event.getEventType();
+        foundEvent = event;
         break;
       }
     }
