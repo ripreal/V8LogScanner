@@ -19,32 +19,6 @@ public class CmdGetTopSlowestSql implements CmdCommand{
 
   @Override
   public void execute() {
-    
     V8LogScannerAppl appl = V8LogScannerAppl.instance();
-    
-    ScanProfile newprofile = new LanScanProfile(RgxOpTypes.HEAP_OP);
-    newprofile.setRgxList(appl.profile.getRgxList());
-    appl.profile = newprofile;
-    appl.clientsManager.localClient().setProfile(appl.profile);
-    
-    List<RegExp> rgxList = appl.profile.getRgxList();
-    
-    RegExp dbmsql = new RegExp(EventTypes.DBMSSQL);
-    dbmsql.getGroupingProps().add(PropTypes.Context);
-    dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    rgxList.add(dbmsql);
-    
-    RegExp sdbl = new RegExp(EventTypes.SDBL);
-    sdbl.getGroupingProps().add(PropTypes.Context);
-    sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    rgxList.add(sdbl);
-    
-    RegExp dbv8d8eng = new RegExp(EventTypes.DBV8DBEng);
-    dbv8d8eng.getGroupingProps().add(PropTypes.Context);
-    dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    rgxList.add(dbv8d8eng);
-    
-    appl.profile.setSortingProp(PropTypes.Duration);
-    
-  }
+    ScanProfile.buildTopSlowestSql(appl.profile); }
 }

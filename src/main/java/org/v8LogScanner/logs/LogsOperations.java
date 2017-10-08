@@ -3,6 +3,7 @@ package org.v8LogScanner.logs;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
@@ -180,7 +181,7 @@ public class LogsOperations extends ProcessListener  {
     
     Calendar currCalendar = Calendar.getInstance();
     
-    if(dateRanges != DateRanges.LAST_HOUR){
+    if (!(dateRanges == DateRanges.LAST_HOUR || dateRanges == DateRanges.THIS_HOUR)) {
       currCalendar.set(Calendar.HOUR_OF_DAY, 0);
     }
     currCalendar.set(Calendar.MINUTE, 0);
@@ -231,10 +232,6 @@ public class LogsOperations extends ProcessListener  {
   private static Date getEndDatePattern(DateRanges dateRanges, String userEndDate){
     
     Calendar currCalendar = Calendar.getInstance();
-    
-    if(dateRanges != DateRanges.LAST_HOUR){
-      currCalendar.set(Calendar.HOUR_OF_DAY, 0);
-    }
 
     if(dateRanges == DateRanges.ANY){
       return null;
@@ -258,12 +255,21 @@ public class LogsOperations extends ProcessListener  {
     else if (dateRanges == DateRanges.THIS_WEEK){
       currCalendar.set(Calendar.DAY_OF_WEEK, 7);
     }
-    else if (dateRanges == DateRanges.SET_OWN){
+    else if (dateRanges == DateRanges.SET_OWN) {
       if (userEndDate == null || userEndDate.isEmpty())
         return null;
       currCalendar.setTime(parseDate(userEndDate));
     }
-    currCalendar.set(Calendar.HOUR_OF_DAY, 23);
+
+    if (dateRanges == DateRanges.LAST_HOUR) {
+      currCalendar.add(Calendar.HOUR_OF_DAY, -1);
+    } else if (dateRanges == DateRanges.THIS_HOUR) {
+      // skipped
+    } else {
+      currCalendar.set(Calendar.HOUR_OF_DAY, 23);
+    }
+
+
     currCalendar.set(Calendar.MINUTE, 59);
     currCalendar.set(Calendar.SECOND, 59);
     currCalendar.set(Calendar.MILLISECOND, 0);
@@ -274,6 +280,8 @@ public class LogsOperations extends ProcessListener  {
     switch (dateRanges) {
     case LAST_HOUR:
       return String.format("%1$tH:%1$tM:%1$tS", date);
+      case THIS_HOUR:
+        return String.format("%1$tH:%1$tM:%1$tS", date);
     case ANY: 
       return "";
     default: 
@@ -325,14 +333,9 @@ public class LogsOperations extends ProcessListener  {
       userEndDate  = profile.getUserPeriod()[1];
     }
     
-    if(dateRange == DateRanges.ANY)
+    if (dateRange == DateRanges.ANY)
       return dateRange.toString();
-    else if (dateRange == DateRanges.LAST_HOUR){
-      String startDate = getStartDate(dateRange, userStartDate);
-      String endDate = getEndDate(dateRange, userEndDate);
-      return String.format("%1$thh - %2$thh", startDate, endDate);
-    }
-    else{
+    else {
       String startDate = getStartDate(dateRange, userStartDate);
       String endDate = getEndDate(dateRange, userEndDate);
       return String.format("%s - %s", startDate, endDate);

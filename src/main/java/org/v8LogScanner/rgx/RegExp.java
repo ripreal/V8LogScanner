@@ -18,7 +18,7 @@ import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.commonly.Filter.ComparisonTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
-public class RegExp implements Comparable<RegExp>, Serializable {
+public class RegExp implements Serializable {
   
   private static final long serialVersionUID = 5068481599783731039L;
   
@@ -239,7 +239,12 @@ public class RegExp implements Comparable<RegExp>, Serializable {
   public Filter<String> getFilter(PropTypes key){
     return getProp(key).getFilter();
   }
-  
+
+  /**
+   * Construct new array of a Filter elements and return it.
+   * Note that changing filter's array elements is not affected the actual filtering of a RgxNode
+   * @return map consisting of a copy RgxNode actual filters
+   */
   public Map<PropTypes, Filter<String>> getFilters() {
     Map<PropTypes, Filter<String>> result = new HashMap<>();
     for(RgxNode el : rgxNode.getElements()){
@@ -278,18 +283,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
       
       if (!curr.isUnique())
         continue;
-      
-      /*
-      String regex = "";
-      Filter<String> fl = curr.getFilter();
-      if (!fl.isActive()){
-        fl.add("");
-        regex = curr.interpret();
-        fl.reset();
-      }
-      else
-        regex = curr.interpret();
-        */
+
       propsText.add(getThisPropText(curr.getType()));
     }
     return propsText;
@@ -418,10 +412,9 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     
     return props;
   }
-  
+  /*
   public int compareTo(RegExp o) {
     return eventType.compareTo(o.getEventType());
-    
   }
   
   @Override
@@ -443,6 +436,7 @@ public class RegExp implements Comparable<RegExp>, Serializable {
     
     return eventType.equals(other.getEventType());
   }
+  */
 }
 
   class PropertyNotFoundException extends RuntimeException {
@@ -644,8 +638,6 @@ public class RegExp implements Comparable<RegExp>, Serializable {
   /**
    * Strict i.e. seek prop values in input event that completely equally a whole filter value
    * @param resVal - initial name of event property
-   * @param emptyVal - value returned if the filter size is 0
-   * @param defVal - value returned if the  filter contain only empty strings
    * @return String - name property with its inner text
    */
   protected String compStrFilter(String resVal){

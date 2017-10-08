@@ -1,5 +1,6 @@
 package org.v8LogScanner.testV8LogScanner;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,7 @@ import org.v8LogScanner.cmdAppl.MenuItemCmd;
 import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.Filter;
+import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +32,9 @@ public class TestCmdAppl {
   
   @Before
   public void setup() {
+
+    ExcpReporting.out = System.out;
+
     V8LogFileConstructor constructor = new V8LogFileConstructor();
     logFileName = constructor
       .addEXCP()
@@ -52,9 +57,7 @@ public class TestCmdAppl {
   }
   
   @Test
-  public void testRunAppl() throws IOException{
-    
-    ExcpReporting.out = System.out;
+  public void testRunAppl() throws IOException {
     
     //out
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -77,8 +80,6 @@ public class TestCmdAppl {
   
   @Test
   public void testRunCmdScannerApp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
-    
-    ExcpReporting.out = System.out;
 
     //out
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -89,8 +90,7 @@ public class TestCmdAppl {
     sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
     sb.append("\n3"); //3. Add own log location
     sb.append(String.format("\n%s", logFileName)); // Here we print log location
-    sb.append("\n7"); //7. Exit
-    sb.append("\n9"); //9. Start
+    sb.append("\nq"); //9. Start
     sb.append("\n");
     ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
     ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
@@ -103,6 +103,36 @@ public class TestCmdAppl {
     
     V8LogFileConstructor.deleteLogFile(logFileName);
   }
+  @Test
+  public void testCmdSetCurAlgorithm() {
 
+    //out
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(outStream);
+    //in
+    StringBuilder sb = new StringBuilder();
+    sb.append("1");   //1. Cursor log scanning(recommends)
+    sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
+    sb.append("\n3"); //3. Add own log location
+    sb.append(String.format("\n%s", logFileName)); // Here we print log location
+    sb.append("\n9"); //9. Start
+    sb.append("\nq"); //3. Exit
+    sb.append("\nq"); //10. Exit
+    sb.append("\n2"); // Heap log scanning
+    sb.append("\n");
+    ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+
+    ApplConsole appl = new ApplConsole(in, System.out);
+    V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+    scannerAppl.setApplConsole(appl);
+
+    scannerAppl.runAppl();
+
+    assertEquals(ScanProfile.RgxOpTypes.HEAP_OP, scannerAppl.profile.getRgxOp());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+
+  }
 }
 

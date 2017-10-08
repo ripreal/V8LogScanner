@@ -19,10 +19,15 @@ public class CmdAddGroupBy implements CmdCommand{
     else if (getSizeGroupingProps(appl.profile.getRgxList()) == 0)
       return "[default props]";
     else{
-      List<PropTypes> groups = appl.profile.getRgxList().stream().
-      flatMap(event -> event.getGroupingProps().stream()).
-      collect(Collectors.toList());
-      
+
+      List<String> groups = appl.profile.getRgxList()
+        .stream()
+        .flatMap(event -> {
+          List<String> descr = new ArrayList<>();
+          event.getGroupingProps().forEach((prop) -> descr.add( event + ":" + prop));
+          return descr.stream();
+        })
+        .collect(Collectors.toList());
       return groups.toString();
     }
   }

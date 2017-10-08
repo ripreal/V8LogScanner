@@ -21,5 +21,11 @@ public class TimeFilter extends Filter<String>{
       }
     return userInput;
   }
+
+  @Override
+  public String toString() {
+    String comp = getComparisonType().toString();
+    return comp + "_" + (getElements().contains("") ? "ANY" : String.join(",", getElements()));
+  }
 }
 

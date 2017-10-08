@@ -13,9 +13,11 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -90,17 +92,29 @@ public class LogBuilder {
      *
      * @return written file by the specified location
      */
-    public File writeToXmlFile() {
+    public File writeToXmlFile(Consumer<String[]> info){
         File logFile = null;
+        String[] infoText = new String[1];
         try {
             for (Path path : cfgPaths) {
                 logFile = new File(path.toUri());
-                fsys.writeInNewFile(content, path.toString());
+                String temp = fsys.createTempFile("");
+                fsys.writeInNewFile(content, temp); // write into temp cause access denied error in program files
+                Files.copy(Paths.get(temp), logFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                fsys.deleteFile(temp);
             };
+            infoText[0] = "File saved!";
+
         } catch (IOException  e) {
-            ExcpReporting.LogError(this, e);
+           // ExcpReporting.LogError(this, e);
+            infoText[0] = e.toString();
         }
+        info.accept(infoText);
         return logFile;
+    }
+
+    public File writeToXmlFile(){
+        return writeToXmlFile((info) -> {});
     }
 
     /**
@@ -264,6 +278,11 @@ public class LogBuilder {
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
         .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
         .updateContent();
+    }
+
+    public LogBuilder buildSqlLocksEvents() {
+        List<String> texts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
+        return this;
     }
 
     public LogBuilder buildSqlLockEvents() {

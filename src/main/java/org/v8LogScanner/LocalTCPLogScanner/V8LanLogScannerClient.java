@@ -36,7 +36,6 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   
   private ScanProfile profile;
   private IRgxOp rgxOp;
-  private String logcfg = "";
   
   /**
    * 
@@ -119,7 +118,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     
     if (isLocalHost()){
       rgxOp = null;
-      profile = new LanScanProfile(RgxOpTypes.CURSOR_OP);
+      profile.clear();
       return;
     }
     
@@ -211,8 +210,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
       invoke((ArrayList<String>) dataFromServer.getData("info"));
       dataFromServer = receive(connection);
     }
-    
-    
+
     if (connection != null)
     connection.close();
     

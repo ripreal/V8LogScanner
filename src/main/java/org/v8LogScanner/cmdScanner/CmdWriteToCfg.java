@@ -2,6 +2,8 @@ package org.v8LogScanner.cmdScanner;
 
 import org.v8LogScanner.cmdAppl.CmdCommand;
 
+import java.io.File;
+
 public class CmdWriteToCfg implements CmdCommand {
     @Override
     public String getTip() {
@@ -10,6 +12,8 @@ public class CmdWriteToCfg implements CmdCommand {
 
     @Override
     public void execute() {
-        V8LogScannerAppl.instance().logBuilder.writeToXmlFile();
+        V8LogScannerAppl.instance().logBuilder.writeToXmlFile((info) -> {
+            V8LogScannerAppl.instance().getConsole().showModalInfo(info[0]);
+        });
     }
 }

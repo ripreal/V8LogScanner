@@ -106,7 +106,7 @@ public class V8LogScannerAppl {
     
     // Item 1
     main.add(new MenuItemCmd("Cursor log scanning(recommends)", new CmdSetCurrAlgorithm(RgxOpTypes.CURSOR_OP), cursorLogScan));
-    MenuCmd menuLogLocCursror = createAddLocMenu(cursorLogScan, true);
+    MenuCmd menuLogLocCursror = createAddLocMenu(cursorLogScan, true, cursorLogScan);
     cursorLogScan.add(new MenuItemCmd(() -> "SELECT TOP["+ profile.getLimit()+"] FROM location[" + logSize() + "]", null, menuLogLocCursror));
     cursorLogScan.add(new MenuItemCmd("WHERE log type is", new CmdChangeLogType()));
     cursorLogScan.add(new MenuItemCmd("AND WHERE date range is", new CmdChangeLogRange()));
@@ -119,7 +119,7 @@ public class V8LogScannerAppl {
     
     // Item 2
     main.add(new MenuItemCmd("Heap log scanning", new CmdSetCurrAlgorithm(RgxOpTypes.HEAP_OP), heapLogScan));
-    MenuCmd menuLogLocHeap = createAddLocMenu(heapLogScan, false);
+    MenuCmd menuLogLocHeap = createAddLocMenu(heapLogScan, false, heapLogScan);
     heapLogScan.add(new MenuItemCmd(() -> "SELECT FROM location[" + logSize() +"]", null, menuLogLocHeap));
     heapLogScan.add(new MenuItemCmd("WHERE log type is", new CmdChangeLogType()));
     heapLogScan.add(new MenuItemCmd("AND WHERE date range is", new CmdChangeLogRange()));
@@ -131,7 +131,7 @@ public class V8LogScannerAppl {
     
     // Item 3.
     main.add(new MenuItemCmd("Own rgx log scanning", new CmdSetCurrAlgorithm(RgxOpTypes.USER_OP), m_userEvents));
-    MenuCmd menuLogLocUser = createAddLocMenu(m_userEvents, false);
+    MenuCmd menuLogLocUser = createAddLocMenu(m_userEvents, false, m_userEvents);
     m_userEvents.add(new MenuItemCmd(() -> "SELECT FROM location[" + logSize() +"]", null, menuLogLocUser));
     m_userEvents.add(new MenuItemCmd("WHERE log type is", new CmdChangeLogType()));
     m_userEvents.add(new MenuItemCmd("AND WHERE date range is", new CmdChangeLogRange()));
@@ -144,6 +144,7 @@ public class V8LogScannerAppl {
     m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
     m_autoModes.add(new MenuItemCmd("Find top slowest SQL and SDBL events grouped by 'Context'", new CmdGetTopSlowestSql(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top slowest sql texts", new CmdGetTopSlowestSqlText(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find all sql deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top most frequent TTIMEOUT events (not finished)'", new CmdGetTopTimeout(), cursorLogScan));
 
     // Item 5.
@@ -153,10 +154,12 @@ public class V8LogScannerAppl {
     m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddSqlEvent(), m_config));
     m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddExcpEvents(), m_config));
     m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAdd1CLockEvents(), m_config));
+    m_config.add(new MenuItemCmd("Add \"everyday events\" events", new CmdAddEveryDayEvents(), m_config));
     m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
     m_config.add(new MenuItemCmd("Add \"any long\" events gt 20 sec", new CmdAddLongEventsToCfg(), m_config));
     m_config.add(new MenuItemCmd("Remove event", new CmdRemoveEventFromCfg(), m_config));
     m_config.add(new MenuItemCmd("Write to logcfg.xml", new CmdWriteToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Copy to the clipboard", new CmdSaveCfgToClipboard(), m_config));
 
     MenuCmd menuManualCfg = new MenuCmd("Other", m_config);
     m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
@@ -183,7 +186,7 @@ public class V8LogScannerAppl {
     return cmdAppl;
   }
   
-  public MenuCmd createAddLocMenu(MenuCmd parent, boolean withTopMenu){
+  public MenuCmd createAddLocMenu(MenuCmd parent, boolean withTopMenu, MenuCmd returnMenu){
     MenuCmd menu = new MenuCmd(() -> {
       String text = "SELECT FROM location."
         + "\nList of chosen paths to scan: ";
@@ -198,13 +201,13 @@ public class V8LogScannerAppl {
       return text;
       }
     , parent);
-    menu.add(new MenuItemCmd("Add single log from cfg file", new CmdAddLogLocFromCfg(), menu));
-    menu.add(new MenuItemCmd("Add All logs from cfg file", new CmdAddLogLocFromCfgAll(), menu));
-    menu.add(new MenuItemCmd("Add own log location", new CmdAddLogLocOwn(), menu));
-    menu.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), menu));
+    menu.add(new MenuItemCmd("Add single log from cfg file", new CmdAddLogLocFromCfg(), returnMenu));
+    menu.add(new MenuItemCmd("Add All logs from cfg file", new CmdAddLogLocFromCfgAll(), returnMenu));
+    menu.add(new MenuItemCmd("Add own log location", new CmdAddLogLocOwn(), returnMenu));
+    menu.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), returnMenu));
     if (withTopMenu)
-      menu.add(new MenuItemCmd("Set log events limit", new CmdSetTOP(), menu));
-    menu.add(new MenuItemCmd("Reset log", new CmdResetLoc(), menu));
+      menu.add(new MenuItemCmd("Set log events limit", new CmdSetTOP(), returnMenu));
+    menu.add(new MenuItemCmd("Reset log", new CmdResetLoc(), returnMenu));
     
     return menu;
   }

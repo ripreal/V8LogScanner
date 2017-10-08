@@ -1,8 +1,11 @@
 package org.v8LogScanner.cmdScanner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.commonly.Filter.ComparisonTypes;
 import org.v8LogScanner.rgx.RegExp;
@@ -14,8 +17,21 @@ public class CmdAddLogFilter implements CmdCommand {
   @Override
   public String getTip() {
     V8LogScannerAppl appl = V8LogScannerAppl.instance();
+
+    List<String> result = appl.profile.getRgxList()
+      .stream()
+      .flatMap((event) -> {
+        List<String> descr = new ArrayList<>();
+         event.getFilters().forEach((prop, filter) -> {
+           if (prop != PropTypes.Event)
+              descr.add(event + ":" + prop + "_" + filter);
+         });
+         return descr.stream();
+      })
+      .collect(Collectors.toList());
+
     boolean filterActive = appl.profile.getRgxList().stream().anyMatch(n -> n.filterActive());
-    return filterActive ? "[on]" : "[ANY]";
+    return filterActive ? result.toString() : "[ANY]";
   }
 
   @Override

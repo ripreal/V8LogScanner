@@ -17,7 +17,7 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 public abstract class AbstractOp extends ProcessListener implements IRgxOp {
   
   // Precompiled variables
-  protected ConcurrentMap<EventTypes, Pattern> eventPatterns = new ConcurrentHashMap<>();
+  protected ConcurrentMap<RegExp, Pattern> eventPatterns = new ConcurrentHashMap<>();
   protected ConcurrentMap<EventTypes, List<String>> groupPropsRgx = new ConcurrentHashMap<>();
   protected ConcurrentMap<EventTypes, List<String>> cleanPropsRgx = new ConcurrentHashMap<>();
   protected ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters = new ConcurrentHashMap<>();
@@ -88,7 +88,7 @@ public abstract class AbstractOp extends ProcessListener implements IRgxOp {
       Pattern pattern = rgx.compileSpan(PropTypes.ANY, PropTypes.ANY);
       integerCompTypes.put(rgx.getEventType(), rgx.getIntegerCompTypes());
       integerFilters.put(rgx.getEventType(), rgx.getIntegerFilters());
-      eventPatterns.put(rgx.getEventType(), pattern);
+      eventPatterns.put(rgx, pattern);
     }
   }
 

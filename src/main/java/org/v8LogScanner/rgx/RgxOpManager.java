@@ -77,7 +77,7 @@ public class RgxOpManager{
    * obtains desired property from a single event block. 
    * Method signature is suitable for RgxGrouper function
    */
-  public static String getEventProperty(String input, ConcurrentMap<EventTypes, Pattern> eventPatterns,
+  public static String getEventProperty(String input, ConcurrentMap<RegExp, Pattern> eventPatterns,
       ConcurrentMap<EventTypes, List<String>> cleanProps, ConcurrentMap<EventTypes, List<String>> groupProps){
     
     EventTypes foundEvent = anyMatch(input, eventPatterns);
@@ -107,7 +107,7 @@ public class RgxOpManager{
    * Delete properties in the input event that are not allow to accomplish grouping. 
    * Method signature is suitable for RgxGrouper function
    * @param input
-   * @param rgxList
+   * @param input
    * @return
    */
   private static String cleanEventProperty(String input, 
@@ -130,11 +130,10 @@ public class RgxOpManager{
    * Matches input string against any of RexExp from List.
    * Can be used as function with Collector() interface
    * @param input
-   * @param rgxList
    * @return boolean
    */
   public static boolean anyMatch(String input, 
-      ConcurrentMap<EventTypes, Pattern> eventPatterns,
+      ConcurrentMap<RegExp, Pattern> eventPatterns,
       ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, List<String>>> integerFilters, 
       ConcurrentMap<EventTypes, ConcurrentMap<PropTypes, ComparisonTypes>> integerCompTypes){
     
@@ -164,17 +163,17 @@ public class RgxOpManager{
     return isMatch;
   }
   
-  public static EventTypes anyMatch(String input, ConcurrentMap<EventTypes, Pattern> eventPatterns){
+  public static EventTypes anyMatch(String input, ConcurrentMap<RegExp, Pattern> eventPatterns){
     
     EventTypes foundEvent = null;
     
     Matcher matcher;
-    Set<EventTypes> keys = eventPatterns.keySet();
-    for (EventTypes event : keys){
+    Set<RegExp> keys = eventPatterns.keySet();
+    for (RegExp event : keys){
       Pattern pattern = eventPatterns.get(event);
       matcher = pattern.matcher(input);
       if (matcher.find()){
-        foundEvent = event;
+        foundEvent = event.getEventType();
         break;
       }
     }

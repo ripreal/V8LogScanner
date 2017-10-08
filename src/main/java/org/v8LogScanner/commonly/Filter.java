@@ -32,4 +32,5 @@ public abstract class Filter<T1> implements Iterable<T1>, Serializable {
 
   public List<T1> getElements() {return elements;};
   public void setElements(List<T1> elements) {this.elements = elements;};
+
 }

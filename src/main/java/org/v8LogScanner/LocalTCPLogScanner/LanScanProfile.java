@@ -10,19 +10,20 @@ public class LanScanProfile implements ScanProfile{
 
   private static final long serialVersionUID = -2974587904820912760L;
   
-  private List<String> sourceLogPaths = new ArrayList<>();
-  private DateRanges dateRange        = DateRanges.ANY;
-  private int limit                   = 100; // restriction up on amount of events  from
-  private LogTypes logType            = LogTypes.ANY;
-  private PropTypes sortingProp       = PropTypes.ANY;
-  private GroupTypes groupType        = GroupTypes.BY_PROPS;
-  private List<RegExp> rgxList        = new ArrayList<RegExp>();
-  private String rgxExp               = "";
-  private RgxOpTypes rgxOp            = RgxOpTypes.CURSOR_OP;
-  private String userStartDate        = "";
-  private String userEndDate          = "";
+  private List<String> sourceLogPaths;
+  private DateRanges dateRange;
+  private int limit;
+  private LogTypes logType;
+  private PropTypes sortingProp;
+  private GroupTypes groupType;
+  private List<RegExp> rgxList;
+  private String rgxExp;
+  private RgxOpTypes rgxOp;
+  private String userStartDate;
+  private String userEndDate;
   
   public LanScanProfile(RgxOpTypes rgxOp) {
+    clear();
     this.rgxOp = rgxOp;
   }
   
@@ -81,9 +82,24 @@ public class LanScanProfile implements ScanProfile{
     
     return cloned;
   }
-  
+
+  @Override
+  public void clear() {
+    sourceLogPaths = new ArrayList<>();
+    dateRange      = DateRanges.ANY;
+    limit          = 100; // restriction up amount of events on
+    logType        = LogTypes.ANY;
+    sortingProp    = PropTypes.ANY;
+    groupType      = GroupTypes.BY_PROPS;
+    rgxList        = new ArrayList<>();
+    rgxExp         = "";
+    rgxOp          = RgxOpTypes.CURSOR_OP;
+    userStartDate  = "";
+    userEndDate    = "";
+  }
+
   public void addRegExp(RegExp rgx) {
-    if (!rgxList.stream().anyMatch(el -> el.compareTo(rgx) == 0))
+    //if (!rgxList.stream().anyMatch(el -> el.compareTo(rgx) == 0))
       rgxList.add(rgx);
   }
 

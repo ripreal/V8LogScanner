@@ -3,6 +3,9 @@ package org.v8LogScanner.rgx;
 import java.io.Serializable;
 import java.util.List;
 
+import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
+import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
+import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 public interface ScanProfile extends Serializable, Cloneable {
@@ -10,7 +13,7 @@ public interface ScanProfile extends Serializable, Cloneable {
   public enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
   public enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
   public enum LogTypes   {RPHOST, CLIENT, ANY}
-  public enum DateRanges {ANY, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
+  public enum DateRanges {ANY, THIS_HOUR, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
   
   public int getId();
   
@@ -65,4 +68,101 @@ public interface ScanProfile extends Serializable, Cloneable {
   public void setRgxExp(String rgx);
 
   public ScanProfile clone();
+
+  public void clear();
+
+  ////////////////////
+  // MANAGER FUNCTIONS
+  ////////////////////
+
+  public static void buildTopSlowestSql(ScanProfile profile) {
+
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+    profile.setLogType(LogTypes.RPHOST);
+
+    List<RegExp> rgxList = profile.getRgxList();
+    RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
+    dbmsql.getGroupingProps().add(PropTypes.Context);
+    dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    rgxList.add(dbmsql);
+
+    RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
+    sdbl.getGroupingProps().add(PropTypes.Context);
+    sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+    rgxList.add(sdbl);
+
+    RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
+    dbv8d8eng.getGroupingProps().add(PropTypes.Context);
+    dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+    rgxList.add(dbv8d8eng);
+
+    profile.setSortingProp(PropTypes.Duration);
+  }
+
+  public static void buildTopSlowestSqlText(ScanProfile profile) {
+
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+    profile.setLogType(LogTypes.RPHOST);
+
+    List<RegExp> rgxList = profile.getRgxList();
+
+    RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
+    dbmsql.getGroupingProps().add(PropTypes.Sql);
+    dbmsql.getFilter(PropTypes.Sql).add(""); // only seek events with present prop
+
+    rgxList.add(dbmsql);
+
+    RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
+    sdbl.getGroupingProps().add(PropTypes.Sdbl);
+    sdbl.getFilter(PropTypes.Sdbl).add(""); // only seek events with present prop
+    rgxList.add(sdbl);
+
+    RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
+    dbv8d8eng.getGroupingProps().add(PropTypes.Sql);
+    dbv8d8eng.getFilter(PropTypes.Sql).add(""); // only seek events with present prop
+    rgxList.add(dbv8d8eng);
+
+    profile.setSortingProp(PropTypes.Duration);
+  }
+
+  public static void buildRphostExcp(ScanProfile profile) {
+
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+
+    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+    excp.getGroupingProps().add(PropTypes.Descr);
+
+    profile.getRgxList().add(excp);
+    profile.setLogType(LogTypes.RPHOST);
+  }
+
+  public static void buildSqlLockError(ScanProfile profile) {
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+    profile.setLogType(LogTypes.RPHOST);
+    profile.setGroupType(GroupTypes.BY_PROPS);
+
+    List<RegExp> rgxList = profile.getRgxList();
+
+    List<String> sqlTexts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
+
+    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+    excp.getGroupingProps().add(PropTypes.Descr);
+    Filter<String> filter = excp.getFilter(PropTypes.Descr);
+    filter.add("deadlocked");
+    rgxList.add(excp);
+
+    RegExp excp2 = new RegExp(RegExp.EventTypes.EXCP);
+    excp2.getGroupingProps().add(PropTypes.Descr);
+    Filter<String> filter2 = excp2.getFilter(PropTypes.Descr);
+    filter2.add("exceeded");
+    rgxList.add(excp2);
+
+    //sqlTexts.forEach((sqlMsg) -> {
+    //
+    //});
+  }
 }

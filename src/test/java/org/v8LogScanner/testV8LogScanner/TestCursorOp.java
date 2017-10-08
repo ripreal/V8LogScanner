@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
+import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.commonly.Filter;
@@ -27,7 +28,7 @@ public class TestCursorOp {
   public void setup() {
     constructor = new V8LogFileConstructor();
   }
-  
+
   @Test 
   public void testStartRgxOp() throws Exception {
     
@@ -84,5 +85,99 @@ public class TestCursorOp {
     
     V8LogFileConstructor.deleteLogFile(logFileName);
     
+  }
+
+  @Test
+  public void testbuildTopSlowestSql() {
+
+    String logFileName = constructor
+      .addSDBL()
+      .addDBMSSQL()
+      .addEXCP()
+      .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildTopSlowestSql(profile);
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(2, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+  }
+
+  @Test
+  public void testbuildTopSlowestSqlText() {
+
+    String logFileName = constructor
+            .addSDBL()
+            .addDBMSSQL()
+            .addEXCP()
+            .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildTopSlowestSqlText(profile);
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(1, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+  }
+
+  @Test
+  public void testBuildRphostExcp() {
+
+    String logFileName = constructor
+      .addEXCP()
+      .addTDEADLOCK()
+      .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildRphostExcp(profile);
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(2, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+  }
+
+  @Test
+  public void testBuildSqlLockError() {
+    String logFileName = constructor
+      .addEXCP()
+      .addSQlDEADLOCK()
+      .addSQlTimeout()
+      .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildSqlLockError(profile);
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(2, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
   }
 }
