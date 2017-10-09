@@ -149,20 +149,16 @@ public interface ScanProfile extends Serializable, Cloneable {
 
     List<String> sqlTexts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
 
-    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
-    excp.getGroupingProps().add(PropTypes.Descr);
-    Filter<String> filter = excp.getFilter(PropTypes.Descr);
-    filter.add("deadlocked");
-    rgxList.add(excp);
+    sqlTexts.forEach((sqlMsg) -> {
+      RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+      excp.getGroupingProps().add(PropTypes.Descr);
+      excp.getFilter(PropTypes.Descr).add(sqlMsg);
+      rgxList.add(excp);
+    });
+  }
 
-    RegExp excp2 = new RegExp(RegExp.EventTypes.EXCP);
-    excp2.getGroupingProps().add(PropTypes.Descr);
-    Filter<String> filter2 = excp2.getFilter(PropTypes.Descr);
-    filter2.add("exceeded");
-    rgxList.add(excp2);
+  // for investigating locks escalation
+  public static void buildFindSQlEventBy(String sql_) {
 
-    //sqlTexts.forEach((sqlMsg) -> {
-    //
-    //});
   }
 }

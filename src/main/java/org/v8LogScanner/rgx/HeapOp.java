@@ -118,46 +118,26 @@ public class HeapOp extends AbstractOp{
     ConcurrentMap<String, List<String>> mapResults = null;
     
     if (groupType == GroupTypes.BY_PROPS){
-      mapResults = 
-      sourceCol.
-      parallelStream().
-      unordered().
-      filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes)).
-      collect(Collectors.groupingByConcurrent(input -> {
-        return RgxOpManager.getEventProperty(input, eventPatterns, cleanPropsRgx, groupPropsRgx);}
+      mapResults = sourceCol.stream().sequential()
+        //.parallelStream()
+        //.unordered()
+        .filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes))
+        .collect(Collectors.groupingByConcurrent(input -> {
+          return RgxOpManager.getEventProperty(input, eventPatterns, cleanPropsRgx, groupPropsRgx);}
       ));
     }
     else{
-      mapResults = 
-      sourceCol.
-      parallelStream().
-      unordered().
-      filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes)).
-      collect(Collectors.groupingByConcurrent(n -> filename));
+      mapResults = sourceCol
+        .parallelStream()
+        .unordered()
+        .filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes))
+        .collect(Collectors.groupingByConcurrent(n -> filename));
     }
       
     return mapResults;
   }
   
   private void reduceLogs(ConcurrentMap<String, List<String>> mapLogs, ConcurrentMap<String, List<String>> rgxResult){
-  /*
-    BiFunction<List<String>, List<String>, List<String>> remappingFunction =
-      (arr1 , arr2) -> {arr1.addAll(arr2); return arr1;};
-    
-    Set<Entry<String, List<String>>> entries = mapLogs.entrySet();
-    for(Entry<String, List<String>> entry : entries){
-      String key = entry.getKey();
-      List<String> value = entry.getValue();
-      List<String> oldValue = rgxResult.get(key);
-      List<String> newValue = (oldValue == null) ? value :
-        remappingFunction.apply(oldValue, value);
-       if (newValue == null)
-         rgxResult.remove(key);
-       else
-         rgxResult.put(key, newValue);
-    }
-     
-    */
     mapLogs.
     entrySet().parallelStream().
     forEach( row -> {

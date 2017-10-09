@@ -88,6 +88,30 @@ public class TestCursorOp {
   }
 
   @Test
+  public void testGroupBySeveralProps() {
+
+    String logFileName = constructor
+            .addTDEADLOCK()
+            .build(LogFileTypes.FILE);
+
+    V8LogScannerClient client = new V8LanLogScannerClient();
+
+    ScanProfile profile = client.getProfile();
+    profile.addLogPath(logFileName);
+
+    RegExp event = new RegExp(EventTypes.TDEADLOCK);
+    event.getFilter(PropTypes.Process).add("rphost");
+    event.getGroupingProps().add(PropTypes.ClientID);
+    event.getGroupingProps().add(PropTypes.ComputerName);
+    profile.addRegExp(event);
+
+    client.startRgxOp();
+    List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
+
+    assertEquals("t:clientID=56,t:computerName=yardnout",logs.get(0).getKey());
+  }
+
+  @Test
   public void testbuildTopSlowestSql() {
 
     String logFileName = constructor

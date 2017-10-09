@@ -36,7 +36,7 @@ public class V8LogFileConstructor {
   }
 
   public V8LogFileConstructor addSQlDEADLOCK() {
-    logData.add("EXCP,process=rphost,p:processName=test,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=22,SessionID=65,Usr=DefUser,AppID=1CV8C,Exception=580392e6-ba49-4280-ac67-fcd6f2180121,Descr='src\\VResourceInfoBaseImpl.cpp(1031):"
+    logData.add("51:51.119000-0,EXCP,6,process=rphost,p:processName=test,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=22,SessionID=65,Usr=DefUser,AppID=1CV8C,Exception=580392e6-ba49-4280-ac67-fcd6f2180121,Descr='src\\VResourceInfoBaseImpl.cpp(1031):"
     +"\n580392e6-ba49-4280-ac67-fcd6f2180121: Non-specified resource error"
     +"\nError executing the query POST to resource /e1cib/logForm:"
     +"\n8d366056-4d5a-4d88-a207-0ae535b7d28e: {Обработка.Взаимоблокировки.Форма.Форма.Форма(90)}: Error calling context method (ПолучитьОбъект)"

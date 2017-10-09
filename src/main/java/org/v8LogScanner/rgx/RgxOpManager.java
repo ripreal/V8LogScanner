@@ -1,6 +1,7 @@
 package org.v8LogScanner.rgx;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -92,15 +93,15 @@ public class RgxOpManager{
     if (propsRgx == null)
       return input;
     
-    String obtainedProps = "";
+    List<String> receivedProps = new ArrayList<>(5);
     
     for(String currRgx : propsRgx){
-      Pattern pattern = Pattern.compile(currRgx);
+      Pattern pattern = Pattern.compile(currRgx, Pattern.DOTALL);
       Matcher matcher = pattern.matcher(input);
       if (matcher.find())
-        obtainedProps += matcher.group().concat(",");
+        receivedProps.add(matcher.group());
     }
-    return obtainedProps;
+    return String.join(",", receivedProps);
   }
   
   /**
@@ -166,7 +167,7 @@ public class RgxOpManager{
   public static RegExp anyMatch(String input, ConcurrentMap<RegExp, Pattern> eventPatterns){
 
     RegExp foundEvent = null;
-    
+
     Matcher matcher;
     Set<RegExp> keys = eventPatterns.keySet();
     for (RegExp event : keys){
