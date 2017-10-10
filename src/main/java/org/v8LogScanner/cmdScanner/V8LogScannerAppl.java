@@ -144,8 +144,8 @@ public class V8LogScannerAppl {
     m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
     m_autoModes.add(new MenuItemCmd("Find top slowest SQL and SDBL events grouped by 'Context'", new CmdGetTopSlowestSql(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top slowest sql texts", new CmdGetTopSlowestSqlText(), cursorLogScan));
-    m_autoModes.add(new MenuItemCmd("Find all sql deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
-    m_autoModes.add(new MenuItemCmd("Find top most frequent TTIMEOUT events (not finished)'", new CmdGetTopTimeout(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find top most frequent SQL deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find top most frequent 1C deadlocks and timeouts'", new CmdGetTopTimeout(), cursorLogScan));
 
     // Item 5.
     main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
@@ -157,6 +157,8 @@ public class V8LogScannerAppl {
     m_config.add(new MenuItemCmd("Add \"everyday events\" events", new CmdAddEveryDayEvents(), m_config));
     m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
     m_config.add(new MenuItemCmd("Add \"any long\" events gt 20 sec", new CmdAddLongEventsToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add \"sql deadlocks\" events", new CmdAddSqlDeadLocksEventsToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add \"1c table by object id\" events", new CmdAddTableByObjectIdToCfg(), m_config));
     m_config.add(new MenuItemCmd("Remove event", new CmdRemoveEventFromCfg(), m_config));
     m_config.add(new MenuItemCmd("Write to logcfg.xml", new CmdWriteToCfg(), m_config));
     m_config.add(new MenuItemCmd("Copy to the clipboard", new CmdSaveCfgToClipboard(), m_config));

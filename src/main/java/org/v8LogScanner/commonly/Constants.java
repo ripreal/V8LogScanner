@@ -33,14 +33,4 @@ final public class Constants {
   // for lan log scanning
   public final static int serverPort = 48151;
 
-  public final static List<String> sql_lock_texts() {
-    // MS SQl
-    List<String> result = new ArrayList<>();
-
-    result.add("Lock request time out period exceeded.");
-    result.add("Превышено время ожидания запроса на блокировку");
-    result.add("was deadlocked on lock resources with another process");
-    result.add("вызвала взаимоблокировку ресурсов");
-    return result;
-  }
 }

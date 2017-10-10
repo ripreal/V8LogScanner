@@ -12,6 +12,6 @@ public class CmdGetSQlLockError implements CmdCommand {
     @Override
     public void execute() {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
-        ScanProfile.buildSqlLockError(appl.profile);
+        ScanProfile.buildSqlDeadlLockError(appl.profile);
     }
 }

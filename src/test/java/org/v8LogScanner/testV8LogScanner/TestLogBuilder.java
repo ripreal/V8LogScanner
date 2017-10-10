@@ -126,4 +126,23 @@ public class TestLogBuilder {
             .writeToXmlFile();
         assertTrue(file.exists());
     }
+
+    @Test
+    public void testBuildSqlLocksEvents() throws Exception {
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .buildSqlDeadLocksEvents()
+            .writeToXmlFile();
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testBuildFindTableByObjectID() throws Exception {
+        File file = builder
+            .addLocLocation(testFileName, "1")
+            .buildFindTableByObjectID("test")
+            .writeToXmlFile();
+        assertTrue(file.exists());
+    }
+
 }

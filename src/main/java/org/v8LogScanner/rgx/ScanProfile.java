@@ -139,15 +139,15 @@ public interface ScanProfile extends Serializable, Cloneable {
     profile.setLogType(LogTypes.RPHOST);
   }
 
-  public static void buildSqlLockError(ScanProfile profile) {
+  public static void buildSqlDeadlLockError(ScanProfile profile) {
     profile.clear();
-    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
     profile.setLogType(LogTypes.RPHOST);
     profile.setGroupType(GroupTypes.BY_PROPS);
 
     List<RegExp> rgxList = profile.getRgxList();
 
-    List<String> sqlTexts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
+    List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
 
     sqlTexts.forEach((sqlMsg) -> {
       RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
@@ -156,6 +156,27 @@ public interface ScanProfile extends Serializable, Cloneable {
       rgxList.add(excp);
     });
   }
+
+  public static void build1cDeadlocksError(ScanProfile profile) {
+
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+    profile.setLogType(LogTypes.RPHOST);
+
+    List<RegExp> rgxList = profile.getRgxList();
+
+    RegExp v8Timeout = new RegExp(RegExp.EventTypes.TTIMEOUT);
+    v8Timeout.getGroupingProps().add(PropTypes.Context);
+    v8Timeout.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    rgxList.add(v8Timeout);
+
+    RegExp v8DeadLock = new RegExp(RegExp.EventTypes.TDEADLOCK);
+    v8DeadLock.getGroupingProps().add(PropTypes.Context);
+    v8DeadLock.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    rgxList.add(v8DeadLock);
+
+  }
+
 
   // for investigating locks escalation
   public static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {

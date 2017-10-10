@@ -3,6 +3,7 @@ package org.v8LogScanner.cmdScanner;
 import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.rgx.RegExp;
+import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.StrokeFilter;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
@@ -17,20 +18,7 @@ public class CmdGetTopTimeout implements CmdCommand {
 
   @Override
   public void execute() {
-    
     V8LogScannerAppl appl = V8LogScannerAppl.instance();
-    
-    appl.profile = new LanScanProfile(RgxOpTypes.CURSOR_OP);
-    appl.clientsManager.localClient().setProfile(appl.profile);
-    
-    // Managed 1C lock
-    RegExp ttimeout = new RegExp(EventTypes.TTIMEOUT);
-    appl.profile.getRgxList().add(ttimeout);
-    
-    // DATABASE DBV8DBEng log
-    //RegExp fileTimeout = new RegExp(EventTypes.EXCP);
-    //Filter<String> fl = fileTimeout.getFilter(PropTypes.Descr);
-    //appl.profile.getRgxList().add(fileTimeout);
-    
+    ScanProfile.build1cDeadlocksError(appl.profile);
   }
 }

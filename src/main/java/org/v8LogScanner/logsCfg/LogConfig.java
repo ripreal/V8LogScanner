@@ -23,5 +23,24 @@ public class LogConfig {
     public static final String VAL_NAME = "value";
     public static final String PROPERTY_TAG_NAME = "property";
     public static final String PROPERTY_PROP_NAME = "name";
+    public static final String DBMSQL = "dbmssql";
+    public static final String DBPOSTGRS = "dbpostgrs";
+    public static final String DB2 = "db2";
+    public static final String DBORACLE = "dboracle";
 
+    public static final String MSQL_TIMEOUT_EN = "Lock request time out period exceeded.";
+    public static final String MSQL_TIMEOUT_RU = "Превышено время ожидания запроса на блокировку";
+    public static final String MSQL_DEADLOCK_EN = "was deadlocked on lock resources with another process";
+    public static final String MSQL_DEADLOCK_RU = "вызвала взаимоблокировку ресурсов";
+
+    public final static List<String> sql_lock_texts() {
+        // MS SQl
+        List<String> result = new ArrayList<>();
+
+        result.add(MSQL_TIMEOUT_EN);
+        result.add(MSQL_TIMEOUT_RU);
+        result.add(MSQL_DEADLOCK_EN);
+        result.add(MSQL_DEADLOCK_RU);
+        return result;
+    }
 }

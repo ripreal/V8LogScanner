@@ -1,6 +1,7 @@
 package org.v8LogScanner.logsCfg;
 
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp;
@@ -170,10 +171,10 @@ public class LogBuilder {
         return this
             .addLocLocation()
             .addLogProperty()
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbmssql")
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dbpostgrs")
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "db2")
-            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "dboracle")
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBMSQL)
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBPOSTGRS)
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DB2)
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBORACLE)
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
             .updateContent();
     }
@@ -280,25 +281,55 @@ public class LogBuilder {
         .updateContent();
     }
 
-    public LogBuilder buildSqlLocksEvents() {
-        List<String> texts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
+    /**
+     * Construct the *.log file for analyzing sql deadlocks and timeouts locks occuring on sqml, oracle, db2, postgres db.
+     * Note you need to add the location tag in on order to get *.log file working.
+     * @return prepared but not written text file with settings
+     */
+    public LogBuilder buildSqlDeadLocksEvents() {
+        List<String> texts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
 
         texts.forEach((sql_text) -> {
             LogEvent event = new LogEvent();
+            event.setProp(RegExp.PropTypes.Event);
             event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
-           // event.se
+            event.setVal(RegExp.PropTypes.Event, "excp");
 
+            event.setProp(RegExp.PropTypes.Descr);
+            event.setComparison(RegExp.PropTypes.Descr, LogEvent.LogEventComparisons.like);
+            event.setVal(RegExp.PropTypes.Descr, "%" + sql_text + "%");
+            addEvent(event);
         });
         return this;
     }
 
-    public LogBuilder buildSqlLockEvents() {
+    /**
+     * Construct the *.log file to filter any db msql events containg table name (objectId) specified by user
+     * Note you need to add the location tag in on order to get *.log file working.
+     * @param objectId - id of the table name in msql database
+     * @return prepared but not written text file with settings
+     */
+    public LogBuilder buildFindTableByObjectID(String objectId) {
 
-        return
-            addLocLocation()
-            .addLogProperty();
-           // .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Descr, )
-          //  .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Descr, )
+        String[] dbNames = {LogConfig.DBMSQL, LogConfig.DBORACLE, LogConfig.DBPOSTGRS, LogConfig.DB2};
+
+        for (String dbName : dbNames) {
+            LogEvent event = new LogEvent();
+            event.setProp(RegExp.PropTypes.Event);
+            event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
+            event.setVal(RegExp.PropTypes.Event, dbName);
+
+            event.setProp(RegExp.PropTypes.Event);
+            event.setComparison(RegExp.PropTypes.Sql, LogEvent.LogEventComparisons.like);
+            event.setVal(RegExp.PropTypes.Event, "%" + objectId + "%");
+
+            addEvent(event);
+        }
+
+        return this
+            .addLocLocation()
+            .addLogProperty()
+            .updateContent();
     }
 
     /**
