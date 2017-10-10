@@ -158,7 +158,16 @@ public interface ScanProfile extends Serializable, Cloneable {
   }
 
   // for investigating locks escalation
-  public static void buildFindSQlEventBy(String sql_) {
+  public static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+    profile.setLogType(LogTypes.RPHOST);
+    profile.setGroupType(GroupTypes.BY_PROPS);
 
+    List<RegExp> rgxList = profile.getRgxList();
+    RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+    rgx.getGroupingProps().add(PropTypes.Sql);
+    rgx.getFilter(PropTypes.Sql).add(query_fragment);
+    rgxList.add(rgx);
   }
 }

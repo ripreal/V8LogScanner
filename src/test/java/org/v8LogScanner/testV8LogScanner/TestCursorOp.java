@@ -203,4 +203,26 @@ public class TestCursorOp {
 
     V8LogFileConstructor.deleteLogFile(logFileName);
   }
+
+  @Test
+  public void testBuildFindSQlEventByQueryFragment() {
+    String logFileName = constructor
+      .addEXCP()
+      .addDBMSSQL()
+      .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildFindSQlEventByQueryFragment(profile, "FROM Config");
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(1, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+  }
 }

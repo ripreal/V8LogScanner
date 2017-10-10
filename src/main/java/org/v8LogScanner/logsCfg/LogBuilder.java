@@ -282,6 +282,13 @@ public class LogBuilder {
 
     public LogBuilder buildSqlLocksEvents() {
         List<String> texts = org.v8LogScanner.commonly.Constants.sql_lock_texts();
+
+        texts.forEach((sql_text) -> {
+            LogEvent event = new LogEvent();
+            event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
+           // event.se
+
+        });
         return this;
     }
 
