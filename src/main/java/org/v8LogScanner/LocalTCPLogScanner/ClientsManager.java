@@ -83,10 +83,12 @@ public class ClientsManager implements Iterable<V8LogScannerClient>{
   public void startRgxOp() {
     ScanProfile localProfile = localClient.getProfile();
     forEach(client -> {
-      // Each client profile has unique log paths so we take them
-      ScanProfile cloned = localProfile.clone();
-      cloned.setLogPaths(client.getProfile().getLogPaths());
-      client.setProfile(cloned);
+      // Each client profile has unique log paths so we take it
+      if (client != localClient) {
+        ScanProfile cloned = localProfile.clone();
+        cloned.setLogPaths(client.getProfile().getLogPaths());
+        client.setProfile(cloned);
+      }
     });
     forEach(client -> client.startRgxOp());
   }

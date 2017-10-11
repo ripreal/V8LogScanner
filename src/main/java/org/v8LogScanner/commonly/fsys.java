@@ -1,5 +1,7 @@
 package org.v8LogScanner.commonly;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -120,19 +122,30 @@ public class fsys {
     return false;
   }
 
-  public static String createTempFile(String text) {
+  public static String createTempFile(String text, String suffix) {
     String fileName = "";
     try {
-      Path path = Files.createTempFile("v8LogScanner", "");
+      Path path = Files.createTempFile("v8LogScanner", suffix);
       BufferedWriter writer = Files.newBufferedWriter(path);
       writer.write(text);
       writer.close();
       fileName = path.toString();
     } catch (IOException e) {
-      e.printStackTrace();
+      ExcpReporting.LogError(fsys.class, e);
     }
     return fileName;
   }
+  public static String createTempFile(String text) {
+    return createTempFile(text, "");
+  }
 
+  public static void copyToClipboard(String text) {
+    Toolkit.getDefaultToolkit()
+      .getSystemClipboard()
+      .setContents(
+              new StringSelection(text),
+              null
+      );
+  }
 }
 

@@ -66,6 +66,15 @@ public class V8LogFileConstructor {
     return this;
   }
 
+  public V8LogFileConstructor addDBMSSQlWithPlan() {
+    logData.add(
+      "32:32.965000-30993,DBMSSQL,2,process=rphost,p:processName=test,t:clientID=24,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=10,Trans=0,dbpid=55,Sql=select Offset from _YearOffset,Rows=1,RowsAffected=-1,planSQLText='"
+      + "\n1, 1, 1, 0.0032, 7.96E-005, 11, 0.00328, 1,   |--Table Scan(OBJECT:([test].[dbo].[_YearOffset]))"
+      +"\n'"
+    );
+    return this;
+  }
+
   public String build(LogFileTypes type) {
     String preparedText = String.join("\n", logData);;
     switch (type) {

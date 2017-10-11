@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogConfig {
-
+    public static final String LOG_CFG_NAME = "logcfg.xml";
     public static final String DUMP_TAG_NAME = "dump";
     public static final String CREATE_NAME = "create";
     public static final String CONFIG_TAG_NAME = "config";

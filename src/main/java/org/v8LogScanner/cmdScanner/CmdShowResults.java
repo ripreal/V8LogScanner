@@ -30,7 +30,7 @@ public class CmdShowResults implements CmdCommand {
     
     List<V8LogScannerClient> clients = appl.clientsManager.getClients();
     
-  // Choose server which events receive 
+    // Choose server which events receive
     String userInput = appl.getConsole().askInputFromList("input numeric index to choose server which events receive:", 
       clients);
       

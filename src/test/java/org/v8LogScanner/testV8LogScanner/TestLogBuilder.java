@@ -113,7 +113,7 @@ public class TestLogBuilder {
     public void testInvestigateNonEffectiveQueries() throws Exception {
         File file = builder
             .addLocLocation(testFileName, "1")
-            .buildInvestigateNonEffectiveQueries("DefUser","test")
+            .buildInvestigateSQlQueries("DefUser","test")
             .writeToXmlFile();
         assertTrue(file.exists());
     }

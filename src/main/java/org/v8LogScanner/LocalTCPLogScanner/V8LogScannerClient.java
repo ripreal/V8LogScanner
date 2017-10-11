@@ -3,6 +3,8 @@ package org.v8LogScanner.LocalTCPLogScanner;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
+
 import org.v8LogScanner.rgx.SelectorEntry;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
@@ -11,7 +13,7 @@ import org.v8LogScanner.rgx.ScanProfile;
 public interface V8LogScannerClient {
   
   public String getHostIP();
-  
+
   public String getFinalInfo();
 
   public String getHostName();

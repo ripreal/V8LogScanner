@@ -13,22 +13,16 @@ public class CmdAddNonEffectiveQueriesEvent implements CmdCommand{
 
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
 
-        String[] msg = {"input a 1c user name which actions you're looking for:"};
+        String[] msg = {"input a 1c user name which actions you're looking for (CAN BE OMITTED):"};
         String userName = appl.getConsole().askInput(msg,
             (text) ->  text.matches("\\S+"),
         true);
 
-        if (userName == null)
-            return;
-
-        String[] msg2 = {"input a 1c database name as it's indicated within connection string:"};
+        String[] msg2 = {"input a 1c database name  as it's indicated within connection string (CAN BE OMITTED):"};
         String baseName = appl.getConsole().askInput(msg2,
                 (text) ->  text.matches("\\S+"),
                 true);
 
-        if (userName == null)
-            return;
-
-        appl.logBuilder.buildInvestigateNonEffectiveQueries(userName, baseName);
+        appl.logBuilder.buildInvestigateSQlQueries(userName, baseName);
     }
 }

@@ -155,12 +155,14 @@ public class V8LogScannerAppl {
     m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddExcpEvents(), m_config));
     m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAdd1CLockEvents(), m_config));
     m_config.add(new MenuItemCmd("Add \"everyday events\" events", new CmdAddEveryDayEvents(), m_config));
-    m_config.add(new MenuItemCmd("Add \"non-effective queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
+    m_config.add(new MenuItemCmd("Add \"all sql queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
+    m_config.add(new MenuItemCmd("Add \"slow sql queries with TABLE SCAN\" events", new CmdAddSlowQueriesWithTableScan(), m_config));
     m_config.add(new MenuItemCmd("Add \"any long\" events gt 20 sec", new CmdAddLongEventsToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Add \"1c deadlocks\" events", new CmdAdd1cDeadLocksEventsToCfg(), m_config));
     m_config.add(new MenuItemCmd("Add \"sql deadlocks\" events", new CmdAddSqlDeadLocksEventsToCfg(), m_config));
     m_config.add(new MenuItemCmd("Add \"1c table by object id\" events", new CmdAddTableByObjectIdToCfg(), m_config));
     m_config.add(new MenuItemCmd("Remove event", new CmdRemoveEventFromCfg(), m_config));
-    m_config.add(new MenuItemCmd("Write to logcfg.xml", new CmdWriteToCfg(), m_config));
+    m_config.add(new MenuItemCmd("Write to logcfg.xml(NEED ADMINISTRATIVE PRIVILEGES)", new CmdWriteToCfg(), m_config));
     m_config.add(new MenuItemCmd("Copy to the clipboard", new CmdSaveCfgToClipboard(), m_config));
 
     MenuCmd menuManualCfg = new MenuCmd("Other", m_config);
@@ -219,9 +221,6 @@ public class V8LogScannerAppl {
     for(V8LogScannerClient client : clientsManager) {
       sum += client.getProfile().getLogPaths().size();
     }
-    int sum2 = clientsManager.getClients().get(0).getProfile().getLogPaths().size();
-    int sum1 = V8LogScannerAppl.instance().clientsManager.getClients().get(0).getProfile().getLogPaths().size();
-    //int sum =  .stream().mapToInt(n -> n.getProfile().getLogPaths().size()).sum();
     return sum;
   }
   
@@ -244,7 +243,7 @@ public class V8LogScannerAppl {
 
     StringBuilder sb = new StringBuilder();
     sb.append(paths.size() == 0 ?
-      "\n\n1C Enterpise is not installed on a machine (no folders with path \\1cv8\\conf was found)!":
+      "\n\n1C Enterpise is not installed on a machine(s) (no folders with path \\1cv8\\conf was found)!\n\n":
       "\n\nFound valid logcfg.xml on:" + String.join("\n", paths) + "\n\n/***CONTENT***/:\n\n"
     );
 
@@ -273,6 +272,7 @@ public class V8LogScannerAppl {
     MenuCmd showResults = new MenuCmd(() -> String.format("Results:\n%s", getFinalInfo()), null);
     showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(SelectDirections.FORWARD), showResults));
     showResults.add(new MenuItemCmd("Show previous top 100 keys", new CmdShowResults(SelectDirections.BACKWARD), showResults));
+    showResults.add(new MenuItemCmd("Save next top 100 keys to the file", new CmdCopyResultToFile(), showResults));
     
     cmdAppl.runAppl(showResults);
     resetResult();

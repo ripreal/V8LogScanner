@@ -40,7 +40,7 @@ public class TestCmdAppl {
       .addEXCP()
       .build(LogFileTypes.FILE);
   }
-  
+  /*
   @Test
   public void testExcpReporting() throws LogScannerClientNotFoundServer {
     
@@ -103,6 +103,7 @@ public class TestCmdAppl {
     
     V8LogFileConstructor.deleteLogFile(logFileName);
   }
+
   @Test
   public void testCmdSetCurAlgorithm() {
 
@@ -123,7 +124,7 @@ public class TestCmdAppl {
     ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
     ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-    ApplConsole appl = new ApplConsole(in, System.out);
+    ApplConsole appl = new ApplConsole(in, out);
     V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
     scannerAppl.setApplConsole(appl);
 
@@ -133,6 +134,40 @@ public class TestCmdAppl {
 
     V8LogFileConstructor.deleteLogFile(logFileName);
 
+  }
+*/
+  @Test
+  public void testCmdChangeLogType() {
+    //out
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(outStream);
+    //in
+    StringBuilder sb = new StringBuilder();
+    sb.append("1");   //1. Cursor log scanning(recommends)
+    sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
+    sb.append("\n3"); //3. Add own log location
+    sb.append(String.format("\n%s", logFileName)); // Here we print log location
+    sb.append("\n2"); //2. WHERE log type in
+    sb.append("\n0"); //0. RPHOST
+    sb.append("\n9"); //9. Start
+    sb.append("\nq"); //3. Exit
+    sb.append("\n2"); //2. WHERE log type in
+    sb.append("\n1"); //1. CLIENT
+    sb.append("\n9"); //9. Start
+    sb.append("\nq"); //3. Exit
+    sb.append("\n");
+    ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+
+    ApplConsole appl = new ApplConsole(in, System.out);
+    V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+    scannerAppl.setApplConsole(appl);
+
+    scannerAppl.runAppl();
+
+    assertEquals(ScanProfile.LogTypes.CLIENT, scannerAppl.profile.getLogType());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
   }
 }
 

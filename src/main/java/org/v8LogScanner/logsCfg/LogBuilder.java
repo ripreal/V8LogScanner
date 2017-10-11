@@ -1,5 +1,6 @@
 package org.v8LogScanner.logsCfg;
 
+import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.commonly.fsys;
@@ -77,6 +78,12 @@ public class LogBuilder {
      */
     public LogBuilder() {
         cfgPaths = LogsOperations.scanCfgPaths();
+        List<String> v8Dirs = Constants.V8_Dirs();
+        for (String dir : v8Dirs) {
+            String defCfgDir = dir + "\\conf";
+            if (Files.exists(Paths.get(dir)) && !cfgPaths.contains(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME))
+                cfgPaths.add(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME));
+        }
     }
 
     /**
@@ -239,7 +246,7 @@ public class LogBuilder {
      * @param infobase_name name of base in conection string
      * @return prepared but not written text file with settings
      */
-    public LogBuilder buildInvestigateNonEffectiveQueries(String user, String infobase_name){
+    public LogBuilder buildInvestigateSQlQueries(String user, String infobase_name){
 
         LogEvent event = new LogEvent();
 
@@ -247,13 +254,16 @@ public class LogBuilder {
         event.setVal(RegExp.PropTypes.Event, RegExp.EventTypes.DBMSSQL.toString());
         event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
 
-        event.setProp(RegExp.PropTypes.ProcessName);
-        event.setVal(RegExp.PropTypes.ProcessName, "%" + infobase_name + "%");
-        event.setComparison(RegExp.PropTypes.ProcessName, LogEvent.LogEventComparisons.like);
-
-        event.setProp(RegExp.PropTypes.Usr);
-        event.setVal(RegExp.PropTypes.Usr, user);
-        event.setComparison(RegExp.PropTypes.Usr, LogEvent.LogEventComparisons.eq);
+        if (infobase_name != null) {
+            event.setProp(RegExp.PropTypes.ProcessName);
+            event.setVal(RegExp.PropTypes.ProcessName, "%" + infobase_name + "%");
+            event.setComparison(RegExp.PropTypes.ProcessName, LogEvent.LogEventComparisons.like);
+        }
+        if (user != null) {
+            event.setProp(RegExp.PropTypes.Usr);
+            event.setVal(RegExp.PropTypes.Usr, user);
+            event.setComparison(RegExp.PropTypes.Usr, LogEvent.LogEventComparisons.eq);
+        }
 
         return this
             .addLocLocation()
@@ -329,6 +339,29 @@ public class LogBuilder {
         return this
             .addLocLocation()
             .addLogProperty()
+            .updateContent();
+    }
+
+    public LogBuilder buildSlowQueriesWithTABLE_SCAN() {
+        LogEvent event = new LogEvent();
+
+        event.setProp(RegExp.PropTypes.Event);
+        event.setVal(RegExp.PropTypes.Event, RegExp.EventTypes.DBMSSQL.toString());
+        event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
+
+        event.setProp(RegExp.PropTypes.Duration);
+        event.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.ge);
+        event.setVal(RegExp.PropTypes.Duration, "3000000");
+
+        event.setProp(RegExp.PropTypes.planSQLText);
+        event.setComparison(RegExp.PropTypes.planSQLText, LogEvent.LogEventComparisons.like);
+        event.setVal(RegExp.PropTypes.planSQLText, "%TABLE SCAN%");
+
+        return this
+            .addLocLocation()
+            .addLogProperty()
+            .addEvent(event)
+            .setPlanSql(true)
             .updateContent();
     }
 

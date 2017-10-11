@@ -110,7 +110,7 @@ public class CursorOp extends AbstractOp {
   public int cursorIndex(){
     return selector.cursorIndex();
   }
-  
+
   // PRIVATE
   
   private TreeMap<SortingKey, List<String>> mapLogs(ArrayList<String> sourceCol){

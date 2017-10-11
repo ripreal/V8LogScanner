@@ -9,73 +9,73 @@ import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 public interface ScanProfile extends Serializable, Cloneable {
+
+  enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
+  enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
+  enum LogTypes   {RPHOST, CLIENT, RAGENT, RMNGR, ANY}
+  enum DateRanges {ANY, THIS_HOUR, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
   
-  public enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
-  public enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
-  public enum LogTypes   {RPHOST, CLIENT, ANY}
-  public enum DateRanges {ANY, THIS_HOUR, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
+  int getId();
   
-  public int getId();
+  void setId();
   
-  public void setId();
+  String getName();
   
-  public String getName();
+  void setName(String name);
   
-  public void setName(String name);
+  List<String> getLogPaths();
   
-  public List<String> getLogPaths();
+  void addLogPath(String logPath);
+
+  void setLogPaths(List<String> logPaths);
+
+  DateRanges getDateRange();
+
+  void setDateRange(DateRanges _dateRange);
+
+  void setUserPeriod(String startDate, String endDate);
+
+  String[] getUserPeriod();
+
+  int getLimit();
+
+  void setLimit(int limit);
+
+  void setRgxOp(RgxOpTypes rgxOp);
+
+  RgxOpTypes getRgxOp();
+
+  LogTypes getLogType();
+
+  void setLogType(LogTypes _logType);
+
+  PropTypes getSortingProp();
+
+  void setSortingProp(PropTypes sortingProp);
+
+  GroupTypes getGroupType();
+
+  void setGroupType(GroupTypes userGroupType);
+
+  List<RegExp> getRgxList();
+
+  void setRgxList(List<RegExp> rgxList);
   
-  public void addLogPath(String logPath);
-
-  public void setLogPaths(List<String> logPaths);
-
-  public DateRanges getDateRange();
-
-  public void setDateRange(DateRanges _dateRange);
-
-  public void setUserPeriod(String startDate, String endDate);
-
-  public String[] getUserPeriod();
-
-  public int getLimit();
-
-  public void setLimit(int limit);
-
-  public void setRgxOp(RgxOpTypes rgxOp);
-
-  public RgxOpTypes getRgxOp();
-
-  public LogTypes getLogType();
-
-  public void setLogType(LogTypes _logType);
-
-  public PropTypes getSortingProp();
-
-  public void setSortingProp(PropTypes sortingProp);
-
-  public GroupTypes getGroupType();
-
-  public void setGroupType(GroupTypes userGroupType);
-
-  public List<RegExp> getRgxList();
-
-  public void setRgxList(List<RegExp> rgxList);
+  void addRegExp(RegExp rgx);
   
-  public void addRegExp(RegExp rgx);
-  
-  public String getRgxExp();
+  String getRgxExp();
 
-  public void setRgxExp(String rgx);
+  void setRgxExp(String rgx);
 
-  public ScanProfile clone();
+  ScanProfile clone();
 
-  public void clear();
+  void clear();
 
   ////////////////////
   // MANAGER FUNCTIONS
   ////////////////////
 
-  public static void buildTopSlowestSql(ScanProfile profile) {
+  static void buildTopSlowestSql(ScanProfile profile) {
 
     profile.clear();
     profile.setRgxOp(RgxOpTypes.CURSOR_OP);
@@ -100,7 +100,7 @@ public interface ScanProfile extends Serializable, Cloneable {
     profile.setSortingProp(PropTypes.Duration);
   }
 
-  public static void buildTopSlowestSqlText(ScanProfile profile) {
+  static void buildTopSlowestSqlText(ScanProfile profile) {
 
     profile.clear();
     profile.setRgxOp(RgxOpTypes.CURSOR_OP);
@@ -127,7 +127,7 @@ public interface ScanProfile extends Serializable, Cloneable {
     profile.setSortingProp(PropTypes.Duration);
   }
 
-  public static void buildRphostExcp(ScanProfile profile) {
+  static void buildRphostExcp(ScanProfile profile) {
 
     profile.clear();
     profile.setRgxOp(RgxOpTypes.HEAP_OP);
@@ -139,7 +139,7 @@ public interface ScanProfile extends Serializable, Cloneable {
     profile.setLogType(LogTypes.RPHOST);
   }
 
-  public static void buildSqlDeadlLockError(ScanProfile profile) {
+  static void buildSqlDeadlLockError(ScanProfile profile) {
     profile.clear();
     profile.setRgxOp(RgxOpTypes.CURSOR_OP);
     profile.setLogType(LogTypes.RPHOST);
@@ -157,7 +157,7 @@ public interface ScanProfile extends Serializable, Cloneable {
     });
   }
 
-  public static void build1cDeadlocksError(ScanProfile profile) {
+  static void build1cDeadlocksError(ScanProfile profile) {
 
     profile.clear();
     profile.setRgxOp(RgxOpTypes.CURSOR_OP);
@@ -177,9 +177,8 @@ public interface ScanProfile extends Serializable, Cloneable {
 
   }
 
-
   // for investigating locks escalation
-  public static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
+  static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
     profile.clear();
     profile.setRgxOp(RgxOpTypes.HEAP_OP);
     profile.setLogType(LogTypes.RPHOST);
@@ -190,5 +189,21 @@ public interface ScanProfile extends Serializable, Cloneable {
     rgx.getGroupingProps().add(PropTypes.Sql);
     rgx.getFilter(PropTypes.Sql).add(query_fragment);
     rgxList.add(rgx);
+  }
+
+  static void BuildFindSlowSQlEventsWithTableScan(ScanProfile profile) {
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+    profile.setLogType(LogTypes.RPHOST);
+    profile.setGroupType(GroupTypes.BY_PROPS);
+
+    List<RegExp> rgxList = profile.getRgxList();
+    RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+    rgx.getGroupingProps().add(PropTypes.Duration);
+    rgx.getGroupingProps().add(PropTypes.Sql);
+    rgx.getFilter(PropTypes.planSQLText).add("Table Scan");
+    rgxList.add(rgx);
+
+    profile.setSortingProp(PropTypes.Duration);
   }
 }

@@ -96,7 +96,7 @@ public class LogsOperations extends ProcessListener  {
   public ArrayList<String> getLogFiles(){
     return logFiles.unloadColumn("filePath", new ArrayList<String>());
   }
-  
+
   public static List<Path> scanCfgPaths(){
     
     List<String> logcfg = Constants.V8_Dirs();
@@ -120,19 +120,6 @@ public class LogsOperations extends ProcessListener  {
       //to do: need a feature that add log location specified by user
       ///ExcpReporting.LogError(LogsOperations.class, e);
     }
-    
-    /* Pattern pattern = Pattern.compile("<log.*?\\blocation\\b=\".+?(?=\")",
-      Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
-    for(Path filePath : cfgFiles){
-      String cgfString = fsys.readAllFromFile(filePath);
-      Matcher matcher = pattern.matcher(cgfString);
-      while(matcher.find())
-        logPaths.add(matcher.group().replaceFirst("<log.*?\\blocation\\b=\"", ""));
-    }
-
-    return logPaths;
-    */
     return cfgFiles;
   }
 
@@ -171,6 +158,10 @@ public class LogsOperations extends ProcessListener  {
       return "rphost_\\d+";
     case CLIENT:
       return "1cv8.+";
+    case RMNGR:
+      return "rmngr_\\d+";
+    case RAGENT:
+      return "ragent_\\d+";
     case ANY:
       return ".*";
     }

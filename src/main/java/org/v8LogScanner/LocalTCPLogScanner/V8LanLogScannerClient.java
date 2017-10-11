@@ -3,6 +3,7 @@ package org.v8LogScanner.LocalTCPLogScanner;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
@@ -28,7 +29,7 @@ import org.v8LogScanner.rgx.SelectorEntry;
 
 public class V8LanLogScannerClient extends ProcessListener implements V8LogScannerClient  {
   
-  private List<String> procInfo = new ArrayList<String>();
+  private List<String> procInfo = new ArrayList<>();
   private String hostIP = "127.0.0.1";
   private String hostName = "localhost";
   private String clientIP = "127.0.0.1";
@@ -70,7 +71,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   public String getHostIP(){
     return hostIP;
   }
-  
+
   public String getHostName(){
     return hostName;
   }
@@ -129,16 +130,12 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   }
   
   public void resetResult(){
-    
     if (isLocalHost()){
       rgxOp = null;
       return;
     }
-    
     V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.RESET_RESULT);
-    
     send(dataToServer);
-    
   }
   
   public boolean pingServer(){
@@ -216,7 +213,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     
     outProcessingInfo("Map reduce operation finished execution");
   }
-  
+
   @SuppressWarnings("unchecked")
   public List<SelectorEntry> select(int count, SelectDirections direction){
     

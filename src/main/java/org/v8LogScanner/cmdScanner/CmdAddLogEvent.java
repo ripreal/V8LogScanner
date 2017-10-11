@@ -21,9 +21,12 @@ public class CmdAddLogEvent implements CmdCommand {
       List<RegExp> rgxs = appl.profile.getRgxList();
       if (event == EventTypes.ANY)
         rgxs.clear();
-      else{
-        rgxs.remove(new RegExp(EventTypes.ANY));
-        rgxs.remove(new RegExp(event));
+      else {
+        for (RegExp regExp : rgxs)
+          if (regExp.getEventType() == EventTypes.ANY) {
+            rgxs.remove(regExp);
+            break; // avoid concurrent modification
+          }
       }
       rgxs.add(new RegExp(event));
     }
