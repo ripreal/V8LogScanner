@@ -43,7 +43,7 @@ public class CmdAddEventToCfg implements CmdCommand{
     }
 
     // Input prop <eq></eq>
-    Set<RegExp.PropTypes> allProps = LogEvent.allowedProps();
+    RegExp.PropTypes[] allProps = LogEvent.allowedProps().toArray(new RegExp.PropTypes[0]);
 
     String propTypeIndex =  appl.getConsole().askInputFromList(
       "Input prop:",
@@ -52,12 +52,23 @@ public class CmdAddEventToCfg implements CmdCommand{
 
     if(propTypeIndex == null)
       return;
-    //
-    String [] textProp = {"input value of a prop:"};
-    String valProp =  appl.getConsole().askInput(textProp, (text) -> !text.isEmpty(), true);
 
-    if(valProp == null)
-      return;
+    RegExp.PropTypes propType = allProps[Integer.parseInt(propTypeIndex)];
+    //
+    String valProp = "";
+    if (propType == RegExp.PropTypes.Event) {
+      String valPropIndex = appl.getConsole().askInputFromList(
+              "Input value of a prop::",
+              allProps);
+      if(valPropIndex == null)
+        return;
+      valProp = allProps[Integer.parseInt(propTypeIndex)].toString();
+    } else {
+      String [] textProp = {"input value of a prop:"};
+      valProp =  appl.getConsole().askInput(textProp, (text) -> !text.isEmpty(), true);
+      if(valProp == null)
+        return;
+    }
 
     String compTypeIndex =  appl.getConsole().askInputFromList(
       "Input comparison type:",
@@ -66,8 +77,6 @@ public class CmdAddEventToCfg implements CmdCommand{
 
     if(compTypeIndex == null)
       return;
-
-    RegExp.PropTypes propType = allProps.toArray(new RegExp.PropTypes[0])[Integer.parseInt(propTypeIndex)];
 
     logEvent.setProp(propType);
     logEvent.setVal(propType, valProp);

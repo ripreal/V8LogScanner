@@ -28,7 +28,7 @@ public class RegExp implements Serializable {
     Context, DeadlockConnectionIntersections, Interface, Sql, Trans, Dbpid, Sdbl,
     Func, planSQLText};
   
-  public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng};
+  public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS};
   private EventTypes eventType;
   private final RgxNode rgxNode = new RgxNode(); 
   
@@ -70,6 +70,10 @@ public class RegExp implements Serializable {
       case DBV8DBEng:
         buildDBV8DBEng();
         break;
+      case DBORACLE:
+        buildDBORACLE();
+      case DBPOSTGRS:
+        buildDBPOSTGRS();
     default:
       break;
     }
@@ -81,7 +85,13 @@ public class RegExp implements Serializable {
   // Exceptions that are not handled with normal cases
   private void buildEXCP(){
     rgxNode.add(PropTypes.Process);
+    rgxNode.add(PropTypes.ProcessName);
     rgxNode.add(PropTypes.ClientID);
+    rgxNode.add(PropTypes.ApplicationName);
+    rgxNode.add(PropTypes.ComputerName);
+    rgxNode.add(PropTypes.ConnectID);
+    rgxNode.add(PropTypes.SessionID);
+    rgxNode.add(PropTypes.Usr);
     rgxNode.add(PropTypes.Except);
     rgxNode.add(PropTypes.Descr);
     rgxNode.add(PropTypes.Context);
@@ -178,7 +188,45 @@ public class RegExp implements Serializable {
     Filter<String> filter = getFilter(PropTypes.Event);
     filter.add("DBMSSQL");
   }
-  
+
+  private void buildDBORACLE(){
+    rgxNode.add(PropTypes.Process);
+    rgxNode.add(PropTypes.ProcessName);
+    rgxNode.add(PropTypes.ClientID);
+    rgxNode.add(PropTypes.ApplicationName);
+    rgxNode.add(PropTypes.ComputerName);
+    rgxNode.add(PropTypes.ConnectID);
+    rgxNode.add(PropTypes.SessionID);
+    rgxNode.add(PropTypes.Usr);
+    rgxNode.add(PropTypes.Trans);
+    rgxNode.add(PropTypes.Dbpid);
+    rgxNode.add(PropTypes.Sql);
+    rgxNode.add(PropTypes.planSQLText);
+    rgxNode.add(PropTypes.Context);
+
+    Filter<String> filter = getFilter(PropTypes.Event);
+    filter.add("DBORACLE");
+  }
+
+  private void buildDBPOSTGRS(){
+    rgxNode.add(PropTypes.Process);
+    rgxNode.add(PropTypes.ProcessName);
+    rgxNode.add(PropTypes.ClientID);
+    rgxNode.add(PropTypes.ApplicationName);
+    rgxNode.add(PropTypes.ComputerName);
+    rgxNode.add(PropTypes.ConnectID);
+    rgxNode.add(PropTypes.SessionID);
+    rgxNode.add(PropTypes.Usr);
+    rgxNode.add(PropTypes.Trans);
+    rgxNode.add(PropTypes.Dbpid);
+    rgxNode.add(PropTypes.Sql);
+    rgxNode.add(PropTypes.planSQLText);
+    rgxNode.add(PropTypes.Context);
+
+    Filter<String> filter = getFilter(PropTypes.Event);
+    filter.add("DBPOSTGRS");
+  }
+
   private void buildSDBL(){
     rgxNode.add(PropTypes.Process);
     rgxNode.add(PropTypes.ProcessName);

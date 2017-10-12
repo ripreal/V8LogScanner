@@ -22,7 +22,7 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
 public class V8LogScannerAppl {
   
-  public final ClientsManager clientsManager;
+  public ClientsManager clientsManager;
   public final LogBuilder logBuilder = new LogBuilder();
   public ScanProfile profile;
   
@@ -142,10 +142,13 @@ public class V8LogScannerAppl {
     // Item 4.
     main.add(new MenuItemCmd("Auto profiles", null, m_autoModes));
     m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
-    m_autoModes.add(new MenuItemCmd("Find top slowest SQL and SDBL events grouped by 'Context'", new CmdGetTopSlowestSql(), cursorLogScan));
-    m_autoModes.add(new MenuItemCmd("Find top slowest sql texts", new CmdGetTopSlowestSqlText(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find EXCP caused by user", new CmdGetUserExcp(), heapLogScan));
+    m_autoModes.add(new MenuItemCmd("Find top slowest SQL and SDBL events", new CmdGetTopSlowestSql(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find top slowest sql by user", new CmdGetTopSlowestSqlByUser(), cursorLogScan));
+    m_autoModes.add(new MenuItemCmd("Find slowest sql queries with TABLE SCAN", new CmdGetSQlWithTableScan(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top most frequent SQL deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
     m_autoModes.add(new MenuItemCmd("Find top most frequent 1C deadlocks and timeouts'", new CmdGetTopTimeout(), cursorLogScan));
+
 
     // Item 5.
     main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
@@ -272,7 +275,7 @@ public class V8LogScannerAppl {
     MenuCmd showResults = new MenuCmd(() -> String.format("Results:\n%s", getFinalInfo()), null);
     showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(SelectDirections.FORWARD), showResults));
     showResults.add(new MenuItemCmd("Show previous top 100 keys", new CmdShowResults(SelectDirections.BACKWARD), showResults));
-    showResults.add(new MenuItemCmd("Save next top 100 keys to the file", new CmdCopyResultToFile(), showResults));
+    showResults.add(new MenuItemCmd("Open the next top 100 keys in the text editor", new CmdCopyResultToFile(), showResults));
     
     cmdAppl.runAppl(showResults);
     resetResult();
@@ -287,8 +290,8 @@ public class V8LogScannerAppl {
   }
   
   // for testing purposes
-  public void setApplConsole(ApplConsole cmdAppl) {
+  public void setApplConsole(ApplConsole cmdAppl, ClientsManager manager) {
     this.cmdAppl = cmdAppl;
+    this.clientsManager = manager;
   }
-
 }

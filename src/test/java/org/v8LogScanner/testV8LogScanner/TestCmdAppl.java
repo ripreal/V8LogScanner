@@ -12,7 +12,9 @@ import java.nio.charset.Charset;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager.LogScannerClientNotFoundServer;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer.LanServerNotStarted;
@@ -40,7 +42,7 @@ public class TestCmdAppl {
       .addEXCP()
       .build(LogFileTypes.FILE);
   }
-  /*
+
   @Test
   public void testExcpReporting() throws LogScannerClientNotFoundServer {
     
@@ -97,8 +99,12 @@ public class TestCmdAppl {
     
     ApplConsole appl = new ApplConsole(in, out);
     V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
-    scannerAppl.setApplConsole(appl);
-    
+    // cancel reset client so that it did not clear ScanProfile
+    ClientsManager manager = new ClientsManager();
+    ClientsManager mockedManager = Mockito.spy(manager);
+    Mockito.doNothing().when(mockedManager).resetRemoteClients();
+    scannerAppl.setApplConsole(appl, mockedManager);
+
     scannerAppl.runAppl();
     
     V8LogFileConstructor.deleteLogFile(logFileName);
@@ -126,7 +132,12 @@ public class TestCmdAppl {
 
     ApplConsole appl = new ApplConsole(in, out);
     V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
-    scannerAppl.setApplConsole(appl);
+
+    // cancel reset client so that it did not clear ScanProfile
+    ClientsManager manager = new ClientsManager();
+    ClientsManager mockedManager = Mockito.spy(manager);
+    Mockito.doNothing().when(mockedManager).resetRemoteClients();
+    scannerAppl.setApplConsole(appl, mockedManager);
 
     scannerAppl.runAppl();
 
@@ -135,9 +146,10 @@ public class TestCmdAppl {
     V8LogFileConstructor.deleteLogFile(logFileName);
 
   }
-*/
+
   @Test
   public void testCmdChangeLogType() {
+
     //out
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(outStream);
@@ -159,10 +171,14 @@ public class TestCmdAppl {
     ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
     ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-    ApplConsole appl = new ApplConsole(in, System.out);
+    ApplConsole appl = new ApplConsole(in, out);
     V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
-    scannerAppl.setApplConsole(appl);
+    // cancel reset client so that it did not clear ScanProfile
+    ClientsManager manager = new ClientsManager();
+    ClientsManager mockedManager = Mockito.spy(manager);
+    Mockito.doNothing().when(mockedManager).resetRemoteClients();
 
+    scannerAppl.setApplConsole(appl, mockedManager);
     scannerAppl.runAppl();
 
     assertEquals(ScanProfile.LogTypes.CLIENT, scannerAppl.profile.getLogType());

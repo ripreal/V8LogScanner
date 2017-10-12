@@ -28,6 +28,14 @@ public class V8LogFileConstructor {
     return this;
   }
 
+  public V8LogFileConstructor addUserEXCP() {
+    logData.add("46:27.120000-0,EXCP,3,process=rphost,p:processName=test,t:clientID=77,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=13,SessionID=13,Usr=DefUser,AppID=1CV8C,Exception=580392e6-ba49-4280-ac67-fcd6f2180121,Descr='src\\VResourceInfoBaseImpl.cpp(1031):"
+    + "580392e6-ba49-4280-ac67-fcd6f2180121: Non-specified resource error"
+    + "Error executing the query POST to resource /e1cib/logForm:"
+    + "8d366056-4d5a-4d88-a207-0ae535b7d28e: {Обработка.Взаимоблокировки.Форма.Форма.Форма(397)}: Искуственный EXCP'");
+    return this;
+  }
+
   public V8LogFileConstructor addTDEADLOCK() {
     logData.add("45:36.115007-0,TDEADLOCK,6,process=rphost,p:processName=test,t:clientID=56,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=17,SessionID=62,Usr=DefUser,AppID=1CV8C,DeadlockConnectionIntersections='17 18 Reference10.REFLOCK Exclusive ID=10:9d31eb60b487eef9426efe8ac93cf86c,18 17 Reference10.REFLOCK Exclusive ID=10:95aae4f5c33133584335e2ca22f204fd',Context='Форма.Вызов : Обработка.Взаимоблокировки.Форма.Форма.Модуль.ВзаимоблокировкаНаСервере"
             + "\nОбработка.Взаимоблокировки.Форма.Форма.Форма : 32 : ВзаимоблокировкаЗахватРесурсовВРазномПорядке();"
@@ -58,6 +66,11 @@ public class V8LogFileConstructor {
 
   public V8LogFileConstructor addDBMSSQL() {
     logData.add("41:58.067005-1,DBMSSQL,2,process=rphost,p:processName=test,t:clientID=59,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=18,SessionID=63,Usr=DefUser,AppID=1CV8C,Trans=0,dbpid=54,Sql=\"{call sp_executesql(N'SELECT Creation,Modified,Attributes,DataSize,BinaryData FROM Config WHERE FileName = @P1 ORDER BY PartNo', N'@P1 nvarchar(128)', N'40047d1f-4006-473a-a10f-4110ae135d02')}\",Rows=1,Context=Система.ПолучитьФорму : Документ.ПоступлениеТоваров.ФормаОбъекта");
+    return this;
+  }
+
+  public V8LogFileConstructor addDBMSSQLUserRIP() {
+    logData.add("41:58.067005-1,DBMSSQL,2,process=rphost,p:processName=test,t:clientID=59,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=18,SessionID=63,Usr=RIP,AppID=1CV8C,Trans=0,dbpid=54,Sql=\"{call sp_executesql(N'SELECT Creation,Modified,Attributes,DataSize,BinaryData FROM Config WHERE FileName = @P1 ORDER BY PartNo', N'@P1 nvarchar(128)', N'40047d1f-4006-473a-a10f-4110ae135d02')}\",Rows=1,Context=Система.ПолучитьФорму : Документ.ПоступлениеТоваров.ФормаОбъекта");
     return this;
   }
 

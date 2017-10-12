@@ -24,7 +24,6 @@ public class CmdChangeOrder implements CmdCommand {
     sortingProps[1] = PropTypes.Duration.toString();
     
     String userInput = appl.getConsole().askInputFromList("input prop which will be used to sort result:", sortingProps);
-    
     if (userInput == null){
       return;
     }

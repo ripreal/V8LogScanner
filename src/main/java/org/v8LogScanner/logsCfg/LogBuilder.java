@@ -181,6 +181,7 @@ public class LogBuilder {
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBMSQL)
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBPOSTGRS)
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DB2)
+            .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "sdbl")
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.DBORACLE)
             .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
             .updateContent();

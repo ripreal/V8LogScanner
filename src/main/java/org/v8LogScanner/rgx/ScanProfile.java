@@ -100,28 +100,29 @@ public interface ScanProfile extends Serializable, Cloneable {
     profile.setSortingProp(PropTypes.Duration);
   }
 
-  static void buildTopSlowestSqlText(ScanProfile profile) {
+  static void buildTopSlowestSqlByUser(ScanProfile profile, String userName) {
 
     profile.clear();
     profile.setRgxOp(RgxOpTypes.CURSOR_OP);
     profile.setLogType(LogTypes.RPHOST);
 
     List<RegExp> rgxList = profile.getRgxList();
-
     RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
-    dbmsql.getGroupingProps().add(PropTypes.Sql);
-    dbmsql.getFilter(PropTypes.Sql).add(""); // only seek events with present prop
-
+    dbmsql.getGroupingProps().add(PropTypes.Context);
+    dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    dbmsql.getFilter(PropTypes.Usr).add(userName);
     rgxList.add(dbmsql);
 
     RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
-    sdbl.getGroupingProps().add(PropTypes.Sdbl);
-    sdbl.getFilter(PropTypes.Sdbl).add(""); // only seek events with present prop
+    sdbl.getGroupingProps().add(PropTypes.Context);
+    sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+    sdbl.getFilter(PropTypes.Usr).add(userName);
     rgxList.add(sdbl);
 
     RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
-    dbv8d8eng.getGroupingProps().add(PropTypes.Sql);
-    dbv8d8eng.getFilter(PropTypes.Sql).add(""); // only seek events with present prop
+    dbv8d8eng.getGroupingProps().add(PropTypes.Context);
+    dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+    dbv8d8eng.getFilter(PropTypes.Usr).add(userName);
     rgxList.add(dbv8d8eng);
 
     profile.setSortingProp(PropTypes.Duration);
@@ -177,6 +178,34 @@ public interface ScanProfile extends Serializable, Cloneable {
 
   }
 
+  static void buildAllLocksByUser(ScanProfile profile) {
+
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+    profile.setLogType(LogTypes.RPHOST);
+
+    List<RegExp> rgxList = profile.getRgxList();
+
+    RegExp v8Timeout = new RegExp(RegExp.EventTypes.TTIMEOUT);
+    v8Timeout.getGroupingProps().add(PropTypes.Context);
+    v8Timeout.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    rgxList.add(v8Timeout);
+
+    RegExp v8DeadLock = new RegExp(RegExp.EventTypes.TDEADLOCK);
+    v8DeadLock.getGroupingProps().add(PropTypes.Context);
+    v8DeadLock.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+    rgxList.add(v8DeadLock);
+
+    List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
+
+    sqlTexts.forEach((sqlMsg) -> {
+      RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+      excp.getGroupingProps().add(PropTypes.Descr);
+      excp.getFilter(PropTypes.Descr).add(sqlMsg);
+      rgxList.add(excp);
+    });
+  }
+
   // for investigating locks escalation
   static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
     profile.clear();
@@ -199,11 +228,20 @@ public interface ScanProfile extends Serializable, Cloneable {
 
     List<RegExp> rgxList = profile.getRgxList();
     RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
-    rgx.getGroupingProps().add(PropTypes.Duration);
-    rgx.getGroupingProps().add(PropTypes.Sql);
+    rgx.getGroupingProps().add(PropTypes.Context);
     rgx.getFilter(PropTypes.planSQLText).add("Table Scan");
     rgxList.add(rgx);
 
     profile.setSortingProp(PropTypes.Duration);
+  }
+
+  static void buildUserEXCP(ScanProfile profile) {
+    profile.clear();
+    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+
+    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+    excp.getFilter(PropTypes.Usr).add(""); // seek events with present props
+    excp.getGroupingProps().add(PropTypes.Usr);
+    profile.getRgxList().add(excp);
   }
 }

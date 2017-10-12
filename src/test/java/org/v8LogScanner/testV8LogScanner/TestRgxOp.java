@@ -20,7 +20,7 @@ import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.SelectorEntry;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
-public class TestCursorOp {
+public class TestRgxOp {
   
   private V8LogFileConstructor constructor;
 
@@ -136,19 +136,20 @@ public class TestCursorOp {
   }
 
   @Test
-  public void testbuildTopSlowestSqlText() {
+  public void testbuildTopSlowestSqlByUser() {
 
     String logFileName = constructor
-            .addSDBL()
-            .addDBMSSQL()
-            .addEXCP()
-            .build(LogFileTypes.FILE);
+      .addSDBL()
+      .addDBMSSQL()
+      .addDBMSSQLUserRIP()
+      .addEXCP()
+      .build(LogFileTypes.FILE);
 
     ClientsManager manager = new ClientsManager();
     V8LogScannerClient localClient = manager.localClient();
 
     ScanProfile profile = localClient.getProfile();
-    ScanProfile.buildTopSlowestSqlText(profile);
+    ScanProfile.buildTopSlowestSqlByUser(profile, "RIP");
     profile.addLogPath(logFileName);
 
     manager.startRgxOp();
@@ -238,6 +239,29 @@ public class TestCursorOp {
 
     ScanProfile profile = localClient.getProfile();
     ScanProfile.BuildFindSlowSQlEventsWithTableScan(profile);
+    profile.addLogPath(logFileName);
+
+    manager.startRgxOp();
+    List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+    assertEquals(1, logs.size());
+
+    V8LogFileConstructor.deleteLogFile(logFileName);
+  }
+
+  @Test
+  public void testBuildUserEXCP() {
+
+    String logFileName = constructor
+      .addEXCP()
+      .addUserEXCP()
+      .build(LogFileTypes.FILE);
+
+    ClientsManager manager = new ClientsManager();
+    V8LogScannerClient localClient = manager.localClient();
+
+    ScanProfile profile = localClient.getProfile();
+    ScanProfile.buildUserEXCP(profile);
     profile.addLogPath(logFileName);
 
     manager.startRgxOp();

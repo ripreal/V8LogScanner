@@ -184,7 +184,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
   public void startRgxOp(){
     
     if (isLocalHost()){
-      LogsOperations logsOp = new LogsOperations(); 
+      LogsOperations logsOp = new LogsOperations();
       getListeners().forEach(listener -> logsOp.addListener(listener));
       List<String> logFiles = logsOp.readLogFiles(profile);
       
