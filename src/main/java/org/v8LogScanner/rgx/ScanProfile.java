@@ -1,247 +1,246 @@
 package org.v8LogScanner.rgx;
 
+import org.v8LogScanner.rgx.RegExp.PropTypes;
+
 import java.io.Serializable;
 import java.util.List;
 
-import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
-import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
-import org.v8LogScanner.commonly.Filter;
-import org.v8LogScanner.rgx.RegExp.PropTypes;
-
 public interface ScanProfile extends Serializable, Cloneable {
 
-  enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
-  enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
-  enum LogTypes   {RPHOST, CLIENT, RAGENT, RMNGR, ANY}
-  enum DateRanges {ANY, THIS_HOUR, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
-  
-  int getId();
-  
-  void setId();
-  
-  String getName();
-  
-  void setName(String name);
-  
-  List<String> getLogPaths();
-  
-  void addLogPath(String logPath);
+    enum RgxOpTypes {CURSOR_OP, HEAP_OP, USER_OP}
 
-  void setLogPaths(List<String> logPaths);
+    enum GroupTypes {BY_PROPS, BY_FILE_NAMES}
 
-  DateRanges getDateRange();
+    enum LogTypes {RPHOST, CLIENT, RAGENT, RMNGR, ANY}
 
-  void setDateRange(DateRanges _dateRange);
+    enum DateRanges {ANY, THIS_HOUR, LAST_HOUR, TODAY, YESTERDAY, THIS_WEEK, THIS_MONTH, PREV_WEEK, PREV_MONTH, SET_OWN}
 
-  void setUserPeriod(String startDate, String endDate);
+    int getId();
 
-  String[] getUserPeriod();
+    void setId();
 
-  int getLimit();
+    String getName();
 
-  void setLimit(int limit);
+    void setName(String name);
 
-  void setRgxOp(RgxOpTypes rgxOp);
+    List<String> getLogPaths();
 
-  RgxOpTypes getRgxOp();
+    void addLogPath(String logPath);
 
-  LogTypes getLogType();
+    void setLogPaths(List<String> logPaths);
 
-  void setLogType(LogTypes _logType);
+    DateRanges getDateRange();
 
-  PropTypes getSortingProp();
+    void setDateRange(DateRanges _dateRange);
 
-  void setSortingProp(PropTypes sortingProp);
+    void setUserPeriod(String startDate, String endDate);
 
-  GroupTypes getGroupType();
+    String[] getUserPeriod();
 
-  void setGroupType(GroupTypes userGroupType);
+    int getLimit();
 
-  List<RegExp> getRgxList();
+    void setLimit(int limit);
 
-  void setRgxList(List<RegExp> rgxList);
-  
-  void addRegExp(RegExp rgx);
-  
-  String getRgxExp();
+    void setRgxOp(RgxOpTypes rgxOp);
 
-  void setRgxExp(String rgx);
+    RgxOpTypes getRgxOp();
 
-  ScanProfile clone();
+    LogTypes getLogType();
 
-  void clear();
+    void setLogType(LogTypes _logType);
 
-  ////////////////////
-  // MANAGER FUNCTIONS
-  ////////////////////
+    PropTypes getSortingProp();
 
-  static void buildTopSlowestSql(ScanProfile profile) {
+    void setSortingProp(PropTypes sortingProp);
 
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
+    GroupTypes getGroupType();
 
-    List<RegExp> rgxList = profile.getRgxList();
-    RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
-    dbmsql.getGroupingProps().add(PropTypes.Context);
-    dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    rgxList.add(dbmsql);
+    void setGroupType(GroupTypes userGroupType);
 
-    RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
-    sdbl.getGroupingProps().add(PropTypes.Context);
-    sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    rgxList.add(sdbl);
+    List<RegExp> getRgxList();
 
-    RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
-    dbv8d8eng.getGroupingProps().add(PropTypes.Context);
-    dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    rgxList.add(dbv8d8eng);
+    void setRgxList(List<RegExp> rgxList);
 
-    profile.setSortingProp(PropTypes.Duration);
-  }
+    void addRegExp(RegExp rgx);
 
-  static void buildTopSlowestSqlByUser(ScanProfile profile, String userName) {
+    String getRgxExp();
 
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
+    void setRgxExp(String rgx);
 
-    List<RegExp> rgxList = profile.getRgxList();
-    RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
-    dbmsql.getGroupingProps().add(PropTypes.Context);
-    dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    dbmsql.getFilter(PropTypes.Usr).add(userName);
-    rgxList.add(dbmsql);
+    ScanProfile clone();
 
-    RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
-    sdbl.getGroupingProps().add(PropTypes.Context);
-    sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    sdbl.getFilter(PropTypes.Usr).add(userName);
-    rgxList.add(sdbl);
+    void clear();
 
-    RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
-    dbv8d8eng.getGroupingProps().add(PropTypes.Context);
-    dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
-    dbv8d8eng.getFilter(PropTypes.Usr).add(userName);
-    rgxList.add(dbv8d8eng);
+    ////////////////////
+    // MANAGER FUNCTIONS
+    ////////////////////
 
-    profile.setSortingProp(PropTypes.Duration);
-  }
+    static void buildTopSlowestSql(ScanProfile profile) {
 
-  static void buildRphostExcp(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
 
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+        List<RegExp> rgxList = profile.getRgxList();
+        RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
+        dbmsql.getGroupingProps().add(PropTypes.Context);
+        dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+        rgxList.add(dbmsql);
 
-    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
-    excp.getGroupingProps().add(PropTypes.Descr);
+        RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
+        sdbl.getGroupingProps().add(PropTypes.Context);
+        sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+        rgxList.add(sdbl);
 
-    profile.getRgxList().add(excp);
-    profile.setLogType(LogTypes.RPHOST);
-  }
+        RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
+        dbv8d8eng.getGroupingProps().add(PropTypes.Context);
+        dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+        rgxList.add(dbv8d8eng);
 
-  static void buildSqlDeadlLockError(ScanProfile profile) {
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
-    profile.setGroupType(GroupTypes.BY_PROPS);
+        profile.setSortingProp(PropTypes.Duration);
+    }
 
-    List<RegExp> rgxList = profile.getRgxList();
+    static void buildTopSlowestSqlByUser(ScanProfile profile, String userName) {
 
-    List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
 
-    sqlTexts.forEach((sqlMsg) -> {
-      RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
-      excp.getGroupingProps().add(PropTypes.Descr);
-      excp.getFilter(PropTypes.Descr).add(sqlMsg);
-      rgxList.add(excp);
-    });
-  }
+        List<RegExp> rgxList = profile.getRgxList();
+        RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
+        dbmsql.getGroupingProps().add(PropTypes.Context);
+        dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+        dbmsql.getFilter(PropTypes.Usr).add(userName);
+        rgxList.add(dbmsql);
 
-  static void build1cDeadlocksError(ScanProfile profile) {
+        RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
+        sdbl.getGroupingProps().add(PropTypes.Context);
+        sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+        sdbl.getFilter(PropTypes.Usr).add(userName);
+        rgxList.add(sdbl);
 
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
+        RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
+        dbv8d8eng.getGroupingProps().add(PropTypes.Context);
+        dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
+        dbv8d8eng.getFilter(PropTypes.Usr).add(userName);
+        rgxList.add(dbv8d8eng);
 
-    List<RegExp> rgxList = profile.getRgxList();
+        profile.setSortingProp(PropTypes.Duration);
+    }
 
-    RegExp v8Timeout = new RegExp(RegExp.EventTypes.TTIMEOUT);
-    v8Timeout.getGroupingProps().add(PropTypes.Context);
-    v8Timeout.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    rgxList.add(v8Timeout);
+    static void buildRphostExcp(ScanProfile profile) {
 
-    RegExp v8DeadLock = new RegExp(RegExp.EventTypes.TDEADLOCK);
-    v8DeadLock.getGroupingProps().add(PropTypes.Context);
-    v8DeadLock.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    rgxList.add(v8DeadLock);
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
 
-  }
+        RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+        excp.getGroupingProps().add(PropTypes.Descr);
 
-  static void buildAllLocksByUser(ScanProfile profile) {
+        profile.getRgxList().add(excp);
+        profile.setLogType(LogTypes.RPHOST);
+    }
 
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
+    static void buildUserEXCP(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
 
-    List<RegExp> rgxList = profile.getRgxList();
+        RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+        excp.getFilter(PropTypes.Usr).add(""); // seek events with present props
+        excp.getGroupingProps().add(PropTypes.Usr);
+        profile.getRgxList().add(excp);
+    }
 
-    RegExp v8Timeout = new RegExp(RegExp.EventTypes.TTIMEOUT);
-    v8Timeout.getGroupingProps().add(PropTypes.Context);
-    v8Timeout.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    rgxList.add(v8Timeout);
+    static void buildSqlDeadlLockError(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
+        profile.setGroupType(GroupTypes.BY_PROPS);
 
-    RegExp v8DeadLock = new RegExp(RegExp.EventTypes.TDEADLOCK);
-    v8DeadLock.getGroupingProps().add(PropTypes.Context);
-    v8DeadLock.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
-    rgxList.add(v8DeadLock);
+        List<RegExp> rgxList = profile.getRgxList();
 
-    List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
+        List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
 
-    sqlTexts.forEach((sqlMsg) -> {
-      RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
-      excp.getGroupingProps().add(PropTypes.Descr);
-      excp.getFilter(PropTypes.Descr).add(sqlMsg);
-      rgxList.add(excp);
-    });
-  }
+        sqlTexts.forEach((sqlMsg) -> {
+            RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+            excp.getGroupingProps().add(PropTypes.Descr);
+            excp.getFilter(PropTypes.Descr).add(sqlMsg);
+            rgxList.add(excp);
+        });
+    }
 
-  // for investigating locks escalation
-  static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.HEAP_OP);
-    profile.setLogType(LogTypes.RPHOST);
-    profile.setGroupType(GroupTypes.BY_PROPS);
+    static void build1cDeadlocksError(ScanProfile profile) {
 
-    List<RegExp> rgxList = profile.getRgxList();
-    RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
-    rgx.getGroupingProps().add(PropTypes.Sql);
-    rgx.getFilter(PropTypes.Sql).add(query_fragment);
-    rgxList.add(rgx);
-  }
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
 
-  static void BuildFindSlowSQlEventsWithTableScan(ScanProfile profile) {
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.CURSOR_OP);
-    profile.setLogType(LogTypes.RPHOST);
-    profile.setGroupType(GroupTypes.BY_PROPS);
+        List<RegExp> rgxList = profile.getRgxList();
 
-    List<RegExp> rgxList = profile.getRgxList();
-    RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
-    rgx.getGroupingProps().add(PropTypes.Context);
-    rgx.getFilter(PropTypes.planSQLText).add("Table Scan");
-    rgxList.add(rgx);
+        RegExp.EventTypes[] v8Locks = {RegExp.EventTypes.TTIMEOUT, RegExp.EventTypes.TDEADLOCK};
 
-    profile.setSortingProp(PropTypes.Duration);
-  }
+        for (RegExp.EventTypes eventType : v8Locks) {
+            RegExp rgxEvent = new RegExp(eventType);
+            rgxEvent.getGroupingProps().add(PropTypes.Context);
+            rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+            rgxList.add(rgxEvent);
+        }
 
-  static void buildUserEXCP(ScanProfile profile) {
-    profile.clear();
-    profile.setRgxOp(RgxOpTypes.HEAP_OP);
+    }
 
-    RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
-    excp.getFilter(PropTypes.Usr).add(""); // seek events with present props
-    excp.getGroupingProps().add(PropTypes.Usr);
-    profile.getRgxList().add(excp);
-  }
+    static void buildAllLocksByUser(ScanProfile profile, String user) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
+
+        List<RegExp> rgxList = profile.getRgxList();
+
+        RegExp.EventTypes[] v8Locks = {RegExp.EventTypes.TTIMEOUT, RegExp.EventTypes.TDEADLOCK};
+
+        for (RegExp.EventTypes eventType : v8Locks) {
+            RegExp rgxEvent = new RegExp(eventType);
+            rgxEvent.getGroupingProps().add(PropTypes.Context);
+            rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+            rgxEvent.getFilter(PropTypes.Usr).add(user);
+            rgxList.add(rgxEvent);
+        }
+
+        List<String> sqlTexts = org.v8LogScanner.logsCfg.LogConfig.sql_lock_texts();
+        sqlTexts.forEach((sqlMsg) -> {
+            RegExp excp = new RegExp(RegExp.EventTypes.EXCP);
+            excp.getGroupingProps().add(PropTypes.Descr);
+            excp.getFilter(PropTypes.Descr).add(sqlMsg);
+            excp.getFilter(PropTypes.Usr).add(user);
+            rgxList.add(excp);
+        });
+    }
+
+    // for investigating locks escalation
+    static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
+        profile.setLogType(LogTypes.RPHOST);
+        profile.setGroupType(GroupTypes.BY_PROPS);
+
+        List<RegExp> rgxList = profile.getRgxList();
+        RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+        rgx.getGroupingProps().add(PropTypes.Sql);
+        rgx.getFilter(PropTypes.Sql).add(query_fragment);
+        rgxList.add(rgx);
+    }
+
+    static void BuildFindSlowSQlEventsWithTableScan(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setLogType(LogTypes.RPHOST);
+        profile.setGroupType(GroupTypes.BY_PROPS);
+
+        List<RegExp> rgxList = profile.getRgxList();
+        RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+        rgx.getGroupingProps().add(PropTypes.Context);
+        rgx.getFilter(PropTypes.planSQLText).add("Table Scan");
+        rgxList.add(rgx);
+
+        profile.setSortingProp(PropTypes.Duration);
+    }
+
 }

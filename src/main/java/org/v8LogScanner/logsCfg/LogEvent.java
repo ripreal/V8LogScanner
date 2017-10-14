@@ -1,14 +1,16 @@
 package org.v8LogScanner.logsCfg;
 
-import com.sun.javafx.fxml.PropertyNotFoundException;
-import org.v8LogScanner.rgx.*;
+import org.v8LogScanner.rgx.RegExp;
 
-import java.math.BigInteger;
 import java.util.*;
 
-public class LogEvent implements Iterable<LogEvent.EventRow>{
+public class LogEvent implements Iterable<LogEvent.EventRow> {
     // eq = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
-    public enum LogEventComparisons {eq, like, ne, gt, ge, lt, le};
+    public enum LogEventComparisons {
+        eq, like, ne, gt, ge, lt, le
+    }
+
+    ;
 
     private HashMap<RegExp.PropTypes, EventRow> rows = new HashMap<>();
 
@@ -58,10 +60,9 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
                     .findFirst()
                     .get()
                     .getKey();
-        }
-        catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new RuntimeException(String.format(
-                "Error. Unknown event property '%s' happen during parsing a log file! It skipped", prop));
+                    "Error. Unknown event property '%s' happen during parsing a log file! It skipped", prop));
         }
     }
 
@@ -100,11 +101,13 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
     @Override
     public Iterator<LogEvent.EventRow> iterator() {
         //instantiating anonymous class
-        return new Iterator<LogEvent.EventRow>(){
+        return new Iterator<LogEvent.EventRow>() {
             private Iterator<RegExp.PropTypes> keys = rows.keySet().iterator();
 
             @Override
-            public boolean hasNext() {return keys.hasNext();}
+            public boolean hasNext() {
+                return keys.hasNext();
+            }
 
             @Override
             public LogEvent.EventRow next() {
@@ -124,7 +127,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
     @Override
     public String toString() {
         List<String> entriesLine = new ArrayList<>(rows.size());
-        for(EventRow row : this) {
+        for (EventRow row : this) {
             entriesLine.add(row.toString());
         }
         return String.join("\n", entriesLine);
@@ -132,20 +135,24 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
 
     public class EventRow {
 
-        private String val =  RegExp.EventTypes.EXCP.toString();
+        private String val = RegExp.EventTypes.EXCP.toString();
         private LogEvent.LogEventComparisons comparison;
         private RegExp.PropTypes key = null;
 
-        public EventRow() {}
+        public EventRow() {
+        }
 
         public EventRow(LogEvent.LogEventComparisons comparison, String val) {
             this.comparison = comparison;
             this.val = val;
         }
 
-        private void setKey(RegExp.PropTypes key) {this.key = key;}
+        private void setKey(RegExp.PropTypes key) {
+            this.key = key;
+        }
+
         public String getKey() {
-            switch(key){
+            switch (key) {
                 case Sql:
                     throw new RuntimeException("sql prop is not supported");
                 case Time:
@@ -162,6 +169,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
         private void setComparison(LogEvent.LogEventComparisons comparison) {
             this.comparison = comparison;
         }
+
         public String getComparison() {
             return comparison == null ? LogEventComparisons.eq.toString() : comparison.toString();
         }
@@ -169,14 +177,17 @@ public class LogEvent implements Iterable<LogEvent.EventRow>{
         private void setVal(String val) {
             this.val = val;
         }
-        public String getVal() {return val;}
+
+        public String getVal() {
+            return val;
+        }
 
         @Override
         public String toString() {
             return String.format("<%s %s=\"%s\" %s=\"%s\"/>",
-                comparison,
-                LogConfig.PROP_NAME, key,
-                LogConfig.VAL_NAME, val);
+                    comparison,
+                    LogConfig.PROP_NAME, key,
+                    LogConfig.VAL_NAME, val);
         }
     }
 

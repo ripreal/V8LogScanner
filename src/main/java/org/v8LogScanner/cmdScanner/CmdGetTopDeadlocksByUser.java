@@ -3,14 +3,19 @@ package org.v8LogScanner.cmdScanner;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.rgx.ScanProfile;
 
-public class CmdGetRphostExcp implements CmdCommand {
-
+public class CmdGetTopDeadlocksByUser implements CmdCommand {
+    @Override
     public String getTip() {
         return "";
     }
 
+    @Override
     public void execute() {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
-        ScanProfile.buildRphostExcp(appl.profile);
+        String userInput = appl.askUserName();
+        if (userInput == null) {
+            return;
+        }
+        ScanProfile.buildAllLocksByUser(appl.profile, userInput);
     }
 }

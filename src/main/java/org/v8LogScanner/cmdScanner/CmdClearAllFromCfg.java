@@ -1,6 +1,5 @@
 package org.v8LogScanner.cmdScanner;
 
-import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 
 public class CmdClearAllFromCfg implements CmdCommand {

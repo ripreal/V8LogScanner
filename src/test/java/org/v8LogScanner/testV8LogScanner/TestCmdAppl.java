@@ -1,14 +1,5 @@
 package org.v8LogScanner.testV8LogScanner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,167 +14,174 @@ import org.v8LogScanner.cmdAppl.MenuCmd;
 import org.v8LogScanner.cmdAppl.MenuItemCmd;
 import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
 import org.v8LogScanner.commonly.ExcpReporting;
-import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+
+import static org.junit.Assert.*;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TestCmdAppl {
-  
-  private String logFileName = "";
-  
-  @Before
-  public void setup() {
 
-    ExcpReporting.out = System.out;
+    private String logFileName = "";
 
-    V8LogFileConstructor constructor = new V8LogFileConstructor();
-    logFileName = constructor
-      .addEXCP()
-      .build(LogFileTypes.FILE);
-  }
+    @Before
+    public void setup() {
 
-  @Test
-  public void testExcpReporting() throws LogScannerClientNotFoundServer {
-    
-    ExcpReporting.out = null;
-    
-    V8LanLogScannerClient client = new V8LanLogScannerClient();
-    try {
-      client.cursorIndex();
-      fail("should throw ErrorStreamOutNotSet exception");
+        ExcpReporting.out = System.out;
+
+        V8LogFileConstructor constructor = new V8LogFileConstructor();
+        logFileName = constructor
+                .addEXCP()
+                .build(LogFileTypes.FILE);
     }
-    catch (ExcpReporting.ErrorStreamOutNotSet e){
-      assertTrue(true);
+
+    @Test
+    public void testExcpReporting() throws LogScannerClientNotFoundServer {
+
+        ExcpReporting.out = null;
+
+        V8LanLogScannerClient client = new V8LanLogScannerClient();
+        try {
+            client.cursorIndex();
+            fail("should throw ErrorStreamOutNotSet exception");
+        } catch (ExcpReporting.ErrorStreamOutNotSet e) {
+            assertTrue(true);
+        }
     }
-  }
-  
-  @Test
-  public void testRunAppl() throws IOException {
-    
-    //out
-    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(outStream);
-    //in
-    ByteBuffer bytes = Charset.forName("UTF-8").encode("1"); // select first menu item
-    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
-    
-    ApplConsole appl = new ApplConsole(in, out);
-    
-    // Test click on menu item
-    
-    MenuCmd mainMenu = new MenuCmd("main", null);
-    mainMenu.add(new MenuItemCmd("first item", null));
 
-    appl.runAppl(mainMenu);
-    byte[] outBytes = outStream.toByteArray();
-    assertTrue(outBytes.length != 0);
-  }
-  
-  @Test
-  public void testRunCmdScannerApp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
+    @Test
+    public void testRunAppl() throws IOException {
 
-    //out
-    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(outStream);
-    //in
-    StringBuilder sb = new StringBuilder();
-    sb.append("1");   //1. Cursor log scanning(recommends)
-    sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
-    sb.append("\n3"); //3. Add own log location
-    sb.append(String.format("\n%s", logFileName)); // Here we print log location
-    sb.append("\nq"); //9. Start
-    sb.append("\n");
-    ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
-    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
-    
-    ApplConsole appl = new ApplConsole(in, out);
-    V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
-    // cancel reset client so that it did not clear ScanProfile
-    ClientsManager manager = new ClientsManager();
-    ClientsManager mockedManager = Mockito.spy(manager);
-    Mockito.doNothing().when(mockedManager).resetRemoteClients();
-    scannerAppl.setApplConsole(appl, mockedManager);
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        ByteBuffer bytes = Charset.forName("UTF-8").encode("1"); // select first menu item
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-    scannerAppl.runAppl();
-    
-    V8LogFileConstructor.deleteLogFile(logFileName);
-  }
+        ApplConsole appl = new ApplConsole(in, out);
 
-  @Test
-  public void testCmdSetCurAlgorithm() {
+        // Test click on menu item
 
-    //out
-    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(outStream);
-    //in
-    StringBuilder sb = new StringBuilder();
-    sb.append("1");   //1. Cursor log scanning(recommends)
-    sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
-    sb.append("\n3"); //3. Add own log location
-    sb.append(String.format("\n%s", logFileName)); // Here we print log location
-    sb.append("\n9"); //9. Start
-    sb.append("\nq"); //3. Exit
-    sb.append("\nq"); //10. Exit
-    sb.append("\n2"); // Heap log scanning
-    sb.append("\n");
-    ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
-    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+        MenuCmd mainMenu = new MenuCmd("main", null);
+        mainMenu.add(new MenuItemCmd("first item", null));
 
-    ApplConsole appl = new ApplConsole(in, out);
-    V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+        appl.runAppl(mainMenu);
+        byte[] outBytes = outStream.toByteArray();
+        assertTrue(outBytes.length != 0);
+    }
 
-    // cancel reset client so that it did not clear ScanProfile
-    ClientsManager manager = new ClientsManager();
-    ClientsManager mockedManager = Mockito.spy(manager);
-    Mockito.doNothing().when(mockedManager).resetRemoteClients();
-    scannerAppl.setApplConsole(appl, mockedManager);
+    @Test
+    public void testRunCmdScannerApp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
 
-    scannerAppl.runAppl();
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        StringBuilder sb = new StringBuilder();
+        sb.append("1");   //1. Cursor log scanning(recommends)
+        sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
+        sb.append("\n3"); //3. Add own log location
+        sb.append(String.format("\n%s", logFileName)); // Here we print log location
+        sb.append("\nq"); //9. Start
+        sb.append("\n");
+        ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-    assertEquals(ScanProfile.RgxOpTypes.HEAP_OP, scannerAppl.profile.getRgxOp());
+        ApplConsole appl = new ApplConsole(in, out);
+        V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+        // cancel reset client so that it did not clear ScanProfile
+        ClientsManager manager = new ClientsManager();
+        ClientsManager mockedManager = Mockito.spy(manager);
+        Mockito.doNothing().when(mockedManager).resetRemoteClients();
+        scannerAppl.setApplConsole(appl, mockedManager);
 
-    V8LogFileConstructor.deleteLogFile(logFileName);
+        scannerAppl.runAppl();
 
-  }
+        V8LogFileConstructor.deleteLogFile(logFileName);
+    }
 
-  @Test
-  public void testCmdChangeLogType() {
+    @Test
+    public void testCmdSetCurAlgorithm() {
 
-    //out
-    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(outStream);
-    //in
-    StringBuilder sb = new StringBuilder();
-    sb.append("1");   //1. Cursor log scanning(recommends)
-    sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
-    sb.append("\n3"); //3. Add own log location
-    sb.append(String.format("\n%s", logFileName)); // Here we print log location
-    sb.append("\n2"); //2. WHERE log type in
-    sb.append("\n0"); //0. RPHOST
-    sb.append("\n9"); //9. Start
-    sb.append("\nq"); //3. Exit
-    sb.append("\n2"); //2. WHERE log type in
-    sb.append("\n1"); //1. CLIENT
-    sb.append("\n9"); //9. Start
-    sb.append("\nq"); //3. Exit
-    sb.append("\n");
-    ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
-    ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        StringBuilder sb = new StringBuilder();
+        sb.append("1");   //1. Cursor log scanning(recommends)
+        sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
+        sb.append("\n3"); //3. Add own log location
+        sb.append(String.format("\n%s", logFileName)); // Here we print log location
+        sb.append("\n9"); //9. Start
+        sb.append("\nq"); //3. Exit
+        sb.append("\nq"); //10. Exit
+        sb.append("\n2"); // Heap log scanning
+        sb.append("\n");
+        ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-    ApplConsole appl = new ApplConsole(in, out);
-    V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
-    // cancel reset client so that it did not clear ScanProfile
-    ClientsManager manager = new ClientsManager();
-    ClientsManager mockedManager = Mockito.spy(manager);
-    Mockito.doNothing().when(mockedManager).resetRemoteClients();
+        ApplConsole appl = new ApplConsole(in, out);
+        V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
 
-    scannerAppl.setApplConsole(appl, mockedManager);
-    scannerAppl.runAppl();
+        // cancel reset client so that it did not clear ScanProfile
+        ClientsManager manager = new ClientsManager();
+        ClientsManager mockedManager = Mockito.spy(manager);
+        Mockito.doNothing().when(mockedManager).resetRemoteClients();
+        scannerAppl.setApplConsole(appl, mockedManager);
 
-    assertEquals(ScanProfile.LogTypes.CLIENT, scannerAppl.profile.getLogType());
+        scannerAppl.runAppl();
 
-    V8LogFileConstructor.deleteLogFile(logFileName);
-  }
+        assertEquals(ScanProfile.RgxOpTypes.HEAP_OP, scannerAppl.profile.getRgxOp());
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+
+    }
+
+    @Test
+    public void testCmdChangeLogType() {
+
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        StringBuilder sb = new StringBuilder();
+        sb.append("1");   //1. Cursor log scanning(recommends)
+        sb.append("\n1"); //1. SELECT TOP[100] FROM location[0]
+        sb.append("\n3"); //3. Add own log location
+        sb.append(String.format("\n%s", logFileName)); // Here we print log location
+        sb.append("\n2"); //2. WHERE log type in
+        sb.append("\n0"); //0. RPHOST
+        sb.append("\n9"); //9. Start
+        sb.append("\nq"); //3. Exit
+        sb.append("\n2"); //2. WHERE log type in
+        sb.append("\n1"); //1. CLIENT
+        sb.append("\n9"); //9. Start
+        sb.append("\nq"); //3. Exit
+        sb.append("\n");
+        ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+
+        ApplConsole appl = new ApplConsole(in, out);
+        V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+        // cancel reset client so that it did not clear ScanProfile
+        ClientsManager manager = new ClientsManager();
+        ClientsManager mockedManager = Mockito.spy(manager);
+        Mockito.doNothing().when(mockedManager).resetRemoteClients();
+
+        scannerAppl.setApplConsole(appl, mockedManager);
+        scannerAppl.runAppl();
+
+        assertEquals(ScanProfile.LogTypes.CLIENT, scannerAppl.profile.getLogType());
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+    }
 }
 

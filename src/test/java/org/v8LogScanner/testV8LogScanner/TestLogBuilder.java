@@ -4,13 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.commonly.fsys;
-import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.logsCfg.LogBuilder;
-import org.v8LogScanner.logsCfg.LogEvent;
-import org.v8LogScanner.rgx.RegExp;
-import java.io.File;
 
-import java.io.IOException;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +17,7 @@ public class TestLogBuilder {
 
     private LogBuilder builder;
     private String testFileName = "";
+
     @Before
     public void setup() {
         testFileName = fsys.createTempFile("");
@@ -61,9 +58,9 @@ public class TestLogBuilder {
     public void testBuildAllEvents() throws Exception {
 
         File file = builder
-        .addLocLocation()
-        .buildAllEvents()
-        .writeToXmlFile();
+                .addLocLocation()
+                .buildAllEvents()
+                .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -72,9 +69,9 @@ public class TestLogBuilder {
     public void testBuildSQlEvents() throws Exception {
 
         File file = builder
-        .addLocLocation(testFileName, "1")
-        .buildSQlEvents()
-        .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildSQlEvents()
+                .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -83,9 +80,9 @@ public class TestLogBuilder {
     public void testBuildExcpEvents() throws Exception {
 
         File file = builder
-        .addLocLocation(testFileName, "1")
-        .buildExcpEvents()
-        .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildExcpEvents()
+                .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -94,9 +91,9 @@ public class TestLogBuilder {
     public void testBuildEverydayEvents() throws Exception {
 
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .buildEverydayEvents()
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildEverydayEvents()
+                .writeToXmlFile();
 
         assertTrue(file.exists());
     }
@@ -104,45 +101,45 @@ public class TestLogBuilder {
     @Test
     public void testBuildLongEvents() throws Exception {
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .buildLongEvents()
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildLongEvents()
+                .writeToXmlFile();
         assertTrue(file.exists());
     }
 
     @Test
     public void testInvestigateNonEffectiveQueries() throws Exception {
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .buildInvestigateSQlQueries("DefUser","test")
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildInvestigateSQlQueries("DefUser", "test")
+                .writeToXmlFile();
         assertTrue(file.exists());
     }
 
     @Test
     public void testBuild1cLocksEvents() throws Exception {
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .build1cLocksEvents()
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .build1cLocksEvents()
+                .writeToXmlFile();
         assertTrue(file.exists());
     }
 
     @Test
     public void testBuildSqlLocksEvents() throws Exception {
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .buildSqlDeadLocksEvents()
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildSqlDeadLocksEvents()
+                .writeToXmlFile();
         assertTrue(file.exists());
     }
 
     @Test
     public void testBuildFindTableByObjectID() throws Exception {
         File file = builder
-            .addLocLocation(testFileName, "1")
-            .buildFindTableByObjectID("test")
-            .writeToXmlFile();
+                .addLocLocation(testFileName, "1")
+                .buildFindTableByObjectID("test")
+                .writeToXmlFile();
         assertTrue(file.exists());
     }
 

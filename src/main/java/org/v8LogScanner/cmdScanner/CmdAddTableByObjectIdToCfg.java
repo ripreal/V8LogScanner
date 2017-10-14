@@ -15,7 +15,7 @@ public class CmdAddTableByObjectIdToCfg implements CmdCommand {
 
         String[] msg = {"input a ms sql OBJECT_ID table name which events you're looking for:"};
         String objectID = appl.getConsole().askInput(msg,
-                (text) ->  text.matches("\\S+"),
+                (text) -> text.matches("\\S+"),
                 true);
 
         if (objectID == null)
