@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestLogBuilder {
@@ -47,13 +48,18 @@ public class TestLogBuilder {
             .writeToXmlFile();
         String source_res = fsys.readAllFromFile(file.toPath());
 
-        file = builder
+
+        List<Path> cfgs = new ArrayList<>(1);
+        cfgs.add(new File(testFileName).toPath());
+        LogBuilder newBuilder = new LogBuilder(cfgs);
+
+        file = newBuilder
             .setCfgPaths(file.toPath())
             .readCfgFile()
             .writeToXmlFile();
         String parse_res = fsys.readAllFromFile(file.toPath());
-
-        assertTrue(source_res.compareTo(parse_res) == 0);
+        
+        assertEquals(builder.getLogEvents().size(), newBuilder.getLogEvents().size());
     }
 
     @Test
