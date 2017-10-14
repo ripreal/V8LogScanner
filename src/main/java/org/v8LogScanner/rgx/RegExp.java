@@ -3,11 +3,14 @@
 // THESE CLASSES ARE NOT THREAD-SAFE
 package org.v8LogScanner.rgx;
 
+import com.sun.net.httpserver.Headers;
 import org.v8LogScanner.commonly.Filter;
 import org.v8LogScanner.commonly.Filter.ComparisonTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -22,10 +25,10 @@ public class RegExp implements Serializable {
         ClientID, Except, Descr, Protected, CallID, ProcessName, ANY, ComputerName,
         ApplicationName, ConnectID, SessionID, Usr, WaitConnections, Locks, Regions,
         Context, DeadlockConnectionIntersections, Interface, Sql, Trans, Dbpid, Sdbl,
-        Func, planSQLText
+        Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, planSQLText
     }
 
-    public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS}
+    public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS, HASP, VRSREQUEST, VRSRESPONSE}
 
     private EventTypes eventType;
     private final RgxNode rgxNode = new RgxNode();
@@ -39,7 +42,14 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Event);
         rgxNode.add(PropTypes.StackLevel);
         rgxNode.add(PropTypes.Content);
-
+        try {
+            Class<?> c = Class.forName(this.getClass().getName());
+            Method  method = c.getDeclaredMethod ("build" + et.toString());
+            method.invoke (this, new Object[0]);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        /*
         switch (et) {
             case EXCP:
                 buildEXCP();
@@ -70,11 +80,24 @@ public class RegExp implements Serializable {
                 break;
             case DBORACLE:
                 buildDBORACLE();
+                break;
             case DBPOSTGRS:
                 buildDBPOSTGRS();
+                break;
+            case HASP:
+                buildHASP();
+                break;
+            case VRSREQUEST:
+                buildVRSREQUEST();
+                break;
+            case VRSRESPONSE:
+                buildVRSRESPONSE();
+                break;
             default:
                 break;
+
         }
+        */
     }
 
     public RegExp() {
@@ -172,44 +195,27 @@ public class RegExp implements Serializable {
     }
 
     private void buildDBMSSQL() {
-        rgxNode.add(PropTypes.Process);
-        rgxNode.add(PropTypes.ProcessName);
-        rgxNode.add(PropTypes.ClientID);
-        rgxNode.add(PropTypes.ApplicationName);
-        rgxNode.add(PropTypes.ComputerName);
-        rgxNode.add(PropTypes.ConnectID);
-        rgxNode.add(PropTypes.SessionID);
-        rgxNode.add(PropTypes.Usr);
-        rgxNode.add(PropTypes.Trans);
-        rgxNode.add(PropTypes.Dbpid);
-        rgxNode.add(PropTypes.Sql);
-        rgxNode.add(PropTypes.planSQLText);
-        rgxNode.add(PropTypes.Context);
+        buildSQlEvent();
 
         Filter<String> filter = getFilter(PropTypes.Event);
         filter.add("DBMSSQL");
     }
 
     private void buildDBORACLE() {
-        rgxNode.add(PropTypes.Process);
-        rgxNode.add(PropTypes.ProcessName);
-        rgxNode.add(PropTypes.ClientID);
-        rgxNode.add(PropTypes.ApplicationName);
-        rgxNode.add(PropTypes.ComputerName);
-        rgxNode.add(PropTypes.ConnectID);
-        rgxNode.add(PropTypes.SessionID);
-        rgxNode.add(PropTypes.Usr);
-        rgxNode.add(PropTypes.Trans);
-        rgxNode.add(PropTypes.Dbpid);
-        rgxNode.add(PropTypes.Sql);
-        rgxNode.add(PropTypes.planSQLText);
-        rgxNode.add(PropTypes.Context);
+        buildSQlEvent();
 
         Filter<String> filter = getFilter(PropTypes.Event);
         filter.add("DBORACLE");
     }
 
     private void buildDBPOSTGRS() {
+        buildSQlEvent();
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("DBPOSTGRS");
+    }
+
+    private void buildSQlEvent() {
         rgxNode.add(PropTypes.Process);
         rgxNode.add(PropTypes.ProcessName);
         rgxNode.add(PropTypes.ClientID);
@@ -223,9 +229,6 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Sql);
         rgxNode.add(PropTypes.planSQLText);
         rgxNode.add(PropTypes.Context);
-
-        Filter<String> filter = getFilter(PropTypes.Event);
-        filter.add("DBPOSTGRS");
     }
 
     private void buildSDBL() {
@@ -245,7 +248,6 @@ public class RegExp implements Serializable {
         filter.add("SDBL");
     }
 
-    // NOT FINISHED TODO:  FileName
     private void buildDBV8DBEng() {
         rgxNode.add(PropTypes.Process);
         rgxNode.add(PropTypes.ProcessName);
@@ -253,15 +255,44 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Trans);
         rgxNode.add(PropTypes.Sql);
         rgxNode.add(PropTypes.Func);
+        rgxNode.add(PropTypes.FileName);
         rgxNode.add(PropTypes.Context);
 
         Filter<String> filter = getFilter(PropTypes.Event);
         filter.add("DBV8DBEng");
     }
 
-    public Pattern compile() {
+    private void buildHASP() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.Txt);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.UsrLim);
+        rgxNode.add(PropTypes.Type);
+        rgxNode.add(PropTypes.Context);
 
-        return Pattern.compile(rgxNode.interpret(), Pattern.DOTALL);
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("HASP");
+    }
+
+    private void buildVRSREQUEST() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.Method);
+        rgxNode.add(PropTypes.URI);
+        rgxNode.add(PropTypes.Headers);
+        rgxNode.add(PropTypes.Body);
+        rgxNode.add(PropTypes.Context);
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("VRSREQUEST");
+    }
+
+    private void buildVRSRESPONSE() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.Status);
+        rgxNode.add(PropTypes.Phrase);
+        rgxNode.add(PropTypes.Headers);
+        rgxNode.add(PropTypes.Body);
+        rgxNode.add(PropTypes.Context);
     }
 
     /**
@@ -461,31 +492,7 @@ public class RegExp implements Serializable {
 
         return props;
     }
-  /*
-  public int compareTo(RegExp o) {
-    return eventType.compareTo(o.getEventType());
-  }
 
-  @Override
-  public int hashCode(){
-    return eventType.hashCode();
-
-  }
-
-  @Override
-  public boolean equals(Object x){
-
-    if (x == this)
-      return true;
-
-    if (!(x instanceof RegExp))
-      return false;
-
-    RegExp other = (RegExp) x;
-
-    return eventType.equals(other.getEventType());
-  }
-  */
 }
 
 class PropertyNotFoundException extends RuntimeException {
@@ -531,6 +538,14 @@ class RgxNode implements Cloneable, Serializable {
     // FACTORY METHOD PATTERN
     public void add(PropTypes key) {
         RgxNode el = null;
+       /* try {
+            Class<?> c = Class.forName(this.getClass().getName() + "." + key.toString());
+            el = (RgxNode) c.newInstance();
+        } catch (InstantiationException  | ClassNotFoundException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        */
+
         switch (key) {
             case Time:
                 el = new Time();
@@ -557,10 +572,31 @@ class RgxNode implements Cloneable, Serializable {
                 el = new Process();
                 break;
             case ProcessName:
-                el = new ProcessName();
+                el = new Process();
+                break;
+            case Status:
+                el = new Status();
+                break;
+            case Phrase:
+                el = new Phrase();
+                break;
+            case Method:
+                el = new Method();
+                break;
+            case URI:
+                el = new URI();
+                break;
+            case Headers:
+                el = new Headers();
+                break;
+            case Body:
+                el = new Body();
                 break;
             case StackLevel:
                 el = new StackLevel();
+                break;
+            case FileName:
+                el = new FileName();
                 break;
             case Protected:
                 el = new Protected();
@@ -579,6 +615,7 @@ class RgxNode implements Cloneable, Serializable {
                 break;
             case SessionID:
                 el = new SessionID();
+                break;
             case Usr:
                 el = new Usr();
                 break;
@@ -618,9 +655,20 @@ class RgxNode implements Cloneable, Serializable {
             case planSQLText:
                 el = new PlanSQLText();
                 break;
+            case Txt:
+                el = new Txt();
+                break;
+            case Type:
+                el = new Type();
+                break;
+            case UsrLim:
+                el = new UsrLim();
+                break;
             default:
                 break;
         }
+
+
         el.pType = key;
 
         elements.add(el);
@@ -1131,6 +1179,39 @@ class RgxNode implements Cloneable, Serializable {
         }
     }
 
+    class Txt extends RgxNode {
+
+        private static final long serialVersionUID = -7943899322454464280L;
+        public final String name = "Txt=";
+
+        @Override
+        public String interpret() {
+            return compPartStrFilter(name);
+        }
+    }
+
+    class UsrLim extends RgxNode {
+
+        private static final long serialVersionUID = -7918919722454464280L;
+        public final String name = "UsrLim=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class Type extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "type=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
     class PlanSQLText extends RgxNode {
 
         private static final long serialVersionUID = -7218919322454464280L;
@@ -1141,4 +1222,83 @@ class RgxNode implements Cloneable, Serializable {
             return compPartStrFilter(name);
         }
     }
+
+    class Method extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "Method=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class URI extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "URI=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class Body extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "Body=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class Status extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "Status=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class Phrase extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "Phrase=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+    class FileName extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "FileName=";
+
+        @Override
+        public String interpret() {
+            return compStrFilter(name);
+        }
+    }
+
+
+    class Headers extends RgxNode {
+
+        private static final long serialVersionUID = -7918911322454464280L;
+        public final String name = "Headers=";
+
+        @Override
+        public String interpret() {
+            return compPartStrFilter(name);
+        }
+    }
+
 }

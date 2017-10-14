@@ -90,6 +90,41 @@ public class V8LogFileConstructor {
         return this;
     }
 
+    public V8LogFileConstructor addHASP() {
+        logData.add("22:03.504001-45998,HASP,1,process=1cv8c,Txt='"
+            + "NETHASP_HASPQUERYLICENSE(,prog=17,ser=ORGL8,,,,)->CurUsr=100,UsrLim=100,type=100,remain=65535'");
+        return this;
+    }
+
+    public V8LogFileConstructor addVRSREQUEST() {
+        logData.add("29:39.030000-0,VRSREQUEST,3,process=1cv8c,Method=GET,URI='/e1cib/modules/src?id=urn%3Amodule%3Amd%3Ae5dca369-dc9a-4332-a509-f734b8787e13%40property%3D%27d5963243-262e-4398-b4d7-fb16d06484f6%27%3Bversion%3D%2765e44a747bd02b4085c869b735501c4b00000000%27&sysver=8.3.9.2233&confver=81c6d539c2d4f93ed568109bb2d51078fc80cfd8',Headers='1C-ConnectString: Srvr=\"SRVAPP1CAGRO01\";Ref=\"agroholding\";"
+        + "Accept-Charset: utf-8"
+        + "1C-ApplicationName: 1CV8C"
+        + "User-Agent: 1CV8C"
+        + "Accept-Encoding: deflate,1CSDC;q=0.5"
+        + "Accept: text/plain"
+        + "Accept-Language: ru-RU"
+        + "Cookie: $Version=1;vrs_session=50bd2adc-de0d-4396-b5fb-b5f4ee171da7;$Path=/;vrs_refresh=1;$Path=/"
+        + "1C-BaseLocation: e1c://server/SRVAPP1CAGRO01/agroholding',Body=0,Cached=1,Context='"
+        + "МодульУправляемогоПриложения : 78 : СтандартныеПодсистемыКлиент.ПриНачалеРаботыСистемы();"
+        + "ОбщийМодуль.СтандартныеПодсистемыКлиент.Модуль : 309 : ОбщегоНазначенияКлиентСервер.ПроверитьПараметр(\"СтандартныеПодсистемыКлиент.ПриНачалеРаботыСистемы\","
+        +        "ОбщийМодуль.ОбщегоНазначенияКлиентСервер.Модуль : 2751 : Проверить(ЭтоКорректныйТип, СтроковыеФункцииКлиентСервер.ПодставитьПараметрыВСтроку(НедопустимыйПараметр,'");
+        return this;
+    }
+
+    public V8LogFileConstructor addVRSRESPONSE() {
+        logData.add("29:39.061001-0,VRSRESPONSE,3,process=1cv8c,Status=200,Phrase=OK,Headers='Content-Type: text/plain; charset=utf-8"
+        + "Cache-Control: private, max-age=31536000"
+        + "Content-Language: ru-RU"
+        + "Content-Length: 10993"
+        + "Content-Encoding: deflate"
+        + "Server: 1C:Enterprise/8.3.9.2233',Body=10993,Context='"
+        + "МодульУправляемогоПриложения : 78 : СтандартныеПодсистемыКлиент.ПриНачалеРаботыСистемы();"
+        + "ОбщийМодуль.СтандартныеПодсистемыКлиент.Модуль : 309 : ОбщегоНазначенияКлиентСервер.ПроверитьПараметр(\"СтандартныеПодсистемыКлиент.ПриНачалеРаботыСистемы\","
+                + "ОбщийМодуль.ОбщегоНазначенияКлиентСервер.Модуль : 2751 : Проверить(ЭтоКорректныйТип, СтроковыеФункцииКлиентСервер.ПодставитьПараметрыВСтроку(НедопустимыйПараметр,')");
+        return this;
+    }
+
     public String build(LogFileTypes type) {
         String preparedText = String.join("\n", logData);
         ;

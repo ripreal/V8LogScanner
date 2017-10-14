@@ -1,4 +1,4 @@
-package org.HelpTools.trashPrototype;
+package org.trashPrototype;
 
 public interface V83Connection {
 /*

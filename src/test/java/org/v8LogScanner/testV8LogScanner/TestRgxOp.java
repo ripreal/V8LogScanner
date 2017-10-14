@@ -55,6 +55,7 @@ public class TestRgxOp {
 
         String logFileName = constructor
                 .addEXCP()
+                .addHASP()
                 .build(LogFileTypes.FILE);
 
         // TEST TIME FILTER
@@ -296,5 +297,27 @@ public class TestRgxOp {
         V8LogFileConstructor.deleteLogFile(logFileName);
     }
 
+    @Test
+    public void testVSRQuieries() {
+        String logFileName = constructor
+                .addEXCP()
+                .addVRSREQUEST()
+                .addVRSRESPONSE()
+                .build(LogFileTypes.FILE);
 
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        profile.addLogPath(logFileName);
+
+        RegExp rgx = new RegExp(EventTypes.VRSREQUEST);
+        rgx.getFilter(PropTypes.Method).add("GET");
+        profile.addRegExp(rgx);
+        profile.addRegExp(new RegExp(EventTypes.VRSRESPONSE));
+
+        localClient.startRgxOp();
+        List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
+        assertEquals(2, entries.size());
+    }
 }

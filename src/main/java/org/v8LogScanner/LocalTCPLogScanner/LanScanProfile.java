@@ -152,7 +152,6 @@ public class LanScanProfile implements ScanProfile {
         sortingProp = PropTypes.ANY;
         groupType = GroupTypes.BY_PROPS;
         rgxList = new ArrayList<>();
-        rgxList.add(new RegExp());
         rgxExp = "";
         rgxOp = RgxOpTypes.CURSOR_OP;
         userStartDate = "";

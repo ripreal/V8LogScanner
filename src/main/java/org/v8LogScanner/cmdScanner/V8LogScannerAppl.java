@@ -10,6 +10,7 @@ import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
+import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
@@ -52,7 +53,7 @@ public class V8LogScannerAppl {
         clientsManager.localClient().addListener(procEvent);
 
         profile = clientsManager.localClient().getProfile();
-
+        profile.addRegExp(new RegExp());
         logBuilder.readCfgFile();
     }
 
