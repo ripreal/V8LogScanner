@@ -238,7 +238,7 @@ public class TestRgxOp {
         V8LogScannerClient localClient = manager.localClient();
 
         ScanProfile profile = localClient.getProfile();
-        ScanProfile.BuildFindSlowSQlEventsWithTableScan(profile);
+        ScanProfile.BuildFindSlowSQlEventsWithPlan(profile,"Table Scan");
         profile.addLogPath(logFileName);
 
         manager.startRgxOp();
@@ -276,6 +276,7 @@ public class TestRgxOp {
     public void testBuildAllLocksByUser() {
 
         String logFileName = constructor
+                .addEXCP()
                 .addTDEADLOCK()
                 .addTTimeout()
                 .addSQlDEADLOCK()
@@ -286,13 +287,13 @@ public class TestRgxOp {
         V8LogScannerClient localClient = manager.localClient();
 
         ScanProfile profile = localClient.getProfile();
-        ScanProfile.buildUserEXCP(profile);
+        ScanProfile.buildAllLocksByUser(profile, "DefUser");
         profile.addLogPath(logFileName);
 
         manager.startRgxOp();
         List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
 
-        assertEquals(1, logs.size());
+        assertEquals(4, logs.size());
 
         V8LogFileConstructor.deleteLogFile(logFileName);
     }

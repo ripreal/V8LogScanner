@@ -84,8 +84,11 @@ public class LogBuilder {
         List<String> v8Dirs = Constants.V8_Dirs();
         for (String dir : v8Dirs) {
             String defCfgDir = dir + "\\conf";
-            if (Files.exists(Paths.get(dir)) && !cfgPaths.contains(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME))
+            if (Files.exists(Paths.get(dir))
+                && !cfgPaths.contains(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME))){
+
                 cfgPaths.add(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME));
+            }
         }
     }
 

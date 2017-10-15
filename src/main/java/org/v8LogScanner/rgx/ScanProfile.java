@@ -83,16 +83,19 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         List<RegExp> rgxList = profile.getRgxList();
         RegExp dbmsql = new RegExp(RegExp.EventTypes.DBMSSQL);
+        dbmsql.getGroupingProps().add(PropTypes.Event);
         dbmsql.getGroupingProps().add(PropTypes.Context);
         dbmsql.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
         rgxList.add(dbmsql);
 
         RegExp sdbl = new RegExp(RegExp.EventTypes.SDBL);
+        sdbl.getGroupingProps().add(PropTypes.Event);
         sdbl.getGroupingProps().add(PropTypes.Context);
         sdbl.getFilter(PropTypes.Context).add(""); // only seek events with present prop
         rgxList.add(sdbl);
 
         RegExp dbv8d8eng = new RegExp(RegExp.EventTypes.DBV8DBEng);
+        dbv8d8eng.getGroupingProps().add(PropTypes.Event);
         dbv8d8eng.getGroupingProps().add(PropTypes.Context);
         dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
         rgxList.add(dbv8d8eng);
@@ -180,6 +183,7 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         for (RegExp.EventTypes eventType : v8Locks) {
             RegExp rgxEvent = new RegExp(eventType);
+            rgxEvent.getGroupingProps().add(PropTypes.Event);
             rgxEvent.getGroupingProps().add(PropTypes.Context);
             rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
             rgxList.add(rgxEvent);
@@ -198,6 +202,7 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         for (RegExp.EventTypes eventType : v8Locks) {
             RegExp rgxEvent = new RegExp(eventType);
+            rgxEvent.getGroupingProps().add(PropTypes.Event);
             rgxEvent.getGroupingProps().add(PropTypes.Context);
             rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
             rgxEvent.getFilter(PropTypes.Usr).add(user);
@@ -223,12 +228,13 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         List<RegExp> rgxList = profile.getRgxList();
         RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+        rgx.getGroupingProps().add(PropTypes.Event);
         rgx.getGroupingProps().add(PropTypes.Sql);
         rgx.getFilter(PropTypes.Sql).add(query_fragment);
         rgxList.add(rgx);
     }
 
-    static void BuildFindSlowSQlEventsWithTableScan(ScanProfile profile) {
+    static void BuildFindSlowSQlEventsWithPlan(ScanProfile profile, String queryPlan) {
         profile.clear();
         profile.setRgxOp(RgxOpTypes.CURSOR_OP);
         profile.setLogType(LogTypes.RPHOST);
@@ -236,8 +242,9 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         List<RegExp> rgxList = profile.getRgxList();
         RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
+        rgx.getGroupingProps().add(PropTypes.Event);
         rgx.getGroupingProps().add(PropTypes.Context);
-        rgx.getFilter(PropTypes.planSQLText).add("Table Scan");
+        rgx.getFilter(PropTypes.planSQLText).add(queryPlan);
         rgxList.add(rgx);
 
         profile.setSortingProp(PropTypes.Duration);

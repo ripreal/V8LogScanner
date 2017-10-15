@@ -41,7 +41,7 @@ public class V8LogFileConstructor {
     }
 
     public V8LogFileConstructor addTTimeout() {
-        //TODO impement 1c timeout
+        logData.add("32:27.857000-0,TTIMEOUT,5,process=rphost,p:processName=test,t:clientID=52,t:applicationName=1CV8C,t:computerName=yardnout,t:connectID=19,SessionID=19,Usr=DefUser,AppID=1CV8C,WaitConnections=18,Context=Форма.Записать : Документ.ДокументДляБлокировки.ФормаОбъекта");
         return this;
     }
 

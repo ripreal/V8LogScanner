@@ -293,6 +293,9 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Headers);
         rgxNode.add(PropTypes.Body);
         rgxNode.add(PropTypes.Context);
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("VRSRESPONSE");
     }
 
     /**
@@ -301,15 +304,7 @@ public class RegExp implements Serializable {
      * gets all properties with active filter except last Content prop.
      **/
     public Pattern compileSpan(PropTypes propStart, PropTypes propEnd) {
-
-        //if (useCache){
-        //  Pattern curr = cache.get("compiledPattern");
-        //  if (curr != null)
-        //    return curr;
-        //}
-
         Pattern result = Pattern.compile(rgxNode.interpretSpan(propStart, propEnd), Pattern.DOTALL);
-        //cache.putVal("compiledPattern", result);
         return result;
     }
 
@@ -538,13 +533,6 @@ class RgxNode implements Cloneable, Serializable {
     // FACTORY METHOD PATTERN
     public void add(PropTypes key) {
         RgxNode el = null;
-       /* try {
-            Class<?> c = Class.forName(this.getClass().getName() + "." + key.toString());
-            el = (RgxNode) c.newInstance();
-        } catch (InstantiationException  | ClassNotFoundException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        */
 
         switch (key) {
             case Time:
@@ -667,8 +655,6 @@ class RgxNode implements Cloneable, Serializable {
             default:
                 break;
         }
-
-
         el.pType = key;
 
         elements.add(el);

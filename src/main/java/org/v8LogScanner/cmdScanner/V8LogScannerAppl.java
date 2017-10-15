@@ -21,7 +21,7 @@ import java.util.List;
 public class V8LogScannerAppl {
 
     public ClientsManager clientsManager;
-    public final LogBuilder logBuilder = new LogBuilder();
+    public LogBuilder logBuilder;
     public ScanProfile profile;
 
     private MenuCmd main;
@@ -54,7 +54,6 @@ public class V8LogScannerAppl {
 
         profile = clientsManager.localClient().getProfile();
         profile.addRegExp(new RegExp());
-        logBuilder.readCfgFile();
     }
 
     public void runAppl() {
@@ -143,21 +142,22 @@ public class V8LogScannerAppl {
         m_autoModes.add(new MenuItemCmd("Find slowest SQL and SDBL events", new CmdGetTopSlowestSql(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find slowest sql by user", new CmdGetTopSlowestSqlByUser(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find slowest sql queries with TABLE SCAN", new CmdGetSQlWithTableScan(), cursorLogScan));
-        m_autoModes.add(new MenuItemCmd("Find top most frequent SQL deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
-        m_autoModes.add(new MenuItemCmd("Find top most frequent 1C deadlocks and timeouts'", new CmdGetTopTimeout(), cursorLogScan));
-        m_autoModes.add(new MenuItemCmd("Find top most frequent deadlocks and timeouts by user'", new CmdGetTopDeadlocksByUser(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find slowest sql queries with INDEX SCAN", new CmdGetSQlWithIndexScan(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find 1C deadlocks and timeouts", new CmdGetTopTimeout(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find SQL deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find deadlocks and timeouts by user'", new CmdGetTopDeadlocksByUser(), cursorLogScan));
 
         // Item 5.
         main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
         m_config.add(new MenuItemCmd("Add new event", new CmdAddEventToCfg(), m_config));
         m_config.add(new MenuItemCmd("Add \"all\" events", new CmdAddAllEventsToCfg(), m_config));
-        m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddSqlEvent(), m_config));
         m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddExcpEvents(), m_config));
-        m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAdd1CLockEvents(), m_config));
         m_config.add(new MenuItemCmd("Add \"everyday events\" events", new CmdAddEveryDayEvents(), m_config));
+        m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddSqlEvent(), m_config));
         m_config.add(new MenuItemCmd("Add \"all sql queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
         m_config.add(new MenuItemCmd("Add \"slow sql queries with TABLE SCAN\" events", new CmdAddSlowQueriesWithTableScan(), m_config));
         m_config.add(new MenuItemCmd("Add \"any long\" events gt 20 sec", new CmdAddLongEventsToCfg(), m_config));
+        m_config.add(new MenuItemCmd("Add \"1c lock\" events", new CmdAdd1CLockEvents(), m_config));
         m_config.add(new MenuItemCmd("Add \"1c deadlocks\" events", new CmdAdd1cDeadLocksEventsToCfg(), m_config));
         m_config.add(new MenuItemCmd("Add \"sql deadlocks\" events", new CmdAddSqlDeadLocksEventsToCfg(), m_config));
         m_config.add(new MenuItemCmd("Add \"1c table by object id\" events", new CmdAddTableByObjectIdToCfg(), m_config));
@@ -235,6 +235,10 @@ public class V8LogScannerAppl {
     }
 
     public String getCfgConfigureDescr() {
+        if (logBuilder == null) {
+            logBuilder = new LogBuilder();
+            logBuilder.readCfgFile();
+        }
 
         List<String> paths = new ArrayList<>();
         clientsManager.forEach(client -> {

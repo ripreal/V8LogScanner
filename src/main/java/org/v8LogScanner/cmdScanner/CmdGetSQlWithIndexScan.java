@@ -3,14 +3,13 @@ package org.v8LogScanner.cmdScanner;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.rgx.ScanProfile;
 
-public class CmdGetSQlWithTableScan implements CmdCommand {
+public class CmdGetSQlWithIndexScan implements CmdCommand {
     @Override
     public String getTip() {
-        return "";
+        return null;
     }
 
-    @Override
     public void execute() {
-        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Table scan");
+        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Index scan");
     }
 }
