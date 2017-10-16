@@ -134,7 +134,6 @@ public class SocketTemplates {
         try {
             localIP = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
             ;
         }
@@ -146,7 +145,6 @@ public class SocketTemplates {
         try {
             hostIP = InetAddress.getByName(hostName).getHostAddress();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
         }
         return hostIP;
@@ -159,7 +157,6 @@ public class SocketTemplates {
         try {
             hostName = InetAddress.getByAddress(fetchToByteIP(hostIP)).getHostName();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
         }
 
@@ -170,7 +167,6 @@ public class SocketTemplates {
         try {
             socket.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
             ;
         }
@@ -205,7 +201,6 @@ public class SocketTemplates {
         try {
             line = inputReader.readLine();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
             ;
         }
@@ -240,10 +235,10 @@ public class SocketTemplates {
         return out;
     }
 
-    public boolean sendData(Socket clientSocket, Object data) {
+    public boolean sendData(ObjectOutputStream out, Object data) {
         boolean dispatch = false;
         try {
-            getOutDataReader(clientSocket).writeObject(data);
+            out.writeObject(data);
             dispatch = true;
         } catch (IOException e) {
             ExcpReporting.LogError(this, e);
@@ -252,12 +247,11 @@ public class SocketTemplates {
         return dispatch;
     }
 
-    public Object getData(Socket clientSocket) {
+    public Object getData(ObjectInputStream inputStream) {
         Object result = null;
         try {
             // input stream will wait until corresponding stream
             // on client side  had written in
-            ObjectInputStream inputStream = getInputDataReader(clientSocket);
             if (inputStream != null)
                 result = inputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {

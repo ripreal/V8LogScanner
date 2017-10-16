@@ -110,7 +110,7 @@ public class V8LogScannerAppl {
         cursorLogScan.add(new MenuItemCmd("AND WHERE event property in", new CmdAddLogFilter()));
         cursorLogScan.add(new MenuItemCmd("GROUP BY", new CmdAddGroupBy()));
         cursorLogScan.add(new MenuItemCmd("ORDER BY", new CmdChangeOrder()));
-        cursorLogScan.add(new MenuItemCmd("Reset all", new CmdResetAll()));
+        cursorLogScan.add(new MenuItemCmd("Reset all except logs", new CmdResetAll()));
         cursorLogScan.add(new MenuItemCmd("Start", new CmdStartCursorOp()));
 
         // Item 2
@@ -211,7 +211,7 @@ public class V8LogScannerAppl {
         menu.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), returnMenu));
         if (withTopMenu)
             menu.add(new MenuItemCmd("Set log events limit", new CmdSetTOP(), returnMenu));
-        menu.add(new MenuItemCmd("Reset log", new CmdResetLoc(), returnMenu));
+        menu.add(new MenuItemCmd("Reset locations", new CmdResetLoc(), returnMenu));
 
         return menu;
     }

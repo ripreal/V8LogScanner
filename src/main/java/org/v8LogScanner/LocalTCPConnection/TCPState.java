@@ -8,21 +8,17 @@ public abstract class TCPState {
         return null;
     }
 
-    public void activeOpen(TCPConnection connection) {
-    }
+    public void activeOpen(TCPConnection connection) {}
 
-    public void passiveOpen(TCPConnection connection) {
-    }
+    public void passiveOpen(TCPConnection connection) {}
 
-    public void close(TCPConnection connection) {
-    }
+    public void close(TCPConnection connection) {}
 
     public boolean send(TCPConnection connection, Object data) {
         return false;
     }
 
-    public void synchronize(TCPConnection connection) {
-    }
+    public void synchronize(TCPConnection connection) {}
 
     /**
      * Must be override for state specific behavior
@@ -42,5 +38,4 @@ public abstract class TCPState {
     protected void changeState(TCPConnection connection, TCPState state) {
         connection.changeState(state);
     }
-
 }

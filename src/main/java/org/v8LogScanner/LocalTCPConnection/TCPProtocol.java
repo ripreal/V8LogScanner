@@ -1,5 +1,7 @@
 package org.v8LogScanner.LocalTCPConnection;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class TCPProtocol {
@@ -12,14 +14,18 @@ public class TCPProtocol {
     private byte[] senderIP = null;
     private Socket clientSocket;
     private SocketTemplates socketTemplates = SocketTemplates.instance();
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
 
     public TCPProtocol(byte[] senderIP, Socket clientSocket) {
         this.senderIP = senderIP;
         this.clientSocket = clientSocket;
+        out = socketTemplates.getOutDataReader(clientSocket);
+        in = socketTemplates.getInputDataReader(clientSocket);
     }
 
     public TCPProtocolMessage getResponse() {
-        Object data = socketTemplates.getData(clientSocket);
+        Object data = socketTemplates.getData(in);
         if (data != null) {
             TCPProtocolMessage message = (TCPProtocolMessage) data;
             return message;
@@ -35,7 +41,7 @@ public class TCPProtocol {
         message.message = msgType;
         message.senderIP = senderIP;
         message.data = data;
-        boolean isSent = socketTemplates.sendData(clientSocket, message);
+        boolean isSent = socketTemplates.sendData(out, message);
         return isSent;
     }
 

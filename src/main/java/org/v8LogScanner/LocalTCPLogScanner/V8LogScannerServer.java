@@ -142,7 +142,7 @@ public class V8LogScannerServer implements SocketEvent {
             // It is OK because client does not provide any data to the server.
             // May be it is pinging or it is improper client. Do nothing.
             connection.send(new V8LogScannerData(null));
-            connection.close();
+           // connection.close();
             return;
         }
 
@@ -182,7 +182,7 @@ public class V8LogScannerServer implements SocketEvent {
 
         connection.send(answerData);
         logEvent(connection, String.format("Server finished client's request %s", dataFromClient.command));
-        connection.close();
+        //connection.close();
     }
 
     public void invoke(List<String> info) {

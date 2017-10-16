@@ -19,7 +19,9 @@ import org.v8LogScanner.rgx.SelectorEntry;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 ///////////////////////////
@@ -33,6 +35,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     private String hostName = "localhost";
     private String clientIP = "127.0.0.1";
     private static Thread listeningHosts;
+    private Map<String, TCPConnection> connections = new HashMap<>();
 
     private ScanProfile profile;
     private IRgxOp rgxOp;
@@ -284,10 +287,11 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     }
 
     private V8LogScannerData send(V8LogScannerData dataToServer) {
-        TCPConnection connection = TCPConnection.createTCPConnection(hostIP, Constants.serverPort);
+        TCPConnection connection = connections.getOrDefault(hostIP, TCPConnection.createTCPConnection(hostIP, Constants.serverPort));
+        connections.put(hostIP, connection);
         V8LogScannerData dataFromServer = send(connection, dataToServer);
-        if (connection != null)
-            connection.close();
+        //if (connection != null)
+            //connection.close();
         return dataFromServer;
     }
 
@@ -342,7 +346,5 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         }
 
     }
-
-
 }
 

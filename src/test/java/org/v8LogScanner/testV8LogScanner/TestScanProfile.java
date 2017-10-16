@@ -14,6 +14,7 @@ import org.v8LogScanner.rgx.RegExp.PropTypes;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -49,8 +50,8 @@ public class TestScanProfile {
         assertNotNull(server);
         String ip = templates.getHostIP(server);
         Socket client = templates.createClientSocket(ip, Constants.serverPort);
-
-        boolean sent = templates.sendData(client, profile);
+        ObjectOutputStream stream = templates.getOutDataReader(client);
+        boolean sent = templates.sendData(stream, profile);
 
         try {
             server.close();
@@ -74,7 +75,7 @@ public class TestScanProfile {
         V8LogScannerData dataToClient = new V8LogScannerData(V8LogScannerData.ScannerCommands.GET_CFG_PATHS);
         dataToClient.putData("cfgPaths", clientScanner.getCfgPaths());
 
-        boolean sent = templates.sendData(client, dataToClient);
+        boolean sent = templates.sendData(templates.getOutDataReader(client), dataToClient);
 
         try {
             server.close();

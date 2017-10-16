@@ -11,7 +11,7 @@ public class LanScanProfile implements ScanProfile {
 
     private static final long serialVersionUID = -2974587904820912760L;
 
-    private List<String> sourceLogPaths;
+    private List<String> sourceLogPaths = new ArrayList<>();
     private DateRanges dateRange;
     private int limit;
     private LogTypes logType;
@@ -145,7 +145,7 @@ public class LanScanProfile implements ScanProfile {
 
     @Override
     public void clear() {
-        sourceLogPaths = new ArrayList<>();
+        //sourceLogPaths =
         dateRange = DateRanges.ANY;
         limit = 100; // restriction up amount of events on
         logType = LogTypes.ANY;
