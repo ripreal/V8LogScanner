@@ -287,8 +287,15 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
     }
 
     private V8LogScannerData send(V8LogScannerData dataToServer) {
-        TCPConnection connection = connections.getOrDefault(hostIP, TCPConnection.createTCPConnection(hostIP, Constants.serverPort));
-        connections.put(hostIP, connection);
+
+        TCPConnection connection = null;
+        if (!connections.entrySet().stream().anyMatch((key) -> key.getKey().matches(hostIP))) {
+            connection = TCPConnection.createTCPConnection(hostIP, Constants.serverPort);
+            connections.put(hostIP, connection);
+        } else {
+            connection = connections.get(hostIP);
+        }
+
         V8LogScannerData dataFromServer = send(connection, dataToServer);
         //if (connection != null)
             //connection.close();

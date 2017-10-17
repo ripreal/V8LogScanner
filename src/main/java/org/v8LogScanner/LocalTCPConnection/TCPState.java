@@ -8,7 +8,9 @@ public abstract class TCPState {
         return null;
     }
 
-    public void activeOpen(TCPConnection connection) {}
+    public void activeOpen(TCPConnection connection) {
+
+    }
 
     public void passiveOpen(TCPConnection connection) {}
 

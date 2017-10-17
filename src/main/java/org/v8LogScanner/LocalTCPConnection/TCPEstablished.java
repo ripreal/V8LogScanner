@@ -17,7 +17,7 @@ public class TCPEstablished extends TCPState {
 
     @Override
     public boolean isEstablished(TCPConnection connection) {
-        return true;
+        return connection.socket.isConnected();
     }
 
     @Override
@@ -37,5 +37,20 @@ public class TCPEstablished extends TCPState {
     @Override
     public boolean send(TCPConnection connection, Object data) {
         return connection.protocol.sendMsg(TCPMessages.SEND_DATA, data);
+    }
+
+    @Override
+    public void passiveOpen(TCPConnection connection) {
+        while (true) {
+            Object data = recieve(connection);
+            send(connection, data);
+        }
+    }
+
+    @Override
+    public void activeOpen(TCPConnection connection) {
+        if (isEstablished(connection)) {
+
+        }
     }
 }

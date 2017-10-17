@@ -24,7 +24,8 @@ public class TCPListen extends TCPState {
             isSent = connection.protocol.sendMsg(response.message);
             if (isSent) {
                 connection.changeState(TCPEstablished.instance());
-                connection.recieve();
+                //connection.recieve(); old
+                connection.passiveOpen();
             } else {
                 connection.changeState(TCPClosed.instance());
                 connection.notifyStateError(response.message);
