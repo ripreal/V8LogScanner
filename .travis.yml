@@ -2,3 +2,5 @@ language: java
 jdk:
   - oraclejdk8
 script: mvn test -B
+script: "sbt clean coverage test"
+after_success: "sbt coveralls"
