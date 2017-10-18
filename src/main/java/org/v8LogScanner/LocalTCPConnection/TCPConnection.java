@@ -31,7 +31,7 @@ public class TCPConnection {
 
     public synchronized static TCPConnection createTCPConnection(ServerSocket socket) {
         Socket clientSocket = SocketTemplates.instance().acceptClient(socket);
-        if (clientSocket == null)
+         if (clientSocket == null)
             return null;
 
         return new TCPConnection(clientSocket);

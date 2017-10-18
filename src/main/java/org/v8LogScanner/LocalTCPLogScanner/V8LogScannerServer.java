@@ -141,7 +141,7 @@ public class V8LogScannerServer implements SocketEvent {
         if (dataFromClient == null) {
             // It is OK because client does not provide any data to the server.
             // May be it is pinging or it is improper client. Do nothing.
-            connection.send(new V8LogScannerData(null));
+           // connection.send(new V8LogScannerData(null));
            // connection.close();
             return;
         }

@@ -3,28 +3,33 @@ package org.v8LogScanner.testV8LogScanner;
 import org.junit.Before;
 import org.junit.Test;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
-import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
-import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
-import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
-import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
+import org.v8LogScanner.LocalTCPLogScanner.*;
+import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.logs.LogsOperations;
+import org.v8LogScanner.rgx.IRgxSelector;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.ScanProfile;
+import org.v8LogScanner.rgx.SelectorEntry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TestV8ScannerClient {
+    private V8LogFileConstructor constructor;
+    private SocketTemplates templates;
 
     @Before
     public void init() {
         ExcpReporting.out = System.out;
-    }
+        constructor = new V8LogFileConstructor();
+        templates = SocketTemplates.instance();
+   }
 
     @Test
     public void testCreateClientFromHostIP() throws Exception {
@@ -87,9 +92,35 @@ public class TestV8ScannerClient {
     }
 
     @Test
-    public void testScanLogsInCfgFile() {
-        List<String> files = LogsOperations.scanLogsInCfgFile();
-        assertNotNull(files);
+    public void testScanLogsInCfgFile() throws V8LogScannerServer.LanServerNotStarted {
+
+        V8LogScannerClient client = new V8LanLogScannerClient();
+
+        LanScanProfile profile = new LanScanProfile(ScanProfile.RgxOpTypes.CURSOR_OP);
+        String file = constructor
+            .addEXCP()
+            .build(V8LogFileConstructor.LogFileTypes.FILE);
+
+        client.getProfile().addLogPath(file);
+        List<String> logs = client.scanLogsInCfgFile();
+
+        assertEquals(1, logs.size());
+    }
+
+    @Test
+    public void testSelect() throws V8LogScannerServer.LanServerNotStarted {
+
+        V8LogScannerClient client = new V8LanLogScannerClient();
+
+        LanScanProfile profile = new LanScanProfile(ScanProfile.RgxOpTypes.CURSOR_OP);
+        String file = constructor
+                .addEXCP()
+                .build(V8LogFileConstructor.LogFileTypes.FILE);
+
+        client.getProfile().addLogPath(file);
+        client.startRgxOp();
+        List<SelectorEntry> entries = client.select(100, IRgxSelector.SelectDirections.FORWARD);
+        assertEquals(1, entries.size());
     }
 
 }

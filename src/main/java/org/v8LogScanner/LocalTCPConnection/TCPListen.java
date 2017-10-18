@@ -1,6 +1,7 @@
 package org.v8LogScanner.LocalTCPConnection;
 
 import org.v8LogScanner.LocalTCPConnection.TCPProtocol.TCPMessages;
+import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerData;
 
 public class TCPListen extends TCPState {
 
@@ -24,6 +25,7 @@ public class TCPListen extends TCPState {
             isSent = connection.protocol.sendMsg(response.message);
             if (isSent) {
                 connection.changeState(TCPEstablished.instance());
+                connection.send(new V8LogScannerData(null));
                 //connection.recieve(); old
                 connection.passiveOpen();
             } else {

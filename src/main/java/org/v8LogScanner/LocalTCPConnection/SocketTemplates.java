@@ -68,6 +68,7 @@ public class SocketTemplates {
 
         try {
             socket = serverSocket.accept();
+            socket.setKeepAlive(true);
         } catch (IOException e) {
             ExcpReporting.LogError(this, e);
             ;

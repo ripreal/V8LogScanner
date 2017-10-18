@@ -17,13 +17,16 @@ public class TCPEstablished extends TCPState {
 
     @Override
     public boolean isEstablished(TCPConnection connection) {
-        return connection.socket.isConnected();
+        return !connection.socket.isClosed();
     }
 
     @Override
     public Object recieve(TCPConnection connection) {
         TCPProtocolMessage response = connection.protocol.getResponse();
         connection.notifyRecievingData(response.data);
+        if (response.message == TCPMessages.CONNECTION_GET_ERROR) {
+            connection.close();
+        }
         return response.data;
     }
 
@@ -41,9 +44,10 @@ public class TCPEstablished extends TCPState {
 
     @Override
     public void passiveOpen(TCPConnection connection) {
-        while (true) {
+        while (isEstablished(connection)) {
             Object data = recieve(connection);
-            send(connection, data);
+            // object is sent in  notifyRecievingData
+            //send(connection, data);
         }
     }
 

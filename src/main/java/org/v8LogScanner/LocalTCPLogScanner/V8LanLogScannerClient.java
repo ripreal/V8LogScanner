@@ -18,6 +18,7 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 import org.v8LogScanner.rgx.SelectorEntry;
 
 import java.nio.file.Path;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -201,8 +202,8 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
 
         dataToServer.putData("profile", profile);
 
-        TCPConnection connection = TCPConnection.createTCPConnection(hostIP, Constants.serverPort);
-        V8LogScannerData dataFromServer = send(connection, dataToServer);
+        V8LogScannerData dataFromServer = send(dataToServer);
+        TCPConnection connection = connections.get(hostIP);
 
         while (dataFromServer != null && dataFromServer.command == ScannerCommands.GET_PROC_INFO) {
             invoke((ArrayList<String>) dataFromServer.getData("info"));
@@ -210,7 +211,7 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         }
 
         if (connection != null)
-            connection.close();
+            //connection.close();
 
         outProcessingInfo("Map reduce operation finished execution");
     }

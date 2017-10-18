@@ -5,6 +5,7 @@ import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.rgx.ScanProfile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
             // Each client profile has unique log paths so we take it
             if (client != localClient) {
                 ScanProfile cloned = localProfile.clone();
-                cloned.setLogPaths(client.getProfile().getLogPaths());
+                cloned.getLogPaths().addAll(client.getProfile().getLogPaths());
                 client.setProfile(cloned);
             }
         });
