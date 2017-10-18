@@ -79,7 +79,7 @@ public class TestCmdAppl {
     }
 
     @Test
-    public void testRunCmdScannerApp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
+    public void testStartCursorOp() throws LogScannerClientNotFoundServer, LanServerNotStarted {
 
         //out
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();

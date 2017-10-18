@@ -18,6 +18,7 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 import org.v8LogScanner.rgx.SelectorEntry;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -273,6 +274,26 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         List<String> cfgPaths = (List<String>) dataFromServer.getData("cfgPaths");
         return cfgPaths;
     }
+
+    public String readCfgFile(List<String> cfgPaths) {
+        if (isLocalHost()) {
+            List<Path> paths = new ArrayList<>();
+            cfgPaths.forEach((stroke_path) -> paths.add(Paths.get(stroke_path)));
+            LogBuilder builder = new LogBuilder(paths);
+            return builder.readCfgFile().getContent();
+        }
+
+        V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.READ_CFG_PATHS);
+        dataToServer.putData("cfgPaths", cfgPaths);
+        V8LogScannerData dataFromServer = send(dataToServer);
+
+        if (dataFromServer == null)
+            return null;
+
+        String cfgContent = (String) dataFromServer.getData("cfgContent");
+        return cfgContent;
+    }
+
 
     // Proxy methods
 

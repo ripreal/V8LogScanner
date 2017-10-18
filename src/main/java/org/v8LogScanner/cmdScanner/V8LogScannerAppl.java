@@ -16,6 +16,7 @@ import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 //DOMAIN SPECIFIC CONSOLE AND ITS METHODS
 
 public class V8LogScannerAppl {
@@ -110,7 +111,7 @@ public class V8LogScannerAppl {
         cursorLogScan.add(new MenuItemCmd("AND WHERE event property in", new CmdAddLogFilter()));
         cursorLogScan.add(new MenuItemCmd("GROUP BY", new CmdAddGroupBy()));
         cursorLogScan.add(new MenuItemCmd("ORDER BY", new CmdChangeOrder()));
-        cursorLogScan.add(new MenuItemCmd("Reset all except logs", new CmdResetAll()));
+        cursorLogScan.add(new MenuItemCmd("Reset all", new CmdResetAll()));
         cursorLogScan.add(new MenuItemCmd("Start", new CmdStartCursorOp()));
 
         // Item 2
@@ -206,7 +207,7 @@ public class V8LogScannerAppl {
         }
                 , parent);
         menu.add(new MenuItemCmd("Add single log from cfg file", new CmdAddLogLocFromCfg(), returnMenu));
-        menu.add(new MenuItemCmd("Add All logs from cfg file", new CmdAddLogLocFromCfgAll(), returnMenu));
+        menu.add(new MenuItemCmd("Add all logs from cfg file", new CmdAddLogLocFromCfgAll(), returnMenu));
         menu.add(new MenuItemCmd("Add own log location", new CmdAddLogLocOwn(), returnMenu));
         menu.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), returnMenu));
         if (withTopMenu)
@@ -240,18 +241,22 @@ public class V8LogScannerAppl {
             logBuilder.readCfgFile();
         }
 
-        List<String> paths = new ArrayList<>();
+        List<String> pathsDescr = new ArrayList<>();
+        List<String> contentDescr = new ArrayList<>();
         clientsManager.forEach(client -> {
-            client.getCfgPaths().forEach((path) -> paths.add("\n" + client + " " + path));
+            List<String> paths = client.getCfgPaths();
+            paths.forEach((path) -> pathsDescr.add("\n" + client + " " + path));
+            String content = client.readCfgFile(paths);
+            contentDescr.add(client + "\n" + content);
         });
 
         StringBuilder sb = new StringBuilder();
-        sb.append(paths.size() == 0 ?
+        sb.append(pathsDescr.size() == 0 ?
                 "\n\n1C Enterpise is not installed on a machine(s) (no folders with path \\1cv8\\conf was found)!\n\n" :
-                "\n\nFound valid logcfg.xml on:" + String.join("\n", paths) + "\n\n/***CONTENT***/:\n\n"
+                "\n\nFound valid logcfg.xml on:" + String.join("\n", pathsDescr) + "\n\n/***CONTENT***/:\n\n"
         );
 
-        sb.append(logBuilder.getContent());
+        sb.append(String.join("\n", contentDescr));
 
         int maxLength = 1000;
         if (sb.length() > maxLength) {

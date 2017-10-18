@@ -35,7 +35,7 @@ public class ApplConsole {
             do {
                 if (isValid(userInput)) {
 
-                    if (userInput.compareTo("q") == 0) {
+                    if (userInput.matches("\\s*+[q,Q]\\s*+")) {
                         currMenu = currMenu.clickBack();
                         if (currMenu == null)
                             break;

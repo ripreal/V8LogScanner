@@ -9,33 +9,35 @@ import java.util.List;
 
 public interface V8LogScannerClient {
 
-    public String getHostIP();
+    String getHostIP();
 
-    public String getFinalInfo();
+    String getFinalInfo();
 
-    public String getHostName();
+    String getHostName();
 
-    public boolean logPathExist(String path);
+    boolean logPathExist(String path);
 
-    public void reset();
+    void reset();
 
-    public void resetResult();
+    void resetResult();
 
-    public boolean pingServer();
+    boolean pingServer();
 
-    public List<String> scanLogsInCfgFile();
+    List<String> scanLogsInCfgFile();
 
-    public void startRgxOp();
+    void startRgxOp();
 
-    public ScanProfile getProfile();
+    ScanProfile getProfile();
 
-    public void setProfile(ScanProfile profile);
+    void setProfile(ScanProfile profile);
 
-    public int cursorIndex();
+    int cursorIndex();
 
-    public List<SelectorEntry> select(int count, SelectDirections forward);
+    List<SelectorEntry> select(int count, SelectDirections forward);
 
-    public void addListener(ProcessEvent e);
+    void addListener(ProcessEvent e);
 
-    public List<String> getCfgPaths();
+    List<String> getCfgPaths();
+
+    String readCfgFile(List<String> cfgPaths);
 }

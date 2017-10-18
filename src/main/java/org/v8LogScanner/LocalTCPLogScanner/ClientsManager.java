@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientsManager implements Iterable<V8LogScannerClient> {
 
     private V8LogScannerClient localClient;
-    private List<V8LogScannerClient> clients = new ArrayList<V8LogScannerClient>();
+    private List<V8LogScannerClient> clients = new ArrayList<>();
 
     public ClientsManager() {
         localClient = new V8LanLogScannerClient();
@@ -67,8 +67,6 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
 
     public void resetRemoteClients() {
         clients.forEach(client -> client.reset());
-        clients.clear();
-        clients.add(localClient);
     }
 
     public class LogScannerClientNotFoundServer extends Exception {

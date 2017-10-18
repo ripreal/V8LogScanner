@@ -176,6 +176,9 @@ public class V8LogScannerServer implements SocketEvent {
             case RESET_ALL:
                 localClient.reset();
                 break;
+            case READ_CFG_PATHS:
+                answerData = readCfgFile(dataFromClient);
+                break;
             default:
                 answerData = new V8LogScannerData(null);
         }
@@ -237,6 +240,16 @@ public class V8LogScannerServer implements SocketEvent {
 
         V8LogScannerData dataToClient = new V8LogScannerData(dataFromClient.command);
         dataToClient.putData("cfgPaths", localClient.getCfgPaths());
+
+        return dataToClient;
+    }
+
+    private V8LogScannerData readCfgFile(V8LogScannerData dataFromClient) {
+
+        List<String> cfgPaths = (List<String>) dataFromClient.getData("cfgPaths");
+
+        V8LogScannerData dataToClient = new V8LogScannerData(dataFromClient.command);
+        dataToClient.putData("cfgContent", localClient.readCfgFile(cfgPaths));
 
         return dataToClient;
     }

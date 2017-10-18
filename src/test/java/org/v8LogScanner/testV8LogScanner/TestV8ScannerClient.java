@@ -92,11 +92,10 @@ public class TestV8ScannerClient {
     }
 
     @Test
-    public void testScanLogsInCfgFile() throws V8LogScannerServer.LanServerNotStarted {
+    public void testScanLogsInCfgFile() {
 
         V8LogScannerClient client = new V8LanLogScannerClient();
 
-        LanScanProfile profile = new LanScanProfile(ScanProfile.RgxOpTypes.CURSOR_OP);
         String file = constructor
             .addEXCP()
             .build(V8LogFileConstructor.LogFileTypes.FILE);
@@ -108,19 +107,31 @@ public class TestV8ScannerClient {
     }
 
     @Test
-    public void testSelect() throws V8LogScannerServer.LanServerNotStarted {
+    public void testSelect() {
 
         V8LogScannerClient client = new V8LanLogScannerClient();
 
-        LanScanProfile profile = new LanScanProfile(ScanProfile.RgxOpTypes.CURSOR_OP);
         String file = constructor
                 .addEXCP()
                 .build(V8LogFileConstructor.LogFileTypes.FILE);
 
         client.getProfile().addLogPath(file);
+        client.getProfile().addRegExp(new RegExp());
         client.startRgxOp();
         List<SelectorEntry> entries = client.select(100, IRgxSelector.SelectDirections.FORWARD);
-        assertEquals(1, entries.size());
+        assertEquals(3, entries.size());
     }
 
+    @Test
+    public void testGetReadCfgContent() {
+
+        V8LogScannerClient client = new V8LanLogScannerClient();
+
+        List<String> cfgPaths = client.getCfgPaths();
+        assertNotNull(cfgPaths);
+
+        String content = client.readCfgFile(cfgPaths);
+        assertNotNull(content);
+
+    }
 }

@@ -8,6 +8,7 @@ import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerData;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.logsCfg.LogBuilder;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
@@ -85,4 +86,26 @@ public class TestScanProfile {
         assertTrue(sent);
     }
 
+    @Test
+    public void testSerialisationReadCfgFile() {
+        SocketTemplates templates = SocketTemplates.instance();
+        ServerSocket server = templates.createServerSocket(Constants.serverPort);
+        assertNotNull(server);
+
+        String ip = templates.getHostIP(server);
+        Socket client = templates.createClientSocket(ip, Constants.serverPort);
+
+        V8LanLogScannerClient clientScanner = new V8LanLogScannerClient();
+
+        V8LogScannerData dataToClient = new V8LogScannerData(V8LogScannerData.ScannerCommands.READ_CFG_PATHS);
+        dataToClient.putData("cfgContent", "test content");
+
+        boolean sent = templates.sendData(templates.getOutDataReader(client), dataToClient);
+
+        try {
+            server.close();
+        } catch (Exception e) {
+        }
+        assertTrue(sent);
+    }
 }
