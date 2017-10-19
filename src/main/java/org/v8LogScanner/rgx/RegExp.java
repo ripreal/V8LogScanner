@@ -28,7 +28,7 @@ public class RegExp implements Serializable {
         Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, planSQLText
     }
 
-    public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS, HASP, VRSREQUEST, VRSRESPONSE}
+    public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS, HASP, VRSREQUEST, VRSRESPONSE, QERR, LEAKS, MEM}
 
     private EventTypes eventType;
     private final RgxNode rgxNode = new RgxNode();
@@ -296,6 +296,50 @@ public class RegExp implements Serializable {
 
         Filter<String> filter = getFilter(PropTypes.Event);
         filter.add("VRSRESPONSE");
+    }
+
+    private void buildQERR() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.ProcessName);
+        rgxNode.add(PropTypes.ClientID);
+        rgxNode.add(PropTypes.ApplicationName);
+        rgxNode.add(PropTypes.ConnectID);
+        rgxNode.add(PropTypes.SessionID);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.Descr);
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("QUERR");
+    }
+
+    private void buildLEAKS() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.ProcessName);
+        rgxNode.add(PropTypes.ClientID);
+        rgxNode.add(PropTypes.ApplicationName);
+        rgxNode.add(PropTypes.ComputerName);
+        rgxNode.add(PropTypes.SessionID);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.Descr);
+        rgxNode.add(PropTypes.Context);
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("LEAKS");
+    }
+
+    private void buildMEM() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.ProcessName);
+        rgxNode.add(PropTypes.ClientID);
+        rgxNode.add(PropTypes.ApplicationName);
+        rgxNode.add(PropTypes.ComputerName);
+        rgxNode.add(PropTypes.SessionID);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.Descr);
+        rgxNode.add(PropTypes.Context);
+
+        Filter<String> filter = getFilter(PropTypes.Event);
+        filter.add("MEM");
     }
 
     /**

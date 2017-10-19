@@ -171,7 +171,7 @@ public class HeapOp extends AbstractOp {
     public String getFinalInfo(String logDescr) {
         String results = "";
         if (mapped == reduced)
-            results = String.format("\nMap-Reduce has been finished sucessfull! "
+            results = String.format("\nHeap log scanning has been finished sucessfull! "
                     + "Total events reduced: %s (equals mapped)", reduced);
         else
             results = String.format("Map-Reduce has been finished with errors: "

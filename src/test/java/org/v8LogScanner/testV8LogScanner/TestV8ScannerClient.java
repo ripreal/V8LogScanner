@@ -101,6 +101,7 @@ public class TestV8ScannerClient {
             .build(V8LogFileConstructor.LogFileTypes.FILE);
 
         client.getProfile().addLogPath(file);
+        client.getProfile().addRegExp(new RegExp());
         List<String> logs = client.scanLogsInCfgFile();
 
         assertEquals(1, logs.size());

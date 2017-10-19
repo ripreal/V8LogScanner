@@ -143,4 +143,12 @@ public class TestLogBuilder {
         assertTrue(file.exists());
     }
 
+    @Test
+    public void testBuildCircularRefsAndEXCP() throws Exception {
+        File file = builder
+                .addLocLocation(testFileName, "1")
+                .buildCircularRefsAndEXCP()
+                .writeToXmlFile();
+        assertTrue(file.exists());
+    }
 }

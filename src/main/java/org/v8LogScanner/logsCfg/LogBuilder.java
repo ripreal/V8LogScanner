@@ -65,6 +65,11 @@ public class LogBuilder {
     private boolean allowPLanSql = false;
 
     /**
+     * enables recording infos about circular refs as propert event
+     */
+    private boolean scriptCircRefs = false;
+
+    /**
      * Stores reactive xml-DOM representaion of a LOgBuilder object model
      */
     private String content = "";
@@ -122,7 +127,6 @@ public class LogBuilder {
             infoText[0] = "File saved!";
 
         } catch (IOException e) {
-            // ExcpReporting.LogError(this, e);
             infoText[0] = e.toString();
         }
         info.accept(infoText);
@@ -384,6 +388,19 @@ public class LogBuilder {
                 .updateContent();
     }
 
+    public LogBuilder buildCircularRefsAndEXCP() {
+
+       return this
+                .addLocLocation()
+                .addLogProperty()
+                .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.SCRIPT_CIRC_REFS_TAG_NAME)
+                .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "Excp")
+                .setScriptcircrefs(true)
+                .updateContent();
+    }
+
+
+
     /**
      * add user defined log location inside <log> tag. Path is not checked.
      *
@@ -428,7 +445,6 @@ public class LogBuilder {
      * @param event
      * @return
      */
-
     public LogBuilder addEvent(LogEvent event) {
         events.add(event);
         return this
@@ -467,6 +483,15 @@ public class LogBuilder {
     public LogBuilder setCreateDumps(String create) {
         setCreateDumps(Boolean.parseBoolean(create));
         return this.updateContent();
+    }
+
+    public LogBuilder setScriptcircrefs(boolean enableCheckScriptCircularRefs) {
+        this.scriptCircRefs = enableCheckScriptCircularRefs;
+        return this;
+    }
+
+    public boolean getScriptcircrefs() {
+        return scriptCircRefs;
     }
 
     public LogBuilder addLogProperty() {
@@ -603,6 +628,10 @@ public class LogBuilder {
         if (allowPLanSql) {
             Element planEl = doc.createElement(LogConfig.PLAN__SQL_TAG_NAME);
             root.appendChild(planEl);
+        }
+        if (scriptCircRefs) {
+            Element scriptcircrefs = doc.createElement(LogConfig.SCRIPT_CIRC_REFS_TAG_NAME);
+            root.appendChild(scriptcircrefs);
         }
 
         return new DOMSource(doc);

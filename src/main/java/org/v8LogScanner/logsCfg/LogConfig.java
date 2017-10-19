@@ -28,6 +28,7 @@ public class LogConfig {
     public static final String MSQL_TIMEOUT_RU = "Превышено время ожидания запроса на блокировку";
     public static final String MSQL_DEADLOCK_EN = "was deadlocked on lock resources with another process";
     public static final String MSQL_DEADLOCK_RU = "вызвала взаимоблокировку ресурсов";
+    public static final String SCRIPT_CIRC_REFS_TAG_NAME = "scriptcircrefs";
 
     public final static List<String> sql_lock_texts() {
         // MS SQl
