@@ -1,6 +1,8 @@
 package org.v8LogScanner.logsCfg;
 
-public class LogProperty {
+import java.io.Serializable;
+
+public class LogProperty implements Serializable {
 
     private String name = "all";
 

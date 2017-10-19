@@ -236,19 +236,25 @@ public class V8LogScannerAppl {
     }
 
     public String getCfgConfigureDescr() {
-        if (logBuilder == null) {
-            logBuilder = new LogBuilder();
-            logBuilder.readCfgFile();
-        }
-
         List<String> pathsDescr = new ArrayList<>();
         List<String> contentDescr = new ArrayList<>();
-        clientsManager.forEach(client -> {
-            List<String> paths = client.getCfgPaths();
-            paths.forEach((path) -> pathsDescr.add("\n" + client + " " + path));
-            String content = client.readCfgFile(paths);
-            contentDescr.add(client + "\n" + content);
-        });
+        if (logBuilder == null) {
+            logBuilder = new LogBuilder();
+            clientsManager.forEach(client -> {
+                List<String> paths = client.getCfgPaths();
+                paths.forEach((path) -> pathsDescr.add("\n" + client + " " + path));
+                String content = client.readCfgFile(paths);
+                contentDescr.add(client + "\n" + content);
+            });
+        }
+        else {
+            clientsManager.forEach((client) -> {
+                List<String> paths = client.getCfgPaths();
+                paths.forEach((path) -> pathsDescr.add("\n" + client + " " + path));
+                String content = logBuilder.getContent();
+                contentDescr.add(client + "\n" + content);
+            });
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append(pathsDescr.size() == 0 ?

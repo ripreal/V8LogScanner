@@ -2,9 +2,10 @@ package org.v8LogScanner.logsCfg;
 
 import org.v8LogScanner.rgx.RegExp;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class LogEvent implements Iterable<LogEvent.EventRow> {
+public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
     // eq = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
     public enum LogEventComparisons {
         eq, like, ne, gt, ge, lt, le

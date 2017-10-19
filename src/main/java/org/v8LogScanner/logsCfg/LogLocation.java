@@ -1,6 +1,8 @@
 package org.v8LogScanner.logsCfg;
 
-public class LogLocation {
+import java.io.Serializable;
+
+public class LogLocation implements Serializable {
 
     private String location = "C:\\v8Logs";
     private String history = "1";

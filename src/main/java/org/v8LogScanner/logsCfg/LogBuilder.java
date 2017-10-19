@@ -13,10 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +30,7 @@ import java.util.function.Consumer;
  * @author R.I.P.real
  * @see <a href="https://github.com/ripreal/>repository with examples</a>
  */
-public class LogBuilder {
+public class LogBuilder implements Serializable{
     /**
      * It maintains structured <events> block of a cfg file
      */
@@ -398,8 +395,6 @@ public class LogBuilder {
                 .setScriptcircrefs(true)
                 .updateContent();
     }
-
-
 
     /**
      * add user defined log location inside <log> tag. Path is not checked.

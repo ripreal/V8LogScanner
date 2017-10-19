@@ -1,6 +1,8 @@
 package org.v8LogScanner.logsCfg;
 
-public class LogDump {
+import java.io.Serializable;
+
+public class LogDump implements Serializable {
 
     private boolean create = false;
     private String dumpType = "0";
