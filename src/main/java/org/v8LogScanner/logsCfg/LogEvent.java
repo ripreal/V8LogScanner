@@ -9,9 +9,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
     // eq = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
     public enum LogEventComparisons {
         eq, like, ne, gt, ge, lt, le
-    }
-
-    ;
+    };
 
     private HashMap<RegExp.PropTypes, EventRow> rows = new HashMap<>();
 
@@ -134,6 +132,19 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
         return String.join("\n", entriesLine);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this)
+            return true;
+        if (obj == null || (!(obj instanceof LogEvent)))
+            return false;
+
+        LogEvent other = ((LogEvent) obj);
+
+        return this.toString().compareTo(other.toString()) == 0;
+    }
+
     public class EventRow {
 
         private String val = RegExp.EventTypes.EXCP.toString();
@@ -190,8 +201,5 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
                     LogConfig.PROP_NAME, key,
                     LogConfig.VAL_NAME, val);
         }
-    }
-
-    public class UnknowPropertyFound extends RuntimeException {
     }
 }

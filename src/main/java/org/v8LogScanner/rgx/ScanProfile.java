@@ -219,6 +219,17 @@ public interface ScanProfile extends Serializable, Cloneable {
         });
     }
 
+    static void buildAllUsersEvents(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
+
+        RegExp event = new RegExp(RegExp.EventTypes.ANY);
+        event.getFilter(PropTypes.Usr).add(""); // seek events with present props
+        event.getGroupingProps().add(PropTypes.Usr);
+        event.getGroupingProps().add(PropTypes.Event);
+        profile.getRgxList().add(event);
+    }
+
     // for investigating locks escalation
     static void buildFindSQlEventByQueryFragment(ScanProfile profile, String query_fragment) {
         profile.clear();

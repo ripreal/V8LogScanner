@@ -138,6 +138,7 @@ public class V8LogScannerAppl {
 
         // Item 4.
         main.add(new MenuItemCmd("Auto profiles", null, m_autoModes));
+        m_autoModes.add(new MenuItemCmd("Find all events grouped by users'", new CmdGetAllUserEvents(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP caused by user", new CmdGetUserExcp(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find slowest SQL and SDBL events", new CmdGetTopSlowestSql(), cursorLogScan));
@@ -151,9 +152,9 @@ public class V8LogScannerAppl {
         // Item 5.
         main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
         m_config.add(new MenuItemCmd("Add new event", new CmdAddEventToCfg(), m_config));
+        m_config.add(new MenuItemCmd("Add \"everyday events\" events (RECOMMEND)", new CmdAddEveryDayEvents(), m_config));
         m_config.add(new MenuItemCmd("Add \"all\" events", new CmdAddAllEventsToCfg(), m_config));
         m_config.add(new MenuItemCmd("Add \"excp\" events", new CmdAddExcpEvents(), m_config));
-        m_config.add(new MenuItemCmd("Add \"everyday events\" events", new CmdAddEveryDayEvents(), m_config));
         m_config.add(new MenuItemCmd("Add \"sql\" events", new CmdAddSqlEvent(), m_config));
         m_config.add(new MenuItemCmd("Add \"all sql queries by user\" events", new CmdAddNonEffectiveQueriesEvent(), m_config));
         m_config.add(new MenuItemCmd("Add \"slow sql queries with TABLE SCAN\" events", new CmdAddSlowQueriesWithTableScan(), m_config));
