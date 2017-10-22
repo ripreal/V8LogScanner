@@ -3,6 +3,7 @@ package org.v8LogScanner.cmdScanner;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
+import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.GroupTypes;
 
 import java.util.ArrayList;
@@ -14,13 +15,11 @@ public class CmdAddGroupBy implements CmdCommand {
     public String getTip() {
 
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
-
         if (appl.profile.getGroupType() == GroupTypes.BY_FILE_NAMES)
             return "[" + GroupTypes.BY_FILE_NAMES.toString() + "]";
         else if (getSizeGroupingProps(appl.profile.getRgxList()) == 0)
             return "[default props]";
         else {
-
             List<String> groups = appl.profile.getRgxList()
                     .stream()
                     .flatMap(event -> {
@@ -39,17 +38,20 @@ public class CmdAddGroupBy implements CmdCommand {
 
         appl.getConsole().println("");
 
+        String userInput = null;
         // asking about group type (by file name or property)
-        GroupTypes[] groupTypes = GroupTypes.values();
-        String userInput = appl.getConsole().askInputFromList("Choose group type", groupTypes);
+        if (appl.profile.getRgxOp() == ScanProfile.RgxOpTypes.HEAP_OP){
+            GroupTypes[] groupTypes = GroupTypes.values();
+            userInput = appl.getConsole().askInputFromList("Choose group type", groupTypes);
 
-        if (userInput == null)
-            return;
+            if (userInput == null)
+                return;
 
-        GroupTypes userGroupType = (groupTypes[Integer.parseInt(userInput)]);
-        appl.profile.setGroupType(userGroupType);
-        if (userGroupType == GroupTypes.BY_FILE_NAMES)
-            return;
+            GroupTypes userGroupType = (groupTypes[Integer.parseInt(userInput)]);
+            appl.profile.setGroupType(userGroupType);
+            if (userGroupType == GroupTypes.BY_FILE_NAMES)
+                return;
+        }
 
         // asking about event for filter
         userInput = appl.getConsole().askInputFromList("Choose event to group", appl.profile.getRgxList());

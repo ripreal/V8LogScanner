@@ -129,7 +129,6 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.RESET_ALL);
 
         send(dataToServer);
-
     }
 
     public void resetResult() {
@@ -211,9 +210,6 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
             dataFromServer = receive(connection);
         }
 
-        if (connection != null)
-            //connection.close();
-
         outProcessingInfo("Map reduce operation finished execution");
     }
 
@@ -294,6 +290,13 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         return cfgContent;
     }
 
+    @Override
+    public void close() {
+        if (isLocalHost())
+            return;
+
+        connections.forEach((ip, conn) -> conn.close());
+    }
 
     // Proxy methods
 
@@ -319,8 +322,6 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         }
 
         V8LogScannerData dataFromServer = send(connection, dataToServer);
-        //if (connection != null)
-            //connection.close();
         return dataFromServer;
     }
 

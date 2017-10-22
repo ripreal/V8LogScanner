@@ -1,11 +1,13 @@
 package org.v8LogScanner.logsCfg;
 
+import org.v8LogScanner.rgx.CursorOp;
 import org.v8LogScanner.rgx.RegExp;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
+
     // eq = equal, ne = not, gt = greater, ge = greather or equal, lt = less, le = less or equal
     public enum LogEventComparisons {
         eq, like, ne, gt, ge, lt, le
@@ -46,6 +48,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
             tags.put(RegExp.PropTypes.Locks, RegExp.PropTypes.Locks.toString());
             tags.put(RegExp.PropTypes.Regions, RegExp.PropTypes.Regions.toString());
             tags.put(RegExp.PropTypes.StackLevel, RegExp.PropTypes.StackLevel.toString());
+            tags.put(RegExp.PropTypes.Sql, RegExp.PropTypes.Sql.toString().toLowerCase());
         }
     }
 
@@ -145,6 +148,11 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
         return this.toString().compareTo(other.toString()) == 0;
     }
 
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
     public class EventRow {
 
         private String val = RegExp.EventTypes.EXCP.toString();
@@ -165,8 +173,6 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
 
         public String getKey() {
             switch (key) {
-                case Sql:
-                    throw new RuntimeException("sql prop is not supported");
                 case Time:
                     throw new RuntimeException("Time prop is not supported");
                 case Interface:

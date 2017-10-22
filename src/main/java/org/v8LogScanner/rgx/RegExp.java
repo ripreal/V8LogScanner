@@ -21,14 +21,14 @@ public class RegExp implements Serializable {
     private static final long serialVersionUID = 5068481599783731039L;
 
     public enum PropTypes {
-        Time, Duration, Event, StackLevel, Content, Process,
-        ClientID, Except, Descr, Protected, CallID, ProcessName, ANY, ComputerName,
+        ANY, Time, Duration, Event, StackLevel, Content, Process,
+        ClientID, Except, Descr, Protected, CallID, ProcessName, ComputerName,
         ApplicationName, ConnectID, SessionID, Usr, WaitConnections, Locks, Regions,
         Context, DeadlockConnectionIntersections, Interface, Sql, Trans, Dbpid, Sdbl,
         Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, planSQLText
     }
 
-    public enum EventTypes {ANY, EXCP, CONN, TLOCK, TDEADLOCK, TTIMEOUT, DBMSSQL, SDBL, DBV8DBEng, DBORACLE, DBPOSTGRS, HASP, VRSREQUEST, VRSRESPONSE, QERR, LEAKS, MEM}
+    public enum EventTypes {ANY, CONN, DBMSSQL, DBV8DBEng, DBORACLE, DBPOSTGRS, EXCP, HASP, LEAKS, MEM, QERR, SDBL,  TLOCK, TDEADLOCK, TTIMEOUT, VRSREQUEST, VRSRESPONSE}
 
     private EventTypes eventType;
     private final RgxNode rgxNode = new RgxNode();
@@ -185,10 +185,15 @@ public class RegExp implements Serializable {
 
     private void buildANY() {
         rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.ProcessName);
         rgxNode.add(PropTypes.ClientID);
         rgxNode.add(PropTypes.Interface);
+        rgxNode.add(PropTypes.ApplicationName);
+        rgxNode.add(PropTypes.ComputerName);
         rgxNode.add(PropTypes.CallID);
-        //rgxNode.add(PropTypes.Descr);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.Descr);
+        rgxNode.add(PropTypes.Context);
 
         Filter<String> filter = getFilter(PropTypes.Event);
         filter.add("");
@@ -309,7 +314,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Descr);
 
         Filter<String> filter = getFilter(PropTypes.Event);
-        filter.add("QUERR");
+        filter.add("QERR");
     }
 
     private void buildLEAKS() {
@@ -604,7 +609,7 @@ class RgxNode implements Cloneable, Serializable {
                 el = new Process();
                 break;
             case ProcessName:
-                el = new Process();
+                el = new ProcessName();
                 break;
             case Status:
                 el = new Status();
@@ -1318,7 +1323,6 @@ class RgxNode implements Cloneable, Serializable {
             return compStrFilter(name);
         }
     }
-
 
     class Headers extends RgxNode {
 

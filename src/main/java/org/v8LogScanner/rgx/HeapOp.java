@@ -117,15 +117,15 @@ public class HeapOp extends AbstractOp {
         ConcurrentMap<String, List<String>> mapResults = null;
 
         if (groupType == GroupTypes.BY_PROPS) {
-            mapResults = sourceCol.stream().sequential()
-                    //.parallelStream()
-                    //.unordered()
+            mapResults = sourceCol
+                    .parallelStream()
+                    .unordered()
                     .filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes))
                     .collect(Collectors.groupingByConcurrent(input -> {
                                 return RgxOpManager.getEventProperty(input, eventPatterns, cleanPropsRgx, groupPropsRgx);
                             }
                     ));
-        } else {
+        } else if (groupType == GroupTypes.BY_FILE_NAMES) {
             mapResults = sourceCol
                     .parallelStream()
                     .unordered()

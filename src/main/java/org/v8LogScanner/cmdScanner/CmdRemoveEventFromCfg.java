@@ -14,11 +14,11 @@ public class CmdRemoveEventFromCfg implements CmdCommand {
     @Override
     public void execute() {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
-        List<LogEvent> events = appl.logBuilder.getLogEvents();
+        LogEvent[] events = appl.logBuilder.getLogEvents().toArray(new LogEvent[0]);
         String eventIndex = appl.getConsole().askInputFromList("Input prop:", events);
         if (eventIndex == null)
             return;
-        LogEvent logEvent = events.get(Integer.parseInt(eventIndex));
+        LogEvent logEvent = events[Integer.parseInt(eventIndex)];
         appl.logBuilder.removeLogEvent(logEvent);
     }
 }

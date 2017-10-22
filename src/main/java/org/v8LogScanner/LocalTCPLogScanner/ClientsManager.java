@@ -69,6 +69,10 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
         clients.forEach(client -> client.reset());
     }
 
+    public void closeConnections() {
+        clients.forEach(client -> client.close());
+    }
+
     public class LogScannerClientNotFoundServer extends Exception {
 
         private static final long serialVersionUID = 8033069095176280354L;

@@ -5,6 +5,7 @@ import org.v8LogScanner.logsCfg.LogEvent;
 import org.v8LogScanner.rgx.RegExp;
 
 import java.util.List;
+import java.util.Set;
 
 public class CmdAddEventToCfg implements CmdCommand {
 
@@ -19,9 +20,9 @@ public class CmdAddEventToCfg implements CmdCommand {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
 
         // Input prop for existing event or for the new <Event></Event>
-        List<LogEvent> events = appl.logBuilder.getLogEvents();
+        LogEvent[] events = appl.logBuilder.getLogEvents().toArray(new LogEvent[0]);
         LogEvent logEvent = null;
-        if (events.size() > 0) {
+        if (events.length > 0) {
             String[] choices = {"Add new", "Use existing"};
             String choicesRes = appl.getConsole().askInputFromList("Do you want to add new <events> tag or use existing?", choices);
             if (choicesRes == null) {
@@ -32,7 +33,7 @@ public class CmdAddEventToCfg implements CmdCommand {
                 String eventIndex = appl.getConsole().askInputFromList("Input prop:", events);
                 if (eventIndex == null)
                     return;
-                logEvent = events.get(Integer.parseInt(eventIndex));
+                logEvent = events[Integer.parseInt(eventIndex)];
             }
         } else {
             logEvent = new LogEvent();

@@ -23,7 +23,6 @@ public class CmdRunAsLanServer implements CmdCommand {
             V8LogScannerServer server = new V8LogScannerServer(Constants.serverPort);
             server.Beginlistenning();
         } catch (LanServerNotStarted e) {
-            // TODO Auto-generated catch block
             ExcpReporting.LogError(this, e);
             String[] msg = {"input any symbol for continuing"};
             appl.getConsole().askInput(msg, n -> true, false);

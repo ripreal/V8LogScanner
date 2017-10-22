@@ -9,6 +9,8 @@ import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.Strokes;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,8 +23,10 @@ public class ApplConsole {
     private String title = "New application";
 
     public ApplConsole(InputStream in, PrintStream out) {
-        this.in = new BufferedReader(new InputStreamReader(in));
+        Charset charset = Charset.forName("windows-1251");
+        this.in = new BufferedReader(new InputStreamReader(in, charset));
         this.out = out;
+
     }
 
     public ApplConsole() {
@@ -30,12 +34,15 @@ public class ApplConsole {
     }
 
     public void runAppl(MenuCmd currMenu) {
+
+        turnFullScreen();
+
         try {
             String userInput = "";
             do {
                 if (isValid(userInput)) {
 
-                    if (userInput.matches("\\s*+[q,Q]\\s*+")) {
+                    if (userInput.matches("\\s*+[q,Q,q]\\s*+")) {
                         currMenu = currMenu.clickBack();
                         if (currMenu == null)
                             break;
@@ -121,8 +128,13 @@ public class ApplConsole {
 
     private <F extends Collection<T>, T> String askInputFromList(String promt, F list, int start, int end) {
 
-        if (list.size() == 1)
+        if (list.size() == 0) {
+            showModalInfo("Input not found!");
+            return null;
+        }
+        else if (list.size() == 1) {
             return "0";
+        }
 
         out.println();
 
@@ -207,5 +219,18 @@ public class ApplConsole {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    private void turnFullScreen() {
+        String osName = Constants.osType;
+
+        if (osName.matches("(?i).*windows.*")) {
+            ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "mode 800");
+            try {
+                pb.inheritIO().start().waitFor();
+            } catch (InterruptedException | IOException e) {
+                ExcpReporting.LogError(this, e);
+            }
+        }
     }
 }

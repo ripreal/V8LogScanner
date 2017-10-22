@@ -11,13 +11,16 @@ import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.RegExp.EventTypes;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
+import org.v8LogScanner.rgx.RgxOpManager;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.SelectorEntry;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestRgxOp {
 
@@ -88,6 +91,29 @@ public class TestRgxOp {
     }
 
     @Test
+    public void testFilterProcessName() {
+        String logFileName = constructor
+                .addEXCP()
+                .addHASP()
+                .addSQlTimeout()
+                .build(LogFileTypes.FILE);
+
+        V8LogScannerClient client = new V8LanLogScannerClient();
+
+        ScanProfile profile = client.getProfile();
+        profile.addLogPath(logFileName);
+
+        RegExp event = new RegExp(EventTypes.ANY);
+        event.getFilter(PropTypes.ProcessName).add("test");
+        profile.addRegExp(event);
+
+        client.startRgxOp();
+        List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
+
+        assertEquals(1, logs.size());
+    }
+
+    @Test
     public void testGroupBySeveralProps() {
 
         String logFileName = constructor
@@ -136,8 +162,33 @@ public class TestRgxOp {
     }
 
     @Test
-    public void testbuildTopSlowestSqlByUser() {
+    public void testBuildSlowestEventsByUser() {
 
+        String logFileName = constructor
+                .addUserEXCP()
+                .addDBMSSQL()
+                .addSDBL()
+                .addEXCP()
+                .build(LogFileTypes.FILE);
+
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        ScanProfile.buildSlowestEventsByUser(profile, "DefUser");
+        profile.addLogPath(logFileName);
+
+        manager.startRgxOp();
+        List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+        assertEquals(3, logs.size());
+        assertTrue(logs.get(0).getKey().matches("(?s).*SDBL.*"));
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+    }
+
+    @Test
+    public void testbuildTopSlowestSqlByUser() {
         String logFileName = constructor
                 .addSDBL()
                 .addDBMSSQL()
@@ -299,6 +350,33 @@ public class TestRgxOp {
     }
 
     @Test
+    public void testBuild1CDeadlocksByConnectID() {
+
+        String logFileName = constructor
+                .addTLOCK()
+                .addTDEADLOCK()
+                //.addTTimeout()
+                //.addSQlDEADLOCK()r
+                //.addSQlTimeout()
+                .build(LogFileTypes.FILE);
+
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        ScanProfile.build1cDeadlocksByConnectID(profile, "17");
+        profile.getRgxList().get(0).getGroupingProps().add(PropTypes.Context);
+        profile.addLogPath(logFileName);
+
+        manager.startRgxOp();
+        List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+        assertEquals(2, logs.size());
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+    }
+
+    @Test
     public void testVSRQuieries() {
         String logFileName = constructor
                 .addEXCP()
@@ -320,5 +398,26 @@ public class TestRgxOp {
         localClient.startRgxOp();
         List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
         assertEquals(2, entries.size());
+    }
+
+    @Test
+    public void testQERR() {
+        String logFileName = constructor
+                .addEXCP()
+                .adddQERR()
+                .build(LogFileTypes.FILE);
+
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        profile.addLogPath(logFileName);
+
+        RegExp rgx = new RegExp(EventTypes.QERR);
+        profile.addRegExp(rgx);
+
+        localClient.startRgxOp();
+        List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
+        assertEquals(1, entries.size());
     }
 }

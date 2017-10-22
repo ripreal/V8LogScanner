@@ -82,7 +82,7 @@ public class V8LogScannerServer implements SocketEvent {
         while (true) {
             try {
                 String userInput = in.readLine();
-                if (userInput.compareTo("q") == 0) {
+                if (userInput != null && userInput.compareTo("q") == 0) {
                     stopListening();
                     break;
                 } else
@@ -141,8 +141,6 @@ public class V8LogScannerServer implements SocketEvent {
         if (dataFromClient == null) {
             // It is OK because client does not provide any data to the server.
             // May be it is pinging or it is improper client. Do nothing.
-           // connection.send(new V8LogScannerData(null));
-           // connection.close();
             return;
         }
 
@@ -185,7 +183,6 @@ public class V8LogScannerServer implements SocketEvent {
 
         connection.send(answerData);
         logEvent(connection, String.format("Server finished client's request %s", dataFromClient.command));
-        //connection.close();
     }
 
     public void invoke(List<String> info) {

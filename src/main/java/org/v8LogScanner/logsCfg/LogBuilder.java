@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.ws.Provider;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,6 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * <p>Create a reactive object representation of the logcfg.xml that can be aplied to 1c enterprise platform</p>
@@ -36,7 +39,7 @@ public class LogBuilder implements Serializable{
     /**
      * It maintains structured <events> block of a cfg file
      */
-    private List<LogEvent> events = new ArrayList<>();
+    private Set<LogEvent> events = new HashSet<>();
 
     /**
      * It maintains structured <log> block of a cfg file
@@ -122,7 +125,6 @@ public class LogBuilder implements Serializable{
                 Files.copy(Paths.get(temp), logFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 fsys.deleteFile(temp);
             }
-            ;
             infoText[0] = "File saved!";
 
         } catch (IOException e) {
@@ -152,18 +154,37 @@ public class LogBuilder implements Serializable{
                 //"file does not exists!"
                 continue;
             }
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             try {
-                Document doc = docFactory.newDocumentBuilder().parse(logFile);
-
-                if (!doc.getDocumentElement().getTagName().matches(LogConfig.CONFIG_TAG_NAME))
-                    throw new CfgParsingError(String.format(
-                            "Wrong file format. Root element must start with <%s> tag", LogConfig.CONFIG_TAG_NAME));
-
-                parseLogCfg(doc.getFirstChild().getChildNodes());
-            } catch (CfgParsingError | SAXException | ParserConfigurationException | IOException e) {
+                parseCfg((factory) -> {
+                    try {
+                        return factory.newDocumentBuilder().parse(logFile);
+                    } catch (SAXException | IOException | ParserConfigurationException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                });
+            } catch (CfgParsingError e) {
                 ExcpReporting.LogError(this, e);
             }
+        }
+        return updateContent();
+    }
+
+    public LogBuilder readCfgFile(String input, Consumer<String> info){
+        try {
+            parseCfg((factory) -> {
+                try {
+                    String fileName = fsys.createTempFile(input);
+                    Document doc = factory.newDocumentBuilder().parse(fileName);
+                    fsys.deleteFile(fileName);
+                    return doc;
+                } catch (SAXException | IOException | ParserConfigurationException e) {
+                    info.accept(e.getMessage());
+                    return null;
+                }
+            });
+        } catch (CfgParsingError e) {
+            info.accept(e.getMessage());
         }
         return updateContent();
     }
@@ -299,6 +320,15 @@ public class LogBuilder implements Serializable{
      * @return prepared but not written text file with settings
      */
     public LogBuilder buildEverydayEvents() {
+        LogEvent slowSql = new LogEvent();
+        slowSql.setProp(RegExp.PropTypes.Event);
+        slowSql.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
+        slowSql.setVal(RegExp.PropTypes.Event, RegExp.PropTypes.Sql.toString().toLowerCase());
+
+        slowSql.setProp(RegExp.PropTypes.Duration);
+        slowSql.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.gt);
+        slowSql.setVal(RegExp.PropTypes.Duration, "10000");
+
         return this
                 .addLocLocation()
                 .addLogProperty()
@@ -308,6 +338,7 @@ public class LogBuilder implements Serializable{
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "ADMIN")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
+                .addEvent(slowSql)
                 .updateContent();
     }
 
@@ -351,9 +382,9 @@ public class LogBuilder implements Serializable{
             event.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
             event.setVal(RegExp.PropTypes.Event, dbName);
 
-            event.setProp(RegExp.PropTypes.Event);
+            event.setProp(RegExp.PropTypes.Sql);
             event.setComparison(RegExp.PropTypes.Sql, LogEvent.LogEventComparisons.like);
-            event.setVal(RegExp.PropTypes.Event, "%" + objectId + "%");
+            event.setVal(RegExp.PropTypes.Sql, "%" + objectId + "%");
 
             addEvent(event);
         }
@@ -425,10 +456,10 @@ public class LogBuilder implements Serializable{
     /**
      * add new <event> tag to the <log> with attributes defined by user.
      *
-     * @param comparison
-     * @param event
-     * @param val
-     * @return
+     * @param comparison tag comparison
+     * @param event prop to add to event
+     * @param val prop value to add to event
+     * @return self
      */
     public LogBuilder addEvent(LogEvent.LogEventComparisons comparison, RegExp.PropTypes event, String val) {
         events.add(new LogEvent(comparison, event, val));
@@ -463,25 +494,6 @@ public class LogBuilder implements Serializable{
         updateContent();
     }
 
-    public LogBuilder addLogProperty(String name) {
-        LogProperty prop = new LogProperty(name);
-        if (!properties.contains(prop))
-            properties.add(prop);
-        return this
-                .addLocLocation()
-                .updateContent();
-    }
-
-    public LogBuilder setCreateDumps(boolean create) {
-        dumps.setCreate(create);
-        return this.updateContent();
-    }
-
-    public LogBuilder setCreateDumps(String create) {
-        setCreateDumps(Boolean.parseBoolean(create));
-        return this.updateContent();
-    }
-
     public LogBuilder setScriptcircrefs(boolean enableCheckScriptCircularRefs) {
         this.scriptCircRefs = enableCheckScriptCircularRefs;
         return this;
@@ -491,7 +503,7 @@ public class LogBuilder implements Serializable{
         return scriptCircRefs;
     }
 
-    public LogBuilder addLogProperty() {
+    LogBuilder addLogProperty() {
         if (properties.size() == 0) {
             properties.add(new LogProperty());
         }
@@ -500,7 +512,7 @@ public class LogBuilder implements Serializable{
                 .updateContent();
     }
 
-    public List<LogEvent> getLogEvents() {
+    public Set<LogEvent> getLogEvents() {
         return events;
     }
 
@@ -545,12 +557,31 @@ public class LogBuilder implements Serializable{
 
     // PRIVATE
 
+    private LogBuilder addLogProperty(String name) {
+        LogProperty prop = new LogProperty(name);
+        if (!properties.contains(prop))
+            properties.add(prop);
+        return this
+                .addLocLocation()
+                .updateContent();
+    }
+
+    private LogBuilder setCreateDumps(boolean create) {
+        dumps.setCreate(create);
+        return this.updateContent();
+    }
+
+    private LogBuilder setCreateDumps(String create) {
+        setCreateDumps(Boolean.parseBoolean(create));
+        return this.updateContent();
+    }
+
     private LogBuilder updateContent() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         buildAndWrite(baos);
         String res = baos.toString();
         content = removeNodeElement(res.split("[\\r]"), "(?s).*" + DUMMY + ".*");
-        ;
+
         return this;
     }
 
@@ -605,7 +636,6 @@ public class LogBuilder implements Serializable{
                     eventPropEl.setAttribute(LogConfig.VAL_NAME, eventRow.getVal());
                     eventEl.appendChild(eventPropEl);
                 }
-                ;
                 logEl.appendChild(eventEl);
             });
 
@@ -637,14 +667,28 @@ public class LogBuilder implements Serializable{
     private String removeNodeElement(String[] text, String pattern) {
 
         List<String> textResult = new ArrayList<>(text.length);
-        for (int i = 0; i < text.length; i++) {
-            if (!text[i].matches(pattern))
-                textResult.add(text[i]);
+        for(String textStroke : text) {
+            if (!textStroke.matches(pattern))
+                textResult.add(textStroke);
         }
         return String.join("", textResult);
     }
 
-    private void parseLogCfg(NodeList nodeList) throws CfgParsingError {
+    private void parseCfg(Function<DocumentBuilderFactory, Document> docProvider) throws CfgParsingError {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        try {
+            Document doc = docProvider.apply(docFactory);
+            if (doc == null || !doc.getDocumentElement().getTagName().matches(LogConfig.CONFIG_TAG_NAME))
+                throw new CfgParsingError(String.format(
+                        "Wrong file format. Root element must start with <%s> tag", LogConfig.CONFIG_TAG_NAME));
+
+            parseLogEvents(doc.getFirstChild().getChildNodes());
+        } catch (CfgParsingError e) {
+            ExcpReporting.LogError(this, e);
+        }
+    }
+
+    private void parseLogEvents(NodeList nodeList) throws CfgParsingError {
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -658,7 +702,7 @@ public class LogBuilder implements Serializable{
                         attributes.getNamedItem(LogConfig.LOC_LOCATION_NAME).getNodeValue().toString(),
                         attributes.getNamedItem(LogConfig.LOC_HISTORY_NAME).getNodeValue().toString()
                 );
-                parseLogCfg(node.getChildNodes());
+                parseLogEvents(node.getChildNodes());
 
             } else if (nodeName.matches("(?i)" + LogConfig.EVENT_TAG_NAME)) {
                 NodeList propList = node.getChildNodes();

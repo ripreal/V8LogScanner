@@ -40,4 +40,6 @@ public interface V8LogScannerClient {
     List<String> getCfgPaths();
 
     String readCfgFile(List<String> cfgPaths);
+
+    void close();
 }

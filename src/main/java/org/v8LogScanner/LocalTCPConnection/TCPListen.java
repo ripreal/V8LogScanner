@@ -26,7 +26,6 @@ public class TCPListen extends TCPState {
             if (isSent) {
                 connection.changeState(TCPEstablished.instance());
                 connection.send(new V8LogScannerData(null));
-                //connection.recieve(); old
                 connection.passiveOpen();
             } else {
                 connection.changeState(TCPClosed.instance());

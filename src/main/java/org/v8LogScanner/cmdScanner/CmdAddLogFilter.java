@@ -110,6 +110,7 @@ public class CmdAddLogFilter implements CmdCommand {
 
             if (userInput == null)
                 return;
+            rgx.getFilter(prop).reset();
             rgx.getFilter(prop).add(userInput);
         }
     }

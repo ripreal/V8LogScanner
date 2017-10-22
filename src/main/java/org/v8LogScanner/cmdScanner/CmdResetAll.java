@@ -12,8 +12,8 @@ public class CmdResetAll implements CmdCommand {
 
     public void execute() {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
-        appl.clientsManager.reset();
         ScanProfile.RgxOpTypes opType = appl.profile.getRgxOp();
+        appl.clientsManager.reset();
         appl.profile = appl.clientsManager.localClient().getProfile();
         appl.profile.setRgxOp(opType);
         appl.profile.addRegExp(new RegExp());

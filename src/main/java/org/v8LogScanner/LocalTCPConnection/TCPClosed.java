@@ -47,9 +47,6 @@ public class TCPClosed extends TCPState {
     }
 
     public void close(TCPConnection connection) {
-        SocketTemplates.instance().close(connection.socket);
-        if (clientThread != null)
-            clientThread.interrupt();
         connection.notifyConnectionClosing();
     }
 }

@@ -59,7 +59,7 @@ public class V8LogScannerAppl {
 
     public void runAppl() {
 
-        MenuCmd cursorLogScan = new MenuCmd("1. Cursor log scanning (recommends)."
+        MenuCmd cursorLogScan = new MenuCmd("1. Cursor log scanning."
                 + "\nPerforms orderded Map-Reduce operation and can be used when memory should be consumed carefully or "
                 + "\nyou want to use various ordering options. This operation takes user specified TOP amount of sorted events "
                 + "\nfrom each log file and performs intermidate reduction through iteration placing results into single array. "
@@ -102,7 +102,7 @@ public class V8LogScannerAppl {
         //Event handlers
 
         // Item 1
-        main.add(new MenuItemCmd("Cursor log scanning(recommends)", new CmdSetCurrAlgorithm(RgxOpTypes.CURSOR_OP), cursorLogScan));
+        main.add(new MenuItemCmd("Cursor log scanning (prefer if you need sorting)", new CmdSetCurrAlgorithm(RgxOpTypes.CURSOR_OP), cursorLogScan));
         MenuCmd menuLogLocCursror = createAddLocMenu(cursorLogScan, true, cursorLogScan);
         cursorLogScan.add(new MenuItemCmd(() -> "SELECT TOP[" + profile.getLimit() + "] FROM location[" + logSize() + "]", null, menuLogLocCursror));
         cursorLogScan.add(new MenuItemCmd("WHERE log type is", new CmdChangeLogType()));
@@ -115,7 +115,7 @@ public class V8LogScannerAppl {
         cursorLogScan.add(new MenuItemCmd("Start", new CmdStartCursorOp()));
 
         // Item 2
-        main.add(new MenuItemCmd("Heap log scanning", new CmdSetCurrAlgorithm(RgxOpTypes.HEAP_OP), heapLogScan));
+        main.add(new MenuItemCmd("Heap log scanning (prefer if you need advanced filters)", new CmdSetCurrAlgorithm(RgxOpTypes.HEAP_OP), heapLogScan));
         MenuCmd menuLogLocHeap = createAddLocMenu(heapLogScan, false, heapLogScan);
         heapLogScan.add(new MenuItemCmd(() -> "SELECT FROM location[" + logSize() + "]", null, menuLogLocHeap));
         heapLogScan.add(new MenuItemCmd("WHERE log type is", new CmdChangeLogType()));
@@ -138,7 +138,7 @@ public class V8LogScannerAppl {
 
         // Item 4.
         main.add(new MenuItemCmd("Auto profiles", null, m_autoModes));
-        m_autoModes.add(new MenuItemCmd("Find all events grouped by users'", new CmdGetAllUserEvents(), heapLogScan));
+        m_autoModes.add(new MenuItemCmd("Find all users events", new CmdGetAllUserEvents(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP caused by user", new CmdGetUserExcp(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find slowest SQL and SDBL events", new CmdGetTopSlowestSql(), cursorLogScan));
@@ -146,8 +146,9 @@ public class V8LogScannerAppl {
         m_autoModes.add(new MenuItemCmd("Find slowest sql queries with TABLE SCAN", new CmdGetSQlWithTableScan(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find slowest sql queries with INDEX SCAN", new CmdGetSQlWithIndexScan(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find 1C deadlocks and timeouts", new CmdGetTopTimeout(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find 1C deadlocks by ConnectID", new CmdGet1CDeadlocksByConnectID(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find SQL deadlocks and timeouts", new CmdGetSQlLockError(), cursorLogScan));
-        m_autoModes.add(new MenuItemCmd("Find deadlocks and timeouts by user'", new CmdGetTopDeadlocksByUser(), cursorLogScan));
+        m_autoModes.add(new MenuItemCmd("Find all deadlocks and timeouts by user", new CmdGetTopDeadlocksByUser(), cursorLogScan));
 
         // Item 5.
         main.add(new MenuItemCmd("Configure logcfg.xml", null, m_config));
@@ -169,9 +170,9 @@ public class V8LogScannerAppl {
 
         MenuCmd menuManualCfg = new MenuCmd("Other", m_config);
         m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
-        menuManualCfg.add(new MenuItemCmd("Clear all", new CmdClearAllFromCfg(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Reset all", new CmdClearAllFromCfg(), m_config));
         menuManualCfg.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), m_config));
-        menuManualCfg.add(new MenuItemCmd("Connect to the other server", new CmdAddLogLocServerIP(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
 
         // Item 6.
         main.add(new MenuItemCmd("Run as server", null, m_runServer));
@@ -179,13 +180,13 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
 
         cmdAppl.setTitle(
-                "1CV8 Log Scanner v.0.9"
+                "1CV8 Log Scanner v.1.0"
                         + "\nRuns on " + Constants.osType
                         + "\n********************"
         );
         cmdAppl.runAppl(main);
         clientsManager.resetRemoteClients();
-
+        clientsManager.closeConnections();
     }
 
     public ApplConsole getConsole() {
@@ -207,8 +208,8 @@ public class V8LogScannerAppl {
             return text;
         }
                 , parent);
-        menu.add(new MenuItemCmd("Add single log from cfg file", new CmdAddLogLocFromCfg(), returnMenu));
-        menu.add(new MenuItemCmd("Add all logs from cfg file", new CmdAddLogLocFromCfgAll(), returnMenu));
+        menu.add(new MenuItemCmd("Add single log from logcfg.xml", new CmdAddLogLocFromCfg(), returnMenu));
+        menu.add(new MenuItemCmd("Add all logs from logcfg.xml", new CmdAddLogLocFromCfgAll(), returnMenu));
         menu.add(new MenuItemCmd("Add own log location", new CmdAddLogLocOwn(), returnMenu));
         menu.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), returnMenu));
         if (withTopMenu)
@@ -245,7 +246,8 @@ public class V8LogScannerAppl {
                 List<String> paths = client.getCfgPaths();
                 paths.forEach((path) -> pathsDescr.add("\n" + client + " " + path));
                 String content = client.readCfgFile(paths);
-                contentDescr.add(client + "\n" + content);
+                logBuilder.readCfgFile(content, (out) -> getConsole().showModalInfo(out));
+                contentDescr.add(client + "\n" + logBuilder.getContent());
             });
         }
         else {

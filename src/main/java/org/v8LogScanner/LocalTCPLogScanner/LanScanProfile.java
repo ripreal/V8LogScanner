@@ -145,7 +145,6 @@ public class LanScanProfile implements ScanProfile {
 
     @Override
     public void clear() {
-        //sourceLogPaths =
         dateRange = DateRanges.ANY;
         limit = 100; // restriction up amount of events on
         logType = LogTypes.ANY;
@@ -159,7 +158,6 @@ public class LanScanProfile implements ScanProfile {
     }
 
     public void addRegExp(RegExp rgx) {
-        //if (!rgxList.stream().anyMatch(el -> el.compareTo(rgx) == 0))
         rgxList.add(rgx);
     }
 

@@ -174,7 +174,7 @@ public interface ScanProfile extends Serializable, Cloneable {
     static void build1cDeadlocksError(ScanProfile profile) {
 
         profile.clear();
-        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
         profile.setLogType(LogTypes.RPHOST);
 
         List<RegExp> rgxList = profile.getRgxList();
@@ -189,6 +189,27 @@ public interface ScanProfile extends Serializable, Cloneable {
             rgxList.add(rgxEvent);
         }
 
+    }
+
+    static void build1cDeadlocksByConnectID(ScanProfile profile, String connectID) {
+
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.HEAP_OP);
+        profile.setLogType(LogTypes.RPHOST);
+
+        List<RegExp> rgxList = profile.getRgxList();
+
+        RegExp.EventTypes[] v8Locks = {RegExp.EventTypes.TLOCK, RegExp.EventTypes.TDEADLOCK};
+
+        for (RegExp.EventTypes eventType : v8Locks) {
+            RegExp rgxEvent = new RegExp(eventType);
+            rgxEvent.getGroupingProps().add(PropTypes.ConnectID);
+            rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
+            rgxEvent.getFilter(PropTypes.ConnectID).add(connectID);
+            if (eventType == RegExp.EventTypes.TDEADLOCK)
+                rgxEvent.getFilter(PropTypes.DeadlockConnectionIntersections).add(connectID);
+            rgxList.add(rgxEvent);
+        }
     }
 
     static void buildAllLocksByUser(ScanProfile profile, String user) {
@@ -226,8 +247,20 @@ public interface ScanProfile extends Serializable, Cloneable {
         RegExp event = new RegExp(RegExp.EventTypes.ANY);
         event.getFilter(PropTypes.Usr).add(""); // seek events with present props
         event.getGroupingProps().add(PropTypes.Usr);
+        profile.getRgxList().add(event);
+    }
+
+    static void buildSlowestEventsByUser(ScanProfile profile, String userName) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+
+        RegExp event = new RegExp(RegExp.EventTypes.ANY);
+        event.getFilter(PropTypes.Usr).add(userName); // seek events with present props
+        event.getGroupingProps().add(PropTypes.Usr);
         event.getGroupingProps().add(PropTypes.Event);
         profile.getRgxList().add(event);
+
+        profile.setSortingProp(PropTypes.Duration);
     }
 
     // for investigating locks escalation

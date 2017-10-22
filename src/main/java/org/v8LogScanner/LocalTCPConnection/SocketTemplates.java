@@ -45,6 +45,8 @@ public class SocketTemplates {
     public Socket createClientSocket(String ip, int port) {
 
         Socket clientSocket = null;
+        if (!isConformIpv4(ip))
+            return null;
 
         byte[] ipElements = fetchToByteIP(ip);
 
@@ -85,8 +87,7 @@ public class SocketTemplates {
         try {
             localhost = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace(out);
+            // Do nothing. User propably made a input mistake
             return;
         }
 
@@ -105,10 +106,10 @@ public class SocketTemplates {
                 if (address.isReachable(1000) && client.pingServer()) {
                     getNewHost.accept(client.getHostIP());
                 } else {
-                    //out.println(" Negative. Server not found");
+                    //Negative. Server not found;
                 }
             } catch (IOException e) {
-                //out.println(" Negative. Server not found");
+                //Negative. Server not found";
             }
         }
     }
@@ -146,7 +147,7 @@ public class SocketTemplates {
         try {
             hostIP = InetAddress.getByName(hostName).getHostAddress();
         } catch (UnknownHostException e) {
-            ExcpReporting.LogError(this, e);
+            // Do nothing. It's user's error with the hosts
         }
         return hostIP;
     }

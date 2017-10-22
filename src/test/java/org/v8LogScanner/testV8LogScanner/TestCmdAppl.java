@@ -183,5 +183,6 @@ public class TestCmdAppl {
 
         V8LogFileConstructor.deleteLogFile(logFileName);
     }
+
 }
 

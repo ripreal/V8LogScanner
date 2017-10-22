@@ -105,4 +105,5 @@ public class TCPConnection {
         notifyStateChanged(state);
         this.state = state;
     }
+
 }

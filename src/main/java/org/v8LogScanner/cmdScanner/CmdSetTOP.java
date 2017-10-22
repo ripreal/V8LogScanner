@@ -28,6 +28,6 @@ public class CmdSetTOP implements CmdCommand {
         if (userInput == null) {
             return;
         }
-        appl.profile.setLimit(Math.min(Integer.parseInt(userInput), Constants.logEventsCount));
+        appl.profile.setLimit(Integer.parseInt(userInput));
     }
 }

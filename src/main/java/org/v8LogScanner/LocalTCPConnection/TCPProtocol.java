@@ -8,7 +8,7 @@ public class TCPProtocol {
 
     public enum TCPMessages {
         ACCEPT_CLIENT, NOT_ACCEPT_CLIENT, CONNECTION_SEND_ERROR,
-        CONNECTION_GET_ERROR, SEND_DATA
+        CONNECTION_GET_ERROR, CLOSE_CLIENT, SEND_DATA
     }
 
     private byte[] senderIP = null;

@@ -6,7 +6,7 @@ import org.v8LogScanner.rgx.ScanProfile;
 public class CmdGetSQlWithIndexScan implements CmdCommand {
     @Override
     public String getTip() {
-        return null;
+        return "";
     }
 
     public void execute() {

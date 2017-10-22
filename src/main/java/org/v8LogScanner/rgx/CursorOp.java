@@ -2,6 +2,7 @@ package org.v8LogScanner.rgx;
 
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.logsCfg.LogEvent;
 import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
@@ -111,12 +112,11 @@ public class CursorOp extends AbstractOp {
 
     private TreeMap<SortingKey, List<String>> mapLogs(ArrayList<String> sourceCol) {
 
-        TreeMap<SortingKey, List<String>> mapped =
-                sourceCol.
-                        stream().
-                        parallel().
-                        filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes)).
-                        collect(Collectors.collectingAndThen(
+        TreeMap<SortingKey, List<String>> mapped = sourceCol
+                        .stream()
+                        .parallel()
+                        .filter(n -> RgxOpManager.anyMatch(n, eventPatterns, integerFilters, integerCompTypes))
+                        .collect(Collectors.collectingAndThen(
                                 Collectors.groupingByConcurrent(this::createSortingKey),
                                 map -> {
                                     TreeMap<SortingKey, List<String>> tm = new TreeMap<>();
@@ -142,10 +142,9 @@ public class CursorOp extends AbstractOp {
 
     private TreeMap<SortingKey, List<String>> finalReduction(Collection<String> sourceCol) {
 
-        TreeMap<SortingKey, List<String>> mapped =
-                sourceCol.
-                        parallelStream().
-                        collect(Collectors.collectingAndThen(
+        TreeMap<SortingKey, List<String>> mapped = sourceCol
+                        .parallelStream()
+                        .collect(Collectors.collectingAndThen(
                                 Collectors.groupingByConcurrent(this::createSortingKey),
                                 map -> {
                                     TreeMap<SortingKey, List<String>> tm = new TreeMap<>();
@@ -154,12 +153,12 @@ public class CursorOp extends AbstractOp {
                                 })
                         );
 
-        TreeMap<SortingKey, List<String>> rgxResult = mapped.entrySet().
-                stream().
-                sequential().
-                flatMap(n -> n.getValue().stream()).
-                limit(limit).
-                collect(Collectors.collectingAndThen(
+        TreeMap<SortingKey, List<String>> rgxResult = mapped.entrySet()
+                .stream()
+                .sequential()
+                .flatMap(n -> n.getValue().stream())
+                .limit(limit)
+                .collect(Collectors.collectingAndThen(
                         Collectors.groupingByConcurrent(this::createSortingKey),
                         map -> {
                             TreeMap<SortingKey, List<String>> tm = new TreeMap<>();
@@ -233,6 +232,11 @@ public class CursorOp extends AbstractOp {
         }
 
         public boolean equals(Object x) {
+            if (x == this)
+                return true;
+            if (x == null || (!(x instanceof DurationKey)))
+                return false;
+
             DurationKey other = (DurationKey) x;
             return sortingKey.equals(other.getSortingKey());
         }
