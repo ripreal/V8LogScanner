@@ -7,41 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="17b08a40-e6f6-4896-b4ff-9c8e9d7ba3d7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/SocketTemplates.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/SocketTemplates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPClosed.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPClosed.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPConnection.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPEstablished.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPEstablished.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPListen.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPListen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPProtocol.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPProtocol.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPState.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/LanScanProfile.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/LanScanProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LanLogScannerClient.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LanLogScannerClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerClient.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerData.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerServer.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/ApplConsole.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/ApplConsole.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddEventToCfg.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddEventToCfg.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddGroupBy.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddGroupBy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogFilter.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogLocServerIP.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogLocServerIP.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdGetSQlWithIndexScan.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdGetSQlWithIndexScan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdRemoveEventFromCfg.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdRemoveEventFromCfg.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdResetAll.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdResetAll.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdRunAsLanServer.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdRunAsLanServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdSetTOP.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdSetTOP.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogEvent.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogLocation.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/logsCfg/LogLocation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RegExp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RegExp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/V8LogFileConstructor.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/V8LogFileConstructor.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -66,7 +33,7 @@
       <file leaf-file-name="V8LogScannerAppl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-248">
+            <state relative-caret-position="357">
               <caret line="41" column="50" lean-forward="false" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
               <folding>
                 <element signature="class#1137:1253" expanded="false" />
@@ -89,24 +56,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppIntitializer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AppIntitializer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+            <state relative-caret-position="357">
+              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApplConsole.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="365">
+              <caret line="56" column="43" lean-forward="false" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ApplConsole.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/ApplConsole.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="229" column="9" lean-forward="true" selection-start-line="229" selection-start-column="9" selection-end-line="229" selection-end-column="9" />
+            <state relative-caret-position="2023">
+              <caret line="231" column="48" lean-forward="false" selection-start-line="231" selection-start-column="48" selection-end-line="231" selection-end-column="48" />
               <folding>
-                <element signature="e#947#948#0" expanded="true" />
-                <element signature="e#990#991#0" expanded="true" />
                 <element signature="method#askInput#0;class#ApplConsole#0" expanded="false" />
                 <element signature="method#askInputFromList#0;class#ApplConsole#0" expanded="false" />
                 <element signature="method#askInputFromList#1;class#ApplConsole#0" expanded="false" />
@@ -122,10 +97,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CmdAdd1cDeadLocksEventsToCfg.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAdd1cDeadLocksEventsToCfg.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="MenuCmd.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
+            <state relative-caret-position="527">
               <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding />
             </state>
@@ -135,8 +120,8 @@
       <file leaf-file-name="System.java" pinned="false" current-in-tab="false">
         <entry file="jar://C:/Program Files/Java/jdk1.8.0_77/src.zip!/java/lang/System.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="151" column="19" lean-forward="true" selection-start-line="151" selection-start-column="19" selection-end-line="151" selection-end-column="19" />
+            <state relative-caret-position="1887">
+              <caret line="151" column="19" lean-forward="false" selection-start-line="151" selection-start-column="19" selection-end-line="151" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -145,8 +130,8 @@
       <file leaf-file-name="V8LogScannerServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="647">
-              <caret line="73" column="45" lean-forward="true" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
+            <state relative-caret-position="969">
+              <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
               <folding>
                 <element signature="e#1966#1967#0" expanded="true" />
                 <element signature="e#2009#2010#0" expanded="true" />
@@ -158,8 +143,8 @@
       <file leaf-file-name="HeapOp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-136">
-              <caret line="95" column="30" lean-forward="true" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+            <state relative-caret-position="1377">
+              <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
               <folding>
                 <element signature="method#HeapOp#0;class#HeapOp#0" expanded="false" />
                 <element signature="method#resetResult#0;class#HeapOp#0" expanded="false" />
@@ -172,46 +157,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TCPConnection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-              <folding>
-                <element signature="method#TCPConnection#0;class#TCPConnection#0" expanded="false" />
-                <element signature="method#createTCPConnection#1;class#TCPConnection#0" expanded="false" />
-                <element signature="method#notifyStateChanged#0;class#TCPConnection#0" expanded="false" />
-                <element signature="method#notifyStateError#0;class#TCPConnection#0" expanded="false" />
-                <element signature="method#notifyRecievingData#0;class#TCPConnection#0" expanded="false" />
-                <element signature="method#changeState#0;class#TCPConnection#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TestCmdAppl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+            <state relative-caret-position="1292">
+              <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
               <folding>
                 <element signature="method#testRunAppl#0;class#TestCmdAppl#0" expanded="false" />
                 <element signature="method#testStartCursorOp#0;class#TestCmdAppl#0" expanded="false" />
                 <element signature="method#testCmdChangeLogType#0;class#TestCmdAppl#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SocketTemplates.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/SocketTemplates.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="23" column="37" lean-forward="true" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-              <folding>
-                <element signature="method#SocketTemplates#0;class#SocketTemplates#0" expanded="false" />
-                <element signature="method#createServerSocket#0;class#SocketTemplates#0" expanded="false" />
-                <element signature="method#acceptClient#0;class#SocketTemplates#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -278,7 +232,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RgxOpManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdShowResults.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdCopyResultToFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogEvent.java" />
@@ -325,10 +278,11 @@
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdRunAsLanServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAddLogLocServerIP.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerServer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/ApplConsole.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" />
       </list>
     </option>
   </component>
@@ -365,7 +319,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1382" />
@@ -406,36 +360,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
-              <item name="main" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
-              <item name="main" type="616d4139:PackageViewModuleNode" />
-              <item name="org" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
-              <item name="main" type="616d4139:PackageViewModuleNode" />
-              <item name="org" type="1f31426a:PackageElementNode" />
-              <item name="v8LogScanner" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
-              <item name="main" type="616d4139:PackageViewModuleNode" />
-              <item name="org" type="1f31426a:PackageElementNode" />
-              <item name="v8LogScanner" type="1f31426a:PackageElementNode" />
-              <item name="cmdScanner" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -486,44 +412,41 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="org" type="462c0819:PsiDirectoryNode" />
               <item name="v8LogScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="cmdAppl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="V8LogScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="org" type="462c0819:PsiDirectoryNode" />
-              <item name="v8LogScanner" type="462c0819:PsiDirectoryNode" />
               <item name="cmdScanner" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="V8LogScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="V8LogScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="V8LogScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="V8LogScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="testV8LogScanner" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
+              <item name="main" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
+              <item name="main" type="616d4139:PackageViewModuleNode" />
+              <item name="org" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
+              <item name="main" type="616d4139:PackageViewModuleNode" />
+              <item name="org" type="1f31426a:PackageElementNode" />
+              <item name="v8LogScanner" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="V8LogScanner" type="58d84e3e:PackageViewProjectNode" />
+              <item name="main" type="616d4139:PackageViewModuleNode" />
+              <item name="org" type="1f31426a:PackageElementNode" />
+              <item name="v8LogScanner" type="1f31426a:PackageElementNode" />
+              <item name="cmdScanner" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
@@ -989,23 +912,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31423897" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40589198" sideWeight="0.4409985" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18683812" sideWeight="0.49513212" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40425533" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07855974" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.49707174" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2881997" sideWeight="0.41525424" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2375189" sideWeight="0.41525424" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24952918" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1016,6 +938,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31423897" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1407" y="452" width="444" height="160" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.083804145" sideWeight="0.50486785" order="4" side_tool="true" content_ui="tabs" />
@@ -1077,24 +1000,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRegExp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="32" column="50" lean-forward="false" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
-          <folding>
-            <element signature="method#testGetProfile#0;class#TestRegExp#0" expanded="false" />
-            <element signature="method#testSetProfile#0;class#TestRegExp#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdGetTopTimeout.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1106,7 +1011,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1129,7 +1033,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
           <caret line="18" column="65" lean-forward="true" selection-start-line="13" selection-start-column="8" selection-end-line="18" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,13 +1054,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="41" column="39" lean-forward="false" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
-          <folding>
-            <element signature="method#setup#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testAddLogPath#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testLanSerialization#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testSerialisationGetCfgPaths#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testSerialisationReadCfgFile#0;class#TestScanProfile#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1165,11 +1061,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="43" column="14" lean-forward="false" selection-start-line="43" selection-start-column="14" selection-end-line="43" selection-end-column="14" />
-          <folding>
-            <element signature="method#getTip#0;class#CmdAddGroupBy#0" expanded="false" />
-            <element signature="e#869#1111#0" expanded="false" />
-            <element signature="method#getSizeGroupingProps#0;class#CmdAddGroupBy#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1205,7 +1096,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2771">
           <caret line="173" column="0" lean-forward="false" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1213,74 +1103,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1343">
           <caret line="177" column="20" lean-forward="false" selection-start-line="177" selection-start-column="20" selection-end-line="177" selection-end-column="20" />
-          <folding>
-            <element signature="docComment;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#events#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#locations#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#properties#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#dumps#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#cfgPaths#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#allowPLanSql#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#scriptCircRefs#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;field#content#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#LogBuilder#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#LogBuilder#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#LogBuilder#1;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#writeToXmlFile#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#writeToXmlFile#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#writeToXmlFile#1;class#LogBuilder#0" expanded="false" />
-            <element signature="e#4246#4267#0" expanded="false" />
-            <element signature="docComment;method#readCfgFile#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildAllEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildAllEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildSQlEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildSQlEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildExcpEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildExcpEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildLongEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildLongEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#build1cLocksEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#build1cLocksEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildInvestigateSQlQueries#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildInvestigateSQlQueries#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildEverydayEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildEverydayEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildSqlDeadLocksEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildSqlDeadLocksEvents#0;class#LogBuilder#0" expanded="false" />
-            <element signature="e#13020#13534#0" expanded="false" />
-            <element signature="docComment;method#buildFindTableByObjectID#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildFindTableByObjectID#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildSlowQueriesWithTABLE_SCAN#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildCircularRefsAndEXCP#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#addLocLocation#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addLocLocation#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#addLocLocation#1;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addLocLocation#1;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#addEvent#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addEvent#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#addEvent#1;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addEvent#1;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addEvent#2;class#LogBuilder#0" expanded="false" />
-            <element signature="method#removeLogEvent#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#setScriptcircrefs#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addLogProperty#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#setPlanSql#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#setCfgPaths#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#getLocations#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#clearAll#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#getContent#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#addLogProperty#1;class#LogBuilder#0" expanded="false" />
-            <element signature="method#setCreateDumps#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#setCreateDumps#1;class#LogBuilder#0" expanded="false" />
-            <element signature="method#updateContent#0;class#LogBuilder#0" expanded="false" />
-            <element signature="docComment;method#buildAndWrite#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildAndWrite#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#initTransformer#0;class#LogBuilder#0" expanded="false" />
-            <element signature="method#buildXmlDoc#0;class#LogBuilder#0" expanded="false" />
-            <element signature="e#22304#22842#0" expanded="false" />
-            <element signature="e#22877#23208#0" expanded="false" />
-            <element signature="method#removeNodeElement#0;class#LogBuilder#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1288,7 +1110,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="33" lean-forward="false" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1296,28 +1117,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1513">
           <caret line="162" column="31" lean-forward="false" selection-start-line="162" selection-start-column="31" selection-end-line="162" selection-end-column="31" />
-          <folding>
-            <element signature="method#CursorOp#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#resetResult#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#getFinalInfo#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#select#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#mapLogs#0;class#CursorOp#0" expanded="false" />
-            <element signature="e#4167#4447#0" expanded="false" />
-            <element signature="method#intermediateReduction#0;class#CursorOp#0" expanded="false" />
-            <element signature="e#5229#5509#0" expanded="false" />
-            <element signature="method#createSortingKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="e#6662#6710#0" expanded="false" />
-            <element signature="class#SortingKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#DurationKey#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#compareTo#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#equals#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#toString#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="class#SizeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#SizeKey#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#compareTo#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#equals#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1325,25 +1124,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1785">
           <caret line="259" column="54" lean-forward="false" selection-start-line="259" selection-start-column="54" selection-end-line="259" selection-end-column="54" />
-          <folding>
-            <element signature="class#RgxOpTypes#0;class#ScanProfile#0" expanded="false" />
-            <element signature="class#GroupTypes#0;class#ScanProfile#0" expanded="false" />
-            <element signature="class#LogTypes#0;class#ScanProfile#0" expanded="false" />
-            <element signature="class#DateRanges#0;class#ScanProfile#0" expanded="false" />
-            <element signature="e#1416#1436#0" expanded="false" />
-            <element signature="method#buildTopSlowestSql#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#buildTopSlowestSqlByUser#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#buildRphostExcp#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#buildUserEXCP#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#buildSqlDeadlLockError#0;class#ScanProfile#0" expanded="false" />
-            <element signature="e#4979#5210#0" expanded="false" />
-            <element signature="method#build1cDeadlocksError#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#build1cDeadlocksByConnectID#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#buildAllLocksByUser#0;class#ScanProfile#0" expanded="false" />
-            <element signature="e#7717#8001#0" expanded="false" />
-            <element signature="method#buildFindSQlEventByQueryFragment#0;class#ScanProfile#0" expanded="false" />
-            <element signature="method#BuildFindSlowSQlEventsWithPlan#0;class#ScanProfile#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1351,13 +1131,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="36" />
-          <folding>
-            <element signature="class#LogFileTypes#0;class#V8LogFileConstructor#0" expanded="false" />
-            <element signature="method#addDBMSSQlWithPlan#0;class#V8LogFileConstructor#0" expanded="false" />
-            <element signature="method#addVRSRESPONSE#0;class#V8LogFileConstructor#0" expanded="false" />
-            <element signature="method#build#0;class#V8LogFileConstructor#0" expanded="false" />
-            <element signature="method#deleteLogFile#0;class#V8LogFileConstructor#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1365,23 +1138,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
           <caret line="195" column="26" lean-forward="true" selection-start-line="195" selection-start-column="26" selection-end-line="195" selection-end-column="26" />
-          <folding>
-            <element signature="method#testStartRgxOp#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testfilterEvent#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testFilterProcessName#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testGroupBySeveralProps#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testbuildTopSlowestSql#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildSqlLockError#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildRphostExcp#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildFindSQlEventByQueryFragment#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildFindSlowSQlEventsWithTableScan#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildUserEXCP#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuildAllLocksByUser#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testBuild1CDeadlocksByConnectID#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="e#11141#11157#0" expanded="false" />
-            <element signature="method#testVSRQuieries#0;class#TestRgxOp#0" expanded="false" />
-            <element signature="method#testQERR#0;class#TestRgxOp#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1389,7 +1145,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
           <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1397,9 +1152,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
           <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#871#872#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1407,119 +1159,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
           <caret line="463" column="0" lean-forward="false" selection-start-line="463" selection-start-column="0" selection-end-line="463" selection-end-column="0" />
-          <folding>
-            <element signature="method#RegExp#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildEXCP#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildCONN#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildTLOCK#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildTTIMEOUT#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildANY#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildDBMSSQL#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildDBORACLE#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildDBPOSTGRS#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildSQlEvent#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildSDBL#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildDBV8DBEng#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildHASP#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildVRSREQUEST#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildVRSRESPONSE#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildLEAKS#0;class#RegExp#0" expanded="false" />
-            <element signature="method#buildMEM#0;class#RegExp#0" expanded="false" />
-            <element signature="docComment;method#compileSpan#0;class#RegExp#0" expanded="false" />
-            <element signature="method#compileSpan#0;class#RegExp#0" expanded="false" />
-            <element signature="e#11837#11838#0" expanded="true" />
-            <element signature="e#11884#11885#0" expanded="true" />
-            <element signature="docComment;method#getFilters#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getFilters#0;class#RegExp#0" expanded="false" />
-            <element signature="e#12437#12596#0" expanded="false" />
-            <element signature="method#setFilters#0;class#RegExp#0" expanded="false" />
-            <element signature="e#13078#13117#0" expanded="false" />
-            <element signature="method#getUnicRgxPropText#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getPredecessorPropText#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getThisPropText#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getIntegerFilters#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getIntegerCompTypes#0;class#RegExp#0" expanded="false" />
-            <element signature="method#isNumericProp#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getPropsForGrouping#0;class#RegExp#0" expanded="false" />
-            <element signature="method#getPropsForFiltering#0;class#RegExp#0" expanded="false" />
-            <element signature="class#PropertyNotFoundException#0" expanded="false" />
-            <element signature="n#!!doc;n#RgxNode#0" expanded="false" />
-            <element signature="method#RgxNode#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#isUnique#0;class#RgxNode#0" expanded="false" />
-            <element signature="e#22452#22453#0" expanded="true" />
-            <element signature="e#22481#22482#0" expanded="true" />
-            <element signature="method#interpret#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpretSpan#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#intepretElement#0;class#RgxNode#0" expanded="false" />
-            <element signature="docComment;method#compStrFilter#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#compStrFilter#0;class#RgxNode#0" expanded="false" />
-            <element signature="docComment;method#compPartStrFilter#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#compPartStrFilter#0;class#RgxNode#0" expanded="false" />
-            <element signature="e#25191#25192#0" expanded="true" />
-            <element signature="e#25222#25223#0" expanded="true" />
-            <element signature="e#25341#25342#0" expanded="true" />
-            <element signature="e#25373#25374#0" expanded="true" />
-            <element signature="class#Time#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Duration#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Event#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Event#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#StackLevel#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Process#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Process#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#ProcessName#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#ClientID#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#ClientID#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Except#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Except#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Descr#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Descr#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Protected#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Protected#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Content#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Content#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#CallID#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#CallID#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#ApplicationName#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#ApplicationName#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#ComputerName#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#ComputerName#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#ConnectID#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#ConnectID#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#SessionID#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#SessionID#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Usr#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Usr#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Regions#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Regions#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Locks#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Locks#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#WaitConnections#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#WaitConnections#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Context#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Context#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Interface#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Interface#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Sql#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Sql#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Trans#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Trans#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Dbpid#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Dbpid#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Sdbl#0;class#RgxNode#0" expanded="false" />
-            <element signature="method#interpret#0;class#Sdbl#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Func#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Txt#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#UsrLim#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Type#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#PlanSQLText#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Method#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#URI#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Body#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Status#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Phrase#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#FileName#0;class#RgxNode#0" expanded="false" />
-            <element signature="class#Headers#0;class#RgxNode#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1527,7 +1166,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
           <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1535,7 +1173,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1543,14 +1180,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="159" column="39" lean-forward="false" selection-start-line="159" selection-start-column="39" selection-end-line="159" selection-end-column="39" />
-          <folding>
-            <element signature="method#setUserPeriod#0;class#LanScanProfile#0" expanded="false" />
-            <element signature="method#setName#0;class#LanScanProfile#0" expanded="false" />
-            <element signature="method#setId#0;class#LanScanProfile#0" expanded="false" />
-            <element signature="method#clone#0;class#LanScanProfile#0" expanded="false" />
-            <element signature="e#3636#3637#0" expanded="false" />
-            <element signature="method#addLogPath#0;class#LanScanProfile#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1558,7 +1187,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1566,7 +1194,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="111">
           <caret line="11" column="115" lean-forward="true" selection-start-line="11" selection-start-column="115" selection-end-line="11" selection-end-column="115" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1574,10 +1201,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-43">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="method#activeOpen#0;class#TCPState#0" expanded="false" />
-            <element signature="docComment;method#isEstablished#0;class#TCPState#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1585,10 +1208,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
           <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#1607#1608#0" expanded="false" />
-            <element signature="e#1652#1653#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1596,12 +1215,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
           <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding>
-            <element signature="method#TCPEstablished#0;class#TCPEstablished#0" expanded="false" />
-            <element signature="method#instance#0;class#TCPEstablished#0" expanded="false" />
-            <element signature="method#send#0;class#TCPEstablished#0" expanded="false" />
-            <element signature="method#activeOpen#0;class#TCPEstablished#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1609,7 +1222,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
           <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1617,12 +1229,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
           <caret line="38" column="31" lean-forward="true" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
-          <folding>
-            <element signature="method#TCPClosed#0;class#TCPClosed#0" expanded="false" />
-            <element signature="method#instance#0;class#TCPClosed#0" expanded="false" />
-            <element signature="e#1429#1430#0" expanded="false" />
-            <element signature="e#1481#1482#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1630,7 +1236,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="42" column="25" lean-forward="false" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1638,7 +1243,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
           <caret line="744" column="0" lean-forward="false" selection-start-line="744" selection-start-column="0" selection-end-line="744" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1646,25 +1250,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
-          <folding>
-            <element signature="docComment;method#V8LanLogScannerClient#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="e#2729#2730#0" expanded="true" />
-            <element signature="e#2822#2823#0" expanded="true" />
-            <element signature="e#3016#3045#0" expanded="false" />
-            <element signature="method#cursorIndex#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="e#3454#3510#0" expanded="false" />
-            <element signature="method#resetResult#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#logPathExist#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#startRgxOp#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#select#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#getFinalInfo#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#getCfgPaths#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="method#readCfgFile#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="e#9210#9211#0" expanded="true" />
-            <element signature="e#9264#9265#0" expanded="true" />
-            <element signature="method#outProcessingInfo#0;class#V8LanLogScannerClient#0" expanded="false" />
-            <element signature="class#RgxOpNotStarted#0;class#V8LanLogScannerClient#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1672,12 +1257,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="86">
           <caret line="30" column="30" lean-forward="true" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
-          <folding>
-            <element signature="e#1902#1903#0" expanded="true" />
-            <element signature="e#1959#1960#0" expanded="true" />
-            <element signature="e#1997#1998#0" expanded="true" />
-            <element signature="e#2054#2055#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1685,7 +1264,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="26" column="24" lean-forward="true" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1693,41 +1271,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="24" column="41" lean-forward="true" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/TCPConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
+        <state relative-caret-position="323">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="method#TCPConnection#0;class#TCPConnection#0" expanded="false" />
-            <element signature="method#createTCPConnection#1;class#TCPConnection#0" expanded="false" />
-            <element signature="method#notifyStateChanged#0;class#TCPConnection#0" expanded="false" />
-            <element signature="method#notifyStateError#0;class#TCPConnection#0" expanded="false" />
-            <element signature="method#notifyRecievingData#0;class#TCPConnection#0" expanded="false" />
-            <element signature="method#changeState#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPConnection/SocketTemplates.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="23" column="37" lean-forward="true" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-          <folding>
-            <element signature="method#SocketTemplates#0;class#SocketTemplates#0" expanded="false" />
-            <element signature="method#createServerSocket#0;class#SocketTemplates#0" expanded="false" />
-            <element signature="method#acceptClient#0;class#SocketTemplates#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="272">
+          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/V8LogScannerServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="73" column="45" lean-forward="true" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
+        <state relative-caret-position="969">
+          <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="45" selection-end-line="73" selection-end-column="45" />
           <folding>
             <element signature="e#1966#1967#0" expanded="true" />
             <element signature="e#2009#2010#0" expanded="true" />
@@ -1737,24 +1301,16 @@
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_77/src.zip!/java/lang/System.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="151" column="19" lean-forward="true" selection-start-line="151" selection-start-column="19" selection-end-line="151" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuCmd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+        <state relative-caret-position="1887">
+          <caret line="151" column="19" lean-forward="false" selection-start-line="151" selection-start-column="19" selection-end-line="151" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret line="95" column="30" lean-forward="true" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+        <state relative-caret-position="1377">
+          <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
           <folding>
             <element signature="method#HeapOp#0;class#HeapOp#0" expanded="false" />
             <element signature="method#resetResult#0;class#HeapOp#0" expanded="false" />
@@ -1768,8 +1324,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="146" column="0" lean-forward="true" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+        <state relative-caret-position="1292">
+          <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
           <folding>
             <element signature="method#testRunAppl#0;class#TestCmdAppl#0" expanded="false" />
             <element signature="method#testStartCursorOp#0;class#TestCmdAppl#0" expanded="false" />
@@ -1780,7 +1336,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-248">
+        <state relative-caret-position="357">
           <caret line="41" column="50" lean-forward="false" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
           <folding>
             <element signature="class#1137:1253" expanded="false" />
@@ -1802,21 +1358,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/ApplConsole.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="229" column="9" lean-forward="true" selection-start-line="229" selection-start-column="9" selection-end-line="229" selection-end-column="9" />
+        <state relative-caret-position="2023">
+          <caret line="231" column="48" lean-forward="false" selection-start-line="231" selection-start-column="48" selection-end-line="231" selection-end-column="48" />
           <folding>
-            <element signature="e#947#948#0" expanded="true" />
-            <element signature="e#990#991#0" expanded="true" />
             <element signature="method#askInput#0;class#ApplConsole#0" expanded="false" />
             <element signature="method#askInputFromList#0;class#ApplConsole#0" expanded="false" />
             <element signature="method#askInputFromList#1;class#ApplConsole#0" expanded="false" />
@@ -1828,6 +1374,38 @@
             <element signature="method#existsInList#0;class#ApplConsole#0" expanded="false" />
             <element signature="method#existsInList#1;class#ApplConsole#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuCmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdAdd1cDeadLocksEventsToCfg.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="56" column="43" lean-forward="false" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1888,6 +1466,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

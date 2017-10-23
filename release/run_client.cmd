@@ -1,0 +1,1 @@
+java -jar v8LogScanner.jar

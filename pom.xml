@@ -53,6 +53,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
+          <finalName>v8LogScanner</finalName>
+          <outputDirectory>${project.basedir}/release/</outputDirectory>
           <!-- DO NOT include log4j.properties file in your Jar -->
           <excludes>
           <!--  <exclude>**/log4j.properties</exclude> -->

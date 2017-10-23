@@ -18,8 +18,8 @@ public class AppIntitializer {
         ExcpReporting.out = System.out; // it is necessary to specify a output for errors before launch app
 
         String pars = String.join(",", args).toUpperCase();
-        if (pars.contains("SERVER_SILENT".toUpperCase())) {
-            startServerMode();
+        if (pars.contains("SERVICE".toUpperCase())) {
+            startService(args);
         } else if (pars.contains("SERVER".toUpperCase())) {
             CmdRunAsLanServer cmd = new CmdRunAsLanServer();
             cmd.execute();
@@ -28,7 +28,7 @@ public class AppIntitializer {
             V8LogScannerAppl.instance().runAppl();
         }
     }
-    private static void startServerMode(){
+    private static void startService(String[] args){
         ByteBuffer bytes = Charset.forName("UTF-8").encode("");
         ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
