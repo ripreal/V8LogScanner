@@ -24,7 +24,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
     private static void init() {
         if (tags.isEmpty()) {
             tags.put(RegExp.PropTypes.Event, "name");
-            tags.put(RegExp.PropTypes.Duration, "Durationus");
+            tags.put(RegExp.PropTypes.Duration, "Duration");
             tags.put(RegExp.PropTypes.ANY, "");
             tags.put(RegExp.PropTypes.ApplicationName, "t:applicationName");
             tags.put(RegExp.PropTypes.CallID, "Calls");

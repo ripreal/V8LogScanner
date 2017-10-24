@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class LogLocation implements Serializable {
 
     private String location = "C:\\v8Logs";
-    private String history = "12r";
+    private String history = "12";
 
     public LogLocation() {
     }

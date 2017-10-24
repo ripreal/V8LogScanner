@@ -92,7 +92,7 @@ public class LogBuilder implements Serializable{
         for (String dir : v8Dirs) {
             String defCfgDir = dir + "\\conf";
             if (Files.exists(Paths.get(dir))
-                && !cfgPaths.contains(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME))){
+                    && !cfgPaths.contains(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME))){
 
                 cfgPaths.add(Paths.get(defCfgDir + "\\" + LogConfig.LOG_CFG_NAME));
             }
@@ -320,25 +320,35 @@ public class LogBuilder implements Serializable{
      * @return prepared but not written text file with settings
      */
     public LogBuilder buildEverydayEvents() {
-        LogEvent slowSql = new LogEvent();
-        slowSql.setProp(RegExp.PropTypes.Event);
-        slowSql.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
-        slowSql.setVal(RegExp.PropTypes.Event, RegExp.PropTypes.Sql.toString().toLowerCase());
 
-        slowSql.setProp(RegExp.PropTypes.Duration);
-        slowSql.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.gt);
-        slowSql.setVal(RegExp.PropTypes.Duration, "10000");
+        RegExp.EventTypes[] events = {RegExp.EventTypes.SDBL, RegExp.EventTypes.DBMSSQL,
+                RegExp.EventTypes.SDBL, RegExp.EventTypes.DBV8DBEng, RegExp.EventTypes.DBORACLE,
+                RegExp.EventTypes.DBPOSTGRS};
+
+        for(RegExp.EventTypes eventType : events) {
+            LogEvent slowSql = new LogEvent();
+            slowSql.setProp(RegExp.PropTypes.Event);
+            slowSql.setComparison(RegExp.PropTypes.Event, LogEvent.LogEventComparisons.eq);
+            slowSql.setVal(RegExp.PropTypes.Event, eventType.toString());
+
+            slowSql.setProp(RegExp.PropTypes.Duration);
+            slowSql.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.gt);
+            slowSql.setVal(RegExp.PropTypes.Duration, "10000");
+
+            addEvent(slowSql);
+        }
 
         return this
                 .addLocLocation()
                 .addLogProperty()
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excp")
-                .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "conn")
+                .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "excpcntx")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "PROC")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "ADMIN")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "SESN")
+                .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "QERR")
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, "CLSTR")
-                .addEvent(slowSql)
+                .setPlanSql(true)
                 .updateContent();
     }
 
@@ -420,7 +430,7 @@ public class LogBuilder implements Serializable{
 
     public LogBuilder buildCircularRefsAndEXCP() {
 
-       return this
+        return this
                 .addLocLocation()
                 .addLogProperty()
                 .addEvent(LogEvent.LogEventComparisons.eq, RegExp.PropTypes.Event, LogConfig.SCRIPT_CIRC_REFS_TAG_NAME)
