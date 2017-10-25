@@ -17,6 +17,8 @@ import org.v8LogScanner.rgx.ScanProfile.GroupTypes;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
 import org.v8LogScanner.rgx.SelectorEntry;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -281,13 +283,35 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
 
         V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.READ_CFG_PATHS);
         dataToServer.putData("cfgPaths", cfgPaths);
-        V8LogScannerData dataFromServer = send(dataToServer);
 
+        V8LogScannerData dataFromServer = send(dataToServer);
         if (dataFromServer == null)
             return null;
 
-        String cfgContent = (String) dataFromServer.getData("cfgContent");
-        return cfgContent;
+        return (String) dataFromServer.getData("cfgContent");
+    }
+
+    public String writeCfgFile(String content) {
+        if (isLocalHost()) {
+            LogBuilder builder = new LogBuilder();
+            builder.readCfgFile(content);
+            try {
+                builder.writeToXmlFile();
+            } catch (IOException e) {
+                return e.toString();
+            }
+            return "file saved!";
+        }
+
+        V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.WRITE_CFG_FILE);
+        dataToServer.putData("content", content);
+
+        V8LogScannerData dataFromServer = send(dataToServer);
+
+        if (dataFromServer == null)
+            return "file not saved!";
+
+        return (String) dataFromServer.getData("result");
     }
 
     @Override

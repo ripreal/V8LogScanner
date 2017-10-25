@@ -4,10 +4,9 @@ import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer;
 import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
@@ -28,15 +27,10 @@ public class AppIntitializer {
             V8LogScannerAppl.instance().runAppl();
         }
     }
-    private static void startService(String[] args){
-        ByteBuffer bytes = Charset.forName("UTF-8").encode("");
-        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
 
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(outStream);
-
+    public static void startService(String[] args){
         try {
-            V8LogScannerServer server = new V8LogScannerServer(Constants.serverPort, out, in);
+            V8LogScannerServer server = new V8LogScannerServer(Constants.serverPort, null, null);
             server.Beginlistenning();
         } catch (V8LogScannerServer.LanServerNotStarted e) {
             ExcpReporting.LogError(AppIntitializer.class, e);

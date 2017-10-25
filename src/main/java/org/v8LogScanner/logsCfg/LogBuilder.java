@@ -114,29 +114,13 @@ public class LogBuilder implements Serializable{
      *
      * @return written file by the specified location
      */
-    public File writeToXmlFile(Consumer<String[]> info) {
+    public File writeToXmlFile() throws IOException {
         File logFile = null;
-        String[] infoText = new String[1];
-        try {
-            for (Path path : cfgPaths) {
-                logFile = new File(path.toUri());
-                String temp = fsys.createTempFile("");
-                fsys.writeInNewFile(content, temp); // write into temp cause access denied error in program files
-                Files.copy(Paths.get(temp), logFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                fsys.deleteFile(temp);
-            }
-            infoText[0] = "File saved!";
-
-        } catch (IOException e) {
-            infoText[0] = e.toString();
+        for (Path path : cfgPaths) {
+            logFile = new File(path.toUri());
+            fsys.writeInNewFile(content, path.toString());
         }
-        info.accept(infoText);
         return logFile;
-    }
-
-    public File writeToXmlFile() {
-        return writeToXmlFile((info) -> {
-        });
     }
 
     /**
@@ -168,6 +152,11 @@ public class LogBuilder implements Serializable{
             }
         }
         return updateContent();
+    }
+
+    public LogBuilder readCfgFile(String input){
+        readCfgFile(input, (info) -> {});
+        return this;
     }
 
     public LogBuilder readCfgFile(String input, Consumer<String> info){

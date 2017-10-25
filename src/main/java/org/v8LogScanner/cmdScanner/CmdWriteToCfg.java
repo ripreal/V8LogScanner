@@ -12,8 +12,10 @@ public class CmdWriteToCfg implements CmdCommand {
     @Override
     public void execute() {
         AppPolicy.addAdministratorRights();
-        V8LogScannerAppl.instance().logBuilder.writeToXmlFile((info) -> {
-            V8LogScannerAppl.instance().getConsole().showModalInfo(info[0]);
+
+        V8LogScannerAppl appl = V8LogScannerAppl.instance();
+        appl.clientsManager.forEach((client) -> {
+            appl.getConsole().showModalInfo(String.format("%s %s", client, client.writeCfgFile(appl.logBuilder.getContent())));
         });
     }
 }

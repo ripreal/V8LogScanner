@@ -20,11 +20,10 @@ public class V8LogScannerServer implements SocketEvent {
 
     private ServerSocket serverSocket = null;
     private List<TCPConnection> connections = new ArrayList<>();
-    private PrintStream infoStream;
+    private PrintStream infoStream = null;
     private BufferedReader in = null;
     private int port = Constants.serverPort;
     private final V8LogScannerClient localClient;
-
 
     public V8LogScannerServer(int port) throws LanServerNotStarted {
         this(port, System.out, System.in);
@@ -35,13 +34,14 @@ public class V8LogScannerServer implements SocketEvent {
         SocketTemplates socketTemplates = SocketTemplates.instance();
 
         this.infoStream = infoStream;
-        this.in = new BufferedReader(new InputStreamReader(in));
+        if (in != null)
+            this.in = new BufferedReader(new InputStreamReader(in));
 
         serverSocket = socketTemplates.createServerSocket(port);
 
         if (serverSocket != null) {
             localClient = new V8LanLogScannerClient();
-            infoStream.println(String.format("Server started on ip:%s(local), %s(wich socket was bound to)",
+            logEvent(String.format("Server started on ip:%s(local), %s(wich socket was bound to)",
                     serverSocket.getInetAddress().toString(),
                     serverSocket.getLocalSocketAddress().toString()));
         } else {
@@ -65,7 +65,7 @@ public class V8LogScannerServer implements SocketEvent {
                 while (true) {
                     TCPConnection connection = TCPConnection.createTCPConnection(serverSocket);
                     if (connection == null) {
-                        infoStream.println("Listening process interrupted!");
+                        logEvent("Listening process interrupted!");
                         break;
                     }
                     connection.addListener(V8LogScannerServer.this);
@@ -77,16 +77,16 @@ public class V8LogScannerServer implements SocketEvent {
         };
         Thread listeningThread = new Thread(listeningClients);
         listeningThread.start();
-        infoStream.println("Connections are listening...Print 'q' to exit.");
+        logEvent("Connections are listening...Print 'q' to exit.");
 
-        while (true) {
+        while (in != null) {
             try {
                 String userInput = in.readLine();
                 if (userInput != null && userInput.compareTo("q") == 0) {
                     stopListening();
                     break;
                 } else
-                    infoStream.println("Wrong command. Input 'q' to exit");
+                    logEvent("Wrong command. Input 'q' to exit");
             } catch (IOException e) {
                 ExcpReporting.LogError(this, e);
             }
@@ -177,6 +177,9 @@ public class V8LogScannerServer implements SocketEvent {
             case READ_CFG_PATHS:
                 answerData = readCfgFile(dataFromClient);
                 break;
+            case WRITE_CFG_FILE:
+                answerData = writeCfgFile(dataFromClient);
+                break;
             default:
                 answerData = new V8LogScannerData(null);
         }
@@ -241,6 +244,16 @@ public class V8LogScannerServer implements SocketEvent {
         return dataToClient;
     }
 
+    private V8LogScannerData writeCfgFile(V8LogScannerData dataFromClient) {
+
+        V8LogScannerData dataToClient = new V8LogScannerData(dataFromClient.command);
+
+        String content = (String) dataFromClient.getData("content");
+        dataToClient.putData("result", localClient.writeCfgFile(content));
+
+        return dataToClient;
+    }
+
     private V8LogScannerData readCfgFile(V8LogScannerData dataFromClient) {
 
         List<String> cfgPaths = (List<String>) dataFromClient.getData("cfgPaths");
@@ -270,8 +283,12 @@ public class V8LogScannerServer implements SocketEvent {
                 currDate.getTime(),
                 connection.getIP(),
                 info);
+        logEvent(dateText);
+    }
 
-        infoStream.println(dateText);
+    private void logEvent(String info) {
+        if (infoStream != null)
+            infoStream.println(info);
     }
 
     // EXCEPTIONS

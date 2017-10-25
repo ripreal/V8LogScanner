@@ -34,9 +34,6 @@ public class ApplConsole {
     }
 
     public void runAppl(MenuCmd currMenu) {
-
-        turnFullScreen();
-
         try {
             String userInput = "";
             do {
@@ -233,4 +230,5 @@ public class ApplConsole {
             }
         }
     }
+
 }

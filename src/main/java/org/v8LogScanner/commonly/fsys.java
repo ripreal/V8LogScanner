@@ -73,7 +73,7 @@ public class fsys {
 
     public static void writeInNewFile(String text, String fullFileName) throws IOException {
 
-        BufferedWriter fl = Files.newBufferedWriter(Paths.get(fullFileName), Charset.defaultCharset(),
+        BufferedWriter fl = Files.newBufferedWriter(Paths.get(fullFileName), Constants.logsCharset,
                 StandardOpenOption.WRITE,
                 StandardOpenOption.CREATE,
                 StandardOpenOption.TRUNCATE_EXISTING);
