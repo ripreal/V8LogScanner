@@ -143,7 +143,7 @@ public class LogBuilder implements Serializable{
                     try {
                         return factory.newDocumentBuilder().parse(logFile);
                     } catch (SAXException | IOException | ParserConfigurationException e) {
-                        e.printStackTrace();
+                        ExcpReporting.LogError(this, e);
                         return null;
                     }
                 });

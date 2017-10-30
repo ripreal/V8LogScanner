@@ -14,10 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RgxReader implements AutoCloseable {
-    //old
-//private final String EVENT_RGX = "(\\d{2}:\\d{2}).+?(?=\\d{2}:\\d{2})";
-//new
-// The main pattern using to find event blocks in the log file.
+
+    // The main pattern using to find event blocks in the log file.
     private final String EVENT_RGX = ".+?(?=\\d{2}:\\d{2}\\.\\d{6})";
 
     //The index into the buffer currently held by the Reader
@@ -27,7 +25,7 @@ public class RgxReader implements AutoCloseable {
     private CharBuffer buf;
 
     // Channel input reader using to read a text from
-// log files into the buffer.
+    // log files into the buffer.
     private Reader reader = null;
 
     // Stream supply a channel which reader used

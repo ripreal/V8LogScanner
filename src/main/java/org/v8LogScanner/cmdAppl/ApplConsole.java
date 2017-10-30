@@ -172,7 +172,7 @@ public class ApplConsole {
     public void showModalInfo(String text) {
         out.println(text);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             ExcpReporting.LogError(this, e);
         }

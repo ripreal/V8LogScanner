@@ -1,5 +1,6 @@
 package org.v8LogScanner.commonly;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 
@@ -13,13 +14,22 @@ public class ExcpReporting {
 
         Date currDate = new Date();
 
-        String msg = String.format("ERROR, Time=%1$tF %2tT, Source=%3$2s, Class=%4$2s, Stack=",
+        String msg = String.format("ERROR, Time=%1$tF %2tT, Source=%3$2s, Class=%4$2s, Stack=truncated",
                 currDate, currDate.getTime(), e.toString(), cls.toString());
         out.println(msg);
         e.printStackTrace(out);
+
+        if (Constants.ALLOW_LOGGING) {
+            try {
+                String executionPath = System.getProperty("user.dir");
+                fsys.writeInNewFile("\n" + msg, executionPath + "\\error_logs.txt", false);
+            } catch (IOException excp) {
+                throw new RuntimeException(excp);
+            }
+        }
     }
 
-    public static void logInfo(String info) {
+    public static void logInfo(String info) throws RuntimeException {
 
         checkOut();
 

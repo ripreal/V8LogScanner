@@ -1,6 +1,8 @@
 package org.v8LogScanner.commonly;
 
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,12 @@ final public class Constants {
     // using to limit event portion for one iteration pass in RgxReader
     public final static int logEventsCount = 10000;
 
+    /**
+     *  if true system logs will be collected in the program catalog
+     */
+    public static boolean ALLOW_LOGGING = false;
 
-    public final static List<String> V8_Dirs() {
+    public static List<String> V8_Dirs() {
         List<String> dirs = new ArrayList<>();
         if (osType.matches("(?i).*windows.*")) {
             dirs.add("C:\\Program Files (x86)\\1cv8");

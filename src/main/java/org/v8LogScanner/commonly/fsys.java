@@ -72,18 +72,18 @@ public class fsys {
     }
 
     public static void writeInNewFile(String text, String fullFileName) throws IOException {
+        writeInNewFile(text, fullFileName, true);
+    }
+
+    public static void writeInNewFile(String text, String fullFileName, boolean truncate_existing) throws IOException {
 
         BufferedWriter fl = Files.newBufferedWriter(Paths.get(fullFileName), Constants.logsCharset,
                 StandardOpenOption.WRITE,
                 StandardOpenOption.CREATE,
-                StandardOpenOption.TRUNCATE_EXISTING);
+                truncate_existing ? StandardOpenOption.TRUNCATE_EXISTING : StandardOpenOption.APPEND);
 
         fl.write(text);
         fl.close();
-    }
-
-    public static void writeInNewFile(List<String> text, File file) throws IOException {
-        writeInNewFile(String.join("\n", text), file.getAbsolutePath());
     }
 
     public static boolean deleteFile(String fullFileName) {

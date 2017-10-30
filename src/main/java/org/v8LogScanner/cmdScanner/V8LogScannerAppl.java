@@ -176,7 +176,8 @@ public class V8LogScannerAppl {
 
         // Item 6.
         main.add(new MenuItemCmd("Run as server", null, m_runServer));
-        m_runServer.add(new MenuItemCmd("Run as a lan TCP/IP server", new CmdRunAsLanServer()));
+        m_runServer.add(new MenuItemCmd("Run as a lan TCP/IP server", new CmdRunAsLanServer(), main));
+        m_runServer.add(new MenuItemCmd("Allow logging", new CmdAllowLogging()));
         m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
 
         cmdAppl.setTitle(

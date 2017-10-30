@@ -4,3 +4,4 @@ buildMvnHSQL.cmd
 installMvn.cmd
 V8LogScanner.jar
 /target/
+/V8LogScanner_release/error_logs.txt
