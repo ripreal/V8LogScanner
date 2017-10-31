@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
 [![Coverage Status](https://coveralls.io/repos/github/ripreal/V8LogScanner/badge.svg)](https://coveralls.io/github/ripreal/V8LogScanner)
 [![BCH compliance](https://bettercodehub.com/edge/badge/ripreal/V8LogScanner?branch=master)](https://bettercodehub.com/)
+[![](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
+
 ## Running built-in console application
 
 If you want to run the V8 Log Scanner as console application on your local machine download a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
