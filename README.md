@@ -1,6 +1,6 @@
 ## V8 Log Scanner
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
-[![Coverage Status](https://coveralls.io/repos/github/ripreal/V8LogScanner/badge.svg)](https://coveralls.io/github/ripreal/V8LogScanner)
+[![codecov](https://codecov.io/gh/ripreal/V8LogScanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ripreal/V8LogScanner)
 [![BCH compliance](https://bettercodehub.com/edge/badge/ripreal/V8LogScanner?branch=master)](https://bettercodehub.com/)
 [![](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
 
@@ -19,20 +19,16 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 ```
 <!-- put it inside <dependencies> section -->
   <dependency>
-    <groupId>org.v8LogScanner</groupId>
-    <artifactId>v8LogScanner</artifactId>
-    <version>1.0</version>      
-  </dependency>
+	    <groupId>com.github.ripreal</groupId>
+	    <artifactId>V8LogScanner</artifactId>
+	    <version>-SNAPSHOT</version>
+	</dependency>
 
 <!-- put it inside <repositories> section -->
-  <repository>
-    <id>v8LogScannerRepo</id>
-    <name>v8LogScannerRepo</name>
-    <url>https://cdn.rawgit.com/ripreal/V8LogScanner/74f24180/repo/</url>
-    <snapshots>
-      <enabled>false</enabled>
-    </snapshots>
-  </repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 ```
 
 ### Examples for developers 
