@@ -3,5 +3,6 @@ jdk:
   - oraclejdk8
 script: mvn test -B
 script: "mvn cobertura:cobertura"
-after_success: "sbt coveralls"
+after_success: 
+ -"sbt coveralls"
  - bash <(curl -s https://codecov.io/bash)
