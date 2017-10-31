@@ -19,20 +19,16 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 ```
 <!-- put it inside <dependencies> section -->
   <dependency>
-    <groupId>org.v8LogScanner</groupId>
-    <artifactId>v8LogScanner</artifactId>
-    <version>1.0</version>      
-  </dependency>
+	    <groupId>com.github.ripreal</groupId>
+	    <artifactId>V8LogScanner</artifactId>
+	    <version>-SNAPSHOT</version>
+	</dependency>
 
 <!-- put it inside <repositories> section -->
-  <repository>
-    <id>v8LogScannerRepo</id>
-    <name>v8LogScannerRepo</name>
-    <url>https://cdn.rawgit.com/ripreal/V8LogScanner/74f24180/repo/</url>
-    <snapshots>
-      <enabled>false</enabled>
-    </snapshots>
-  </repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 ```
 
 ### Examples for developers 
