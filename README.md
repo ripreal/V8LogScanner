@@ -6,7 +6,7 @@
 
 ## Running built-in console application
 
-If you want to run the V8 Log Scanner as console application on your local machine download a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/repo/org/v8LogScanner/v8LogScanner/1.0).
+If you want just to run the V8 Log Scanner as console application on your local machine all you need are the Java SE 1.8 Environment and a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/v8LogScanner_release). Just for convenience i put inside the repo a several *.cmd and *.bat files for running on windows.
 
 ## Using in own projects
 
@@ -18,17 +18,17 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 
 ```
 <!-- put it inside <dependencies> section -->
-  <dependency>
-	    <groupId>com.github.ripreal</groupId>
-	    <artifactId>V8LogScanner</artifactId>
-	    <version>-SNAPSHOT</version>
-	</dependency>
+<dependency>
+    <groupId>com.github.ripreal</groupId>
+    <artifactId>V8LogScanner</artifactId>
+    <version>-SNAPSHOT</version>
+</dependency>
 
 <!-- put it inside <repositories> section -->
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
 ```
 
 ### Examples for developers 
@@ -62,34 +62,16 @@ And result can be:
 
 // and others up to 100 logs since we set limit   
 ```
-
-
 locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
 End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+Test are located in scr/test folder and running using Junit and Mockito frameworks. The intelliJ IDEA is a good choice to tackle with them. Mainly the tests are for checking various parsing cases. You may want to explore them to find useful code snippets about how to work with V8LogScanner.
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Except junit and mockito there is 
 
 ## Built With
 
