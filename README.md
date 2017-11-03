@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/ripreal/V8LogScanner.svg?branch=master)](https://travis-ci.org/ripreal/V8LogScanner)
 [![codecov](https://codecov.io/gh/ripreal/V8LogScanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ripreal/V8LogScanner)
 [![BCH compliance](https://bettercodehub.com/edge/badge/ripreal/V8LogScanner?branch=master)](https://bettercodehub.com/)
-[![](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
+![My image](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
 
 ## Running built-in console application
 
