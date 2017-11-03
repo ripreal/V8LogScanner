@@ -67,7 +67,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Test are located in scr/test folder and running using Junit and Mockito frameworks. The intelliJ IDEA is a good choice to tackle with them. Mainly the tests are for checking various parsing cases. You may want to explore them to find useful code snippets about how to work with V8LogScanner.
+Test are located in scr/test folder and should be run using Junit and Mockito frameworks. The intelliJ IDEA is a good choice to tackle with them. Mainly the tests are for checking various parsing cases. You may want to explore them to find useful code snippets about how to work with V8LogScanner.
 
 ## Deployment
 
