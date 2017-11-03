@@ -6,6 +6,7 @@
 
 ## Running built-in console application
 
+[![](https://infostart.ru/upload/iblock/437/43784745e12e355fbd4efd7c10458c79.png)
 If you want just to run the V8 Log Scanner as console application on your local machine all you need are the Java SE 1.8 Environment and a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/v8LogScanner_release). Just for convenience i put inside the repo a several *.cmd and *.bat files for running on windows.
 
 ## Using in own projects
