@@ -75,6 +75,6 @@ public class MenuCmd {
     }
 
     private void addBack() {
-        back = new MenuItemCmd("Exit(q)", null, null);
+        back = new MenuItemCmd( parent == null ? "Exit(q)" : "Back(q)", null, null);
     }
 }

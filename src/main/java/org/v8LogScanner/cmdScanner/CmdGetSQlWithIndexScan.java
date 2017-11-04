@@ -10,6 +10,6 @@ public class CmdGetSQlWithIndexScan implements CmdCommand {
     }
 
     public void execute() {
-        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Index scan");
+        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Index[\\s\\S]+Scan");
     }
 }

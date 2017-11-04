@@ -11,6 +11,6 @@ public class CmdGetSQlWithTableScan implements CmdCommand {
 
     @Override
     public void execute() {
-        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Table scan");
+        ScanProfile.BuildFindSlowSQlEventsWithPlan(V8LogScannerAppl.instance().profile, "Table[\\s\\S]+Scan");
     }
 }

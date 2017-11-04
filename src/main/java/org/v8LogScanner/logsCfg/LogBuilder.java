@@ -521,6 +521,10 @@ public class LogBuilder implements Serializable{
                 .updateContent();
     }
 
+    public boolean getPlanSql() {
+        return allowPLanSql;
+    }
+
     public List<Path> getCfgPaths() {
         return cfgPaths;
     }
@@ -724,6 +728,10 @@ public class LogBuilder implements Serializable{
                 events.add(event);
             } else if (nodeName.matches("(?i)" + LogConfig.PROPERTY_TAG_NAME)) {
                 addLogProperty(node.getAttributes().getNamedItem(LogConfig.PROPERTY_PROP_NAME).getNodeValue());
+            } else if (nodeName.matches("(?i)" + LogConfig.PLAN__SQL_TAG_NAME)) {
+                allowPLanSql = true;
+            } else if (nodeName.matches("(?i)" + LogConfig.SCRIPT_CIRC_REFS_TAG_NAME)) {
+                scriptCircRefs = true;
             }
         }
     }

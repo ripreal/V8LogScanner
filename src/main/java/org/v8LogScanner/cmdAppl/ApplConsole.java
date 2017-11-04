@@ -179,6 +179,7 @@ public class ApplConsole {
     }
 
     public <T> void showInfo(List<T> info) {
+        clearConsole();
         info.forEach(out::println);
     }
 

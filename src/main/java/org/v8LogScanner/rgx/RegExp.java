@@ -49,55 +49,6 @@ public class RegExp implements Serializable {
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        /*
-        switch (et) {
-            case EXCP:
-                buildEXCP();
-                break;
-            case CONN:
-                buildCONN();
-                break;
-            case TLOCK:
-                buildTLOCK();
-                break;
-            case TDEADLOCK:
-                buildTDEADLOCK();
-                break;
-            case TTIMEOUT:
-                buildTTIMEOUT();
-                break;
-            case DBMSSQL:
-                buildDBMSSQL();
-                break;
-            case ANY:
-                buildANY();
-                break;
-            case SDBL:
-                buildSDBL();
-                break;
-            case DBV8DBEng:
-                buildDBV8DBEng();
-                break;
-            case DBORACLE:
-                buildDBORACLE();
-                break;
-            case DBPOSTGRS:
-                buildDBPOSTGRS();
-                break;
-            case HASP:
-                buildHASP();
-                break;
-            case VRSREQUEST:
-                buildVRSREQUEST();
-                break;
-            case VRSRESPONSE:
-                buildVRSRESPONSE();
-                break;
-            default:
-                break;
-
-        }
-        */
     }
 
     public RegExp() {

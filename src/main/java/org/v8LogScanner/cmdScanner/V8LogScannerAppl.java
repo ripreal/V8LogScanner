@@ -171,7 +171,9 @@ public class V8LogScannerAppl {
         MenuCmd menuManualCfg = new MenuCmd("Other", m_config);
         m_config.add(new MenuItemCmd("Other", null, menuManualCfg));
         menuManualCfg.add(new MenuItemCmd("Reset all", new CmdClearAllFromCfg(), m_config));
-        menuManualCfg.add(new MenuItemCmd("Change location", new CmdChangeLocToCfg(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Set location", new CmdChangeLocToCfg(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Set sql plan", new CmdShowSQlPlan(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Set collect circular refs", new CmdCollectCircR(), m_config));
         menuManualCfg.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
 
         // Item 6.
@@ -181,7 +183,7 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
 
         cmdAppl.setTitle(
-                "1CV8 Log Scanner v.1.0"
+                "1CV8 Log Scanner v.1.0_beta"
                         + "\nRuns on " + Constants.osType
                         + "\n********************"
         );

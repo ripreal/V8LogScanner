@@ -289,7 +289,7 @@ public class TestRgxOp {
         V8LogScannerClient localClient = manager.localClient();
 
         ScanProfile profile = localClient.getProfile();
-        ScanProfile.BuildFindSlowSQlEventsWithPlan(profile,"Table Scan");
+        ScanProfile.BuildFindSlowSQlEventsWithPlan(profile,"Table[\\s\\S]+Scan");
         profile.addLogPath(logFileName);
 
         manager.startRgxOp();
@@ -304,9 +304,9 @@ public class TestRgxOp {
     public void testBuildUserEXCP() {
 
         String logFileName = constructor
-                .addEXCP()
-                .addUserEXCP()
-                .build(LogFileTypes.FILE);
+            .addEXCP()
+            .addUserEXCP()
+            .build(LogFileTypes.FILE);
 
         ClientsManager manager = new ClientsManager();
         V8LogScannerClient localClient = manager.localClient();
@@ -415,6 +415,29 @@ public class TestRgxOp {
 
         RegExp rgx = new RegExp(EventTypes.QERR);
         profile.addRegExp(rgx);
+
+        localClient.startRgxOp();
+        List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
+        assertEquals(1, entries.size());
+    }
+
+    @Test
+    public void testUserScanOp() {
+        String logFileName = constructor
+                .addEXCP()
+                .addVRSREQUEST()
+                .addVRSRESPONSE()
+                .adddQERR()
+                .addDBMSSQlWithPlan()
+                .build(LogFileTypes.FILE);
+
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        profile.addLogPath(logFileName);
+        profile.setRgxOp(ScanProfile.RgxOpTypes.USER_OP);
+        profile.setRgxExp(".*Tab[\\s\\S]+Scan.*");
 
         localClient.startRgxOp();
         List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
