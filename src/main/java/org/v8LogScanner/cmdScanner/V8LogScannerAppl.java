@@ -183,7 +183,7 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
 
         cmdAppl.setTitle(
-                "1CV8 Log Scanner v.1.0_beta"
+                "V8 Log Scanner v.1.0_beta"
                         + "\nRuns on " + Constants.osType
                         + "\n********************"
         );
