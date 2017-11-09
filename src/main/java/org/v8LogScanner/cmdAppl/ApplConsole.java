@@ -112,7 +112,8 @@ public class ApplConsole {
                 }
                 if (predicate.test(userInput))
                     break;
-                clearConsole();
+                if (clearConsole)
+                    clearConsole();
                 out.println(String.format("Input \"%s\" incorrect! (q - exit)", userInput));
                 for (int i = 0; i < textMessage.length; i++)
                     out.println(textMessage[i]);
