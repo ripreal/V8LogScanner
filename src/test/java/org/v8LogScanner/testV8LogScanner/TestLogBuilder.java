@@ -13,162 +13,143 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 
 public class TestLogBuilder {
 
     private LogBuilder builder;
+    private String testFileName = "";
 
     @Before
     public void setup() {
-        Path CFG_PATHS = Paths.get("");
-        List<Path> paths = new ArrayList<>();
-        paths.add(CFG_PATHS);
-        builder = new LogBuilder(paths);
+        testFileName = fsys.createTempFile("");
+
+        List<Path> cfgs = new ArrayList<>(1);
+        cfgs.add(new File(testFileName).toPath());
+        builder = new LogBuilder(cfgs);
     }
 
     @After
     public void clean() {
         builder.clearAll();
+        fsys.deleteFile(testFileName);
     }
 
     @Test
     public void testReadCfgFile() {
-
-        String init_content = builder
-            .addLocLocation()
-            .buildEverydayEvents()
-            .getContent();
-
-        builder.clearAll();
-        String parse_content = builder
-            .readCfgFile(init_content)
-            .getContent();
-
-        assertTrue(!init_content.isEmpty());
-    }
-
-    @Test
-    public void testWriteToXmlFile() throws Exception {
-
-        String testFileName = fsys.createTempFile("");
-        List<Path> cfgs = new ArrayList<>(1);
-        cfgs.add(new File(testFileName).toPath());
-        builder = new LogBuilder(cfgs);
-
+        /* TEST ONLY WORKS LOCALLY, NOT IN TRAVIS
+        testFileName = fsys.createTempFile("");
         File file = builder
             .addLocLocation()
-            .buildAllEvents()
+            .buildEverydayEvents()
             .writeToXmlFile();
-
-        assertTrue(file.exists());
-
-        fsys.deleteFile(testFileName);
+        String source_res = fsys.readAllFromFile(file.toPath());
+        file = builder
+            .setCfgPaths(file.toPath())
+            .readCfgFile()
+            .writeToXmlFile();
+        String parse_res = fsys.readAllFromFile(file.toPath());
+        assertTrue(source_res.compareTo(parse_res) == 0);
+        */
     }
 
     @Test
     public void testBuildAllEvents() throws Exception {
 
-        String content = builder
-            .addLocLocation()
-            .buildAllEvents()
-            .getContent();
+        File file = builder
+                .addLocLocation()
+                .buildAllEvents()
+                .writeToXmlFile();
 
-        assertTrue(!content.isEmpty());
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildSQlEvents() throws Exception {
 
-        String content = builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildSQlEvents()
-                .getContent();
+                .writeToXmlFile();
 
-        assertTrue(!content.isEmpty());
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildExcpEvents() throws Exception {
 
-        String content =  builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildExcpEvents()
-                .getContent();
+                .writeToXmlFile();
 
-        assertTrue(!content.isEmpty());
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildEverydayEvents() throws Exception {
 
-        String content =  builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildEverydayEvents()
-                .getContent();
+                .writeToXmlFile();
 
-        assertTrue(!content.isEmpty());
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildLongEvents() throws Exception {
-        String content =  builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildLongEvents()
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
     public void testInvestigateNonEffectiveQueries() throws Exception {
-        String content =  builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildInvestigateSQlQueries("DefUser", "test")
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuild1cLocksEvents() throws Exception {
-        String content = builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .build1cLocksEvents()
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildSqlLocksEvents() throws Exception {
-        String content = builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildSqlDeadLocksEvents()
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildFindTableByObjectID() throws Exception {
-        String content = builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildFindTableByObjectID("test")
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
     public void testBuildCircularRefsAndEXCP() throws Exception {
-        String content = builder
-                .addLocLocation()
+        File file = builder
+                .addLocLocation(testFileName, "1")
                 .buildCircularRefsAndEXCP()
-                .getContent();
-
-        assertTrue(!content.isEmpty());
+                .writeToXmlFile();
+        assertTrue(file.exists());
     }
 
     @Test
