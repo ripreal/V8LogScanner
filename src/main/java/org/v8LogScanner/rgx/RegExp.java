@@ -25,7 +25,7 @@ public class RegExp implements Serializable {
         ClientID, Except, Descr, Protected, CallID, ProcessName, ComputerName,
         ApplicationName, ConnectID, SessionID, Usr, WaitConnections, Locks, Regions,
         Context, DeadlockConnectionIntersections, Interface, Sql, Trans, Dbpid, Sdbl,
-        Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, planSQLText
+        Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, PlanSQLText
     }
 
     public enum EventTypes {ANY, CONN, DBMSSQL, DBV8DBEng, DBORACLE, DBPOSTGRS, EXCP, HASP, LEAKS, MEM, QERR, SDBL,  TLOCK, TDEADLOCK, TTIMEOUT, VRSREQUEST, VRSRESPONSE}
@@ -43,7 +43,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.StackLevel);
         rgxNode.add(PropTypes.Content);
         try {
-            Class<?> c = Class.forName(this.getClass().getName());
+            Class<?> c = Class.forName(RegExp.class.getName());
             Method  method = c.getDeclaredMethod ("build" + et.toString());
             method.invoke (this, new Object[0]);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -183,7 +183,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Trans);
         rgxNode.add(PropTypes.Dbpid);
         rgxNode.add(PropTypes.Sql);
-        rgxNode.add(PropTypes.planSQLText);
+        rgxNode.add(PropTypes.PlanSQLText);
         rgxNode.add(PropTypes.Context);
     }
 

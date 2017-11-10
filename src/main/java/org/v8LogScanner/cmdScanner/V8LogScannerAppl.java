@@ -173,6 +173,7 @@ public class V8LogScannerAppl {
         menuManualCfg.add(new MenuItemCmd("Reset all", new CmdClearAllFromCfg(), m_config));
         menuManualCfg.add(new MenuItemCmd("Set location", new CmdChangeLocToCfg(), m_config));
         menuManualCfg.add(new MenuItemCmd("Set sql plan", new CmdShowSQlPlan(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Set log history", new CmdSetLogHistory(), m_config));
         menuManualCfg.add(new MenuItemCmd("Set collect circular refs", new CmdCollectCircR(), m_config));
         menuManualCfg.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
 

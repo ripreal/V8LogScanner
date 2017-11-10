@@ -180,7 +180,7 @@ public class ApplConsole {
     }
 
     public <T> void showInfo(List<T> info) {
-        clearConsole();
+        //clearConsole();
         info.forEach(out::println);
     }
 

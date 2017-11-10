@@ -34,7 +34,7 @@ public class LogEvent implements Iterable<LogEvent.EventRow>, Serializable {
             tags.put(RegExp.PropTypes.ConnectID, "t:connectID");
             tags.put(RegExp.PropTypes.ProcessName, "p:processName");
             tags.put(RegExp.PropTypes.ComputerName, "t:computerName");
-            tags.put(RegExp.PropTypes.planSQLText, "plansqltext");
+            tags.put(RegExp.PropTypes.PlanSQLText, "plansqltext");
             tags.put(RegExp.PropTypes.Usr, "user");
             tags.put(RegExp.PropTypes.Context, RegExp.PropTypes.Context.toString());
             tags.put(RegExp.PropTypes.Process, RegExp.PropTypes.Process.toString());

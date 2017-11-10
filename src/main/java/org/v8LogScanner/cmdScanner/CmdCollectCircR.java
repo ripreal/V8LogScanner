@@ -9,5 +9,7 @@ public class CmdCollectCircR implements CmdCommand {
     }
 
     @Override
-    public void execute() { V8LogScannerAppl.instance().logBuilder.setScriptcircrefs(! V8LogScannerAppl.instance().logBuilder.getScriptcircrefs());}
+    public void execute() {
+        V8LogScannerAppl.instance().logBuilder.setScriptcircrefs(! V8LogScannerAppl.instance().logBuilder.getScriptcircrefs());
+    }
 }

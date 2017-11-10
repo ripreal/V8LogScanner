@@ -405,9 +405,9 @@ public class LogBuilder implements Serializable{
         event.setComparison(RegExp.PropTypes.Duration, LogEvent.LogEventComparisons.ge);
         event.setVal(RegExp.PropTypes.Duration, "3000000");
 
-        event.setProp(RegExp.PropTypes.planSQLText);
-        event.setComparison(RegExp.PropTypes.planSQLText, LogEvent.LogEventComparisons.like);
-        event.setVal(RegExp.PropTypes.planSQLText, "%TABLE SCAN%");
+        event.setProp(RegExp.PropTypes.PlanSQLText);
+        event.setComparison(RegExp.PropTypes.PlanSQLText, LogEvent.LogEventComparisons.like);
+        event.setVal(RegExp.PropTypes.PlanSQLText, "%TABLE SCAN%");
 
         return this
                 .addLocLocation()
@@ -539,6 +539,19 @@ public class LogBuilder implements Serializable{
         List<String> res = new ArrayList<>();
         locations.forEach((item) -> res.add(item.getLocation()));
         return res;
+    }
+
+    public String getHistory() {
+        return locations.size() == 0 ? "" : locations.get(0).getHistory();
+    }
+
+    public LogBuilder setHistory(int history) {
+        locations.forEach((loc) ->  {
+            loc.setHistory(history);
+        });
+
+        return this
+            .updateContent();
     }
 
     public void clearAll() {

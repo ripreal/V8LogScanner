@@ -4,6 +4,9 @@ package org.v8LogScanner.rgx;
 import org.v8LogScanner.commonly.Filter;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,132 +47,20 @@ class RgxNode implements Cloneable, Serializable {
     public void add(RegExp.PropTypes key) {
         RgxNode el = null;
 
-        switch (key) {
-            case Time:
-                el = new Time();
-                break;
-            case ClientID:
-                el = new ClientID();
-                break;
-            case Content:
-                el = new Content();
-                break;
-            case Descr:
-                el = new Descr();
-                break;
-            case Duration:
-                el = new Duration();
-                break;
-            case Event:
-                el = new Event();
-                break;
-            case Except:
-                el = new Except();
-                break;
-            case Process:
-                el = new Process();
-                break;
-            case ProcessName:
-                el = new ProcessName();
-                break;
-            case Status:
-                el = new Status();
-                break;
-            case Phrase:
-                el = new Phrase();
-                break;
-            case Method:
-                el = new Method();
-                break;
-            case URI:
-                el = new URI();
-                break;
-            case Headers:
-                el = new Headers();
-                break;
-            case Body:
-                el = new Body();
-                break;
-            case StackLevel:
-                el = new StackLevel();
-                break;
-            case FileName:
-                el = new FileName();
-                break;
-            case Protected:
-                el = new Protected();
-                break;
-            case CallID:
-                el = new CallID();
-                break;
-            case ComputerName:
-                el = new ComputerName();
-                break;
-            case ApplicationName:
-                el = new ApplicationName();
-                break;
-            case ConnectID:
-                el = new ConnectID();
-                break;
-            case SessionID:
-                el = new SessionID();
-                break;
-            case Usr:
-                el = new Usr();
-                break;
-            case Regions:
-                el = new Regions();
-                break;
-            case Locks:
-                el = new Locks();
-                break;
-            case WaitConnections:
-                el = new WaitConnections();
-                break;
-            case Context:
-                el = new Context();
-                break;
-            case DeadlockConnectionIntersections:
-                el = new DeadlockConnectionIntersections();
-                break;
-            case Interface:
-                el = new Interface();
-                break;
-            case Sql:
-                el = new Sql();
-                break;
-            case Trans:
-                el = new Trans();
-                break;
-            case Dbpid:
-                el = new Dbpid();
-                break;
-            case Sdbl:
-                el = new Sdbl();
-                break;
-            case Func:
-                el = new Func();
-                break;
-            case planSQLText:
-                el = new PlanSQLText();
-                break;
-            case Txt:
-                el = new Txt();
-                break;
-            case Type:
-                el = new Type();
-                break;
-            case UsrLim:
-                el = new UsrLim();
-                break;
-            default:
-                break;
-        }
-        el.pType = key;
+        try {
+            Class<?> enclosingClass = Class.forName(RgxNode.class.getName());
+            Object enclosingInstance = enclosingClass.newInstance();
 
+            Class<?> innerClass = Class.forName(RgxNode.class.getName() + "$" + key.toString());
+            Constructor<?> constructor = innerClass.getDeclaredConstructor(enclosingClass);
+            el = (RgxNode) constructor.newInstance(enclosingInstance);
+        } catch (InvocationTargetException  | ClassNotFoundException  | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        el.pType = key;
         elements.add(el);
         indexator.put(key, elements.indexOf(el));
-
     }
 
     public Filter<String> getFilter() {

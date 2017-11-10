@@ -288,7 +288,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         RegExp rgx = new RegExp(RegExp.EventTypes.DBMSSQL);
         rgx.getGroupingProps().add(PropTypes.Event);
         rgx.getGroupingProps().add(PropTypes.Context);
-        rgx.getFilter(PropTypes.planSQLText).add(queryPlan);
+        rgx.getFilter(PropTypes.PlanSQLText).add(queryPlan);
         rgxList.add(rgx);
 
         profile.setSortingProp(PropTypes.Duration);
