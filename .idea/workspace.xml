@@ -8,13 +8,7 @@
     <list default="true" id="17b08a40-e6f6-4896-b4ff-9c8e9d7ba3d7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/releases/v8LogScanner.jar" afterPath="$PROJECT_DIR$/releases/v8LogScanner.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdChangeOrder.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdChangeOrder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RgxOpManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RgxOpManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestV8ScannerClient.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestV8ScannerClient.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -39,8 +33,8 @@
       <file leaf-file-name="TestRgxOp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="459" column="25" lean-forward="true" selection-start-line="459" selection-start-column="25" selection-end-line="459" selection-end-column="25" />
+            <state relative-caret-position="3043">
+              <caret line="459" column="25" lean-forward="false" selection-start-line="459" selection-start-column="25" selection-end-line="459" selection-end-column="25" />
               <folding>
                 <element signature="method#testfilterEvent#0;class#TestRgxOp#0" expanded="false" />
                 <element signature="method#testFilterProcessName#0;class#TestRgxOp#0" expanded="false" />
@@ -63,8 +57,8 @@
       <file leaf-file-name="ScanProfile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="266" column="28" lean-forward="true" selection-start-line="266" selection-start-column="28" selection-end-line="266" selection-end-column="28" />
+            <state relative-caret-position="1717">
+              <caret line="266" column="28" lean-forward="false" selection-start-line="266" selection-start-column="28" selection-end-line="266" selection-end-column="28" />
               <folding>
                 <element signature="class#RgxOpTypes#0;class#ScanProfile#0" expanded="false" />
                 <element signature="class#GroupTypes#0;class#ScanProfile#0" expanded="false" />
@@ -92,7 +86,7 @@
       <file leaf-file-name="V8LogScannerAppl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1254">
+            <state relative-caret-position="3111">
               <caret line="203" column="10" lean-forward="false" selection-start-line="203" selection-start-column="10" selection-end-line="203" selection-end-column="39" />
               <folding />
             </state>
@@ -103,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RgxOpManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="884">
-              <caret line="260" column="30" lean-forward="true" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
+              <caret line="260" column="30" lean-forward="false" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
               <folding>
                 <element signature="e#420#462#0" expanded="false" />
                 <element signature="docComment;method#compare#0;class#RgxOpManager#0" expanded="false" />
@@ -130,7 +124,7 @@
       <file leaf-file-name="HeapOp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
+            <state relative-caret-position="2397">
               <caret line="154" column="0" lean-forward="false" selection-start-line="154" selection-start-column="0" selection-end-line="164" selection-end-column="5" />
               <folding />
             </state>
@@ -140,10 +134,11 @@
       <file leaf-file-name="CursorOp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="111" column="15" lean-forward="true" selection-start-line="111" selection-start-column="15" selection-end-line="111" selection-end-column="15" />
+            <state relative-caret-position="441">
+              <caret line="278" column="45" lean-forward="true" selection-start-line="278" selection-start-column="45" selection-end-line="278" selection-end-column="45" />
               <folding>
                 <element signature="method#CursorOp#0;class#CursorOp#0" expanded="false" />
+                <element signature="method#execute#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#resetResult#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#getFinalInfo#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#select#0;class#CursorOp#0" expanded="false" />
@@ -153,22 +148,19 @@
                 <element signature="method#finalReduction#0;class#CursorOp#0" expanded="false" />
                 <element signature="e#5304#5584#0" expanded="false" />
                 <element signature="e#5985#6233#0" expanded="false" />
+                <element signature="method#sortLogs#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#createSortingKey#0;class#CursorOp#0" expanded="false" />
                 <element signature="e#7211#7259#0" expanded="false" />
                 <element signature="class#SortingKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="class#DurationKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#DurationKey#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#compareTo#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#equals#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#toString#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="class#SizeKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#SizeKey#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
+                <element signature="method#SortingKey#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
+                <element signature="method#compareTo#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
+                <element signature="method#equals#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#compareTo#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#equals#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
+                <element signature="e#10432#10433#0" expanded="true" />
+                <element signature="e#10471#10472#0" expanded="true" />
                 <element signature="class#TimeKey#0;class#CursorOp#0" expanded="false" />
                 <element signature="method#TimeKey#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#compareTo#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
-                <element signature="method#equals#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -177,8 +169,8 @@
       <file leaf-file-name="CmdGetTopThisHourEvents.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdGetTopThisHourEvents.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+            <state relative-caret-position="136">
+              <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#226#227#0" expanded="true" />
@@ -191,7 +183,7 @@
       <file leaf-file-name="MenuItemCmd.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuItemCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="485">
+            <state relative-caret-position="663">
               <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
@@ -201,7 +193,7 @@
       <file leaf-file-name="MenuCmd.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
+            <state relative-caret-position="918">
               <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
             </state>
@@ -211,7 +203,7 @@
       <file leaf-file-name="LanScanProfile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/LanScanProfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
+            <state relative-caret-position="527">
               <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding>
                 <element signature="method#LanScanProfile#0;class#LanScanProfile#0" expanded="false" />
@@ -410,7 +402,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -440,7 +433,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -518,7 +510,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -761,6 +753,18 @@
       <envs />
       <patterns />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="v8LogScanner" />
+      <envs />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -801,18 +805,6 @@
       <properties />
       <listeners />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="v8LogScanner" />
-      <envs />
-    </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.V8LogScanner console" />
       <item index="1" class="java.lang.String" itemvalue="Application.SERVICE" />
@@ -841,12 +833,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_tests - 2017.11.16 at 10h 11m 40s.xml">
-      <configuration name="All tests" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_tests - 2017.11.16 at 10h 12m 59s.xml">
-      <configuration name="All tests" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_tests - 2017.11.16 at 10h 39m 08s.xml">
       <configuration name="All tests" configurationId="JUnit" />
     </history-entry>
@@ -866,6 +852,12 @@
       <configuration name="All tests" configurationId="JUnit" />
     </history-entry>
     <history-entry file="All_tests - 2017.11.16 at 10h 43m 23s.xml">
+      <configuration name="All tests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_tests - 2017.11.16 at 11h 37m 36s.xml">
+      <configuration name="All tests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_tests - 2017.11.16 at 11h 37m 43s.xml">
       <configuration name="All tests" configurationId="JUnit" />
     </history-entry>
     <history-entry file="TestCmdAppl - 2017.11.16 at 10h 37m 22s.xml">
@@ -897,7 +889,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.49707174" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41129032" sideWeight="0.41525424" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.421659" sideWeight="0.41525424" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24952918" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -952,7 +944,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="720" />
+      <option name="time" value="722" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
@@ -1143,7 +1135,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,7 +1142,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1159,7 +1149,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1182,7 +1171,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="32" lean-forward="false" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1190,7 +1178,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="21" column="44" lean-forward="false" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1198,7 +1185,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1214,13 +1200,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="41" column="39" lean-forward="false" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
-          <folding>
-            <element signature="method#setup#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testAddLogPath#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testLanSerialization#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testSerialisationGetCfgPaths#0;class#TestScanProfile#0" expanded="false" />
-            <element signature="method#testSerialisationReadCfgFile#0;class#TestScanProfile#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1228,7 +1207,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
           <caret line="105" column="25" lean-forward="false" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1236,7 +1214,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1244,7 +1221,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
           <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1252,7 +1228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="14" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1260,7 +1235,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,14 +1242,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
           <caret line="110" column="30" lean-forward="true" selection-start-line="110" selection-start-column="30" selection-end-line="110" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestRgxOp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="459" column="25" lean-forward="true" selection-start-line="459" selection-start-column="25" selection-end-line="459" selection-end-column="25" />
+        <state relative-caret-position="3043">
+          <caret line="459" column="25" lean-forward="false" selection-start-line="459" selection-start-column="25" selection-end-line="459" selection-end-column="25" />
           <folding>
             <element signature="method#testfilterEvent#0;class#TestRgxOp#0" expanded="false" />
             <element signature="method#testFilterProcessName#0;class#TestRgxOp#0" expanded="false" />
@@ -1296,7 +1269,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/LanScanProfile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
+        <state relative-caret-position="527">
           <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding>
             <element signature="method#LanScanProfile#0;class#LanScanProfile#0" expanded="false" />
@@ -1312,8 +1285,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdGetTopThisHourEvents.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        <state relative-caret-position="136">
+          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#226#227#0" expanded="true" />
@@ -1324,7 +1297,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuItemCmd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
+        <state relative-caret-position="663">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding />
         </state>
@@ -1332,7 +1305,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdAppl/MenuCmd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
+        <state relative-caret-position="918">
           <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding />
         </state>
@@ -1340,8 +1313,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/ScanProfile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="266" column="28" lean-forward="true" selection-start-line="266" selection-start-column="28" selection-end-line="266" selection-end-column="28" />
+        <state relative-caret-position="1717">
+          <caret line="266" column="28" lean-forward="false" selection-start-line="266" selection-start-column="28" selection-end-line="266" selection-end-column="28" />
           <folding>
             <element signature="class#RgxOpTypes#0;class#ScanProfile#0" expanded="false" />
             <element signature="class#GroupTypes#0;class#ScanProfile#0" expanded="false" />
@@ -1368,7 +1341,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/RgxOpManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
-          <caret line="260" column="30" lean-forward="true" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
+          <caret line="260" column="30" lean-forward="false" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
           <folding>
             <element signature="e#420#462#0" expanded="false" />
             <element signature="docComment;method#compare#0;class#RgxOpManager#0" expanded="false" />
@@ -1393,7 +1366,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1254">
+        <state relative-caret-position="3111">
           <caret line="203" column="10" lean-forward="false" selection-start-line="203" selection-start-column="10" selection-end-line="203" selection-end-column="39" />
           <folding />
         </state>
@@ -1401,7 +1374,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
+        <state relative-caret-position="2397">
           <caret line="154" column="0" lean-forward="false" selection-start-line="154" selection-start-column="0" selection-end-line="164" selection-end-column="5" />
           <folding />
         </state>
@@ -1409,10 +1382,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="111" column="15" lean-forward="true" selection-start-line="111" selection-start-column="15" selection-end-line="111" selection-end-column="15" />
+        <state relative-caret-position="441">
+          <caret line="278" column="45" lean-forward="true" selection-start-line="278" selection-start-column="45" selection-end-line="278" selection-end-column="45" />
           <folding>
             <element signature="method#CursorOp#0;class#CursorOp#0" expanded="false" />
+            <element signature="method#execute#0;class#CursorOp#0" expanded="false" />
             <element signature="method#resetResult#0;class#CursorOp#0" expanded="false" />
             <element signature="method#getFinalInfo#0;class#CursorOp#0" expanded="false" />
             <element signature="method#select#0;class#CursorOp#0" expanded="false" />
@@ -1422,22 +1396,19 @@
             <element signature="method#finalReduction#0;class#CursorOp#0" expanded="false" />
             <element signature="e#5304#5584#0" expanded="false" />
             <element signature="e#5985#6233#0" expanded="false" />
+            <element signature="method#sortLogs#0;class#CursorOp#0" expanded="false" />
             <element signature="method#createSortingKey#0;class#CursorOp#0" expanded="false" />
             <element signature="e#7211#7259#0" expanded="false" />
             <element signature="class#SortingKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#DurationKey#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#compareTo#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#equals#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#toString#0;class#DurationKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="class#SizeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#SizeKey#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
+            <element signature="method#SortingKey#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
+            <element signature="method#compareTo#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
+            <element signature="method#equals#0;class#SortingKey#0;class#CursorOp#0" expanded="false" />
             <element signature="method#compareTo#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
             <element signature="method#equals#0;class#SizeKey#0;class#CursorOp#0" expanded="false" />
+            <element signature="e#10432#10433#0" expanded="true" />
+            <element signature="e#10471#10472#0" expanded="true" />
             <element signature="class#TimeKey#0;class#CursorOp#0" expanded="false" />
             <element signature="method#TimeKey#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#compareTo#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
-            <element signature="method#equals#0;class#TimeKey#0;class#CursorOp#0" expanded="false" />
           </folding>
         </state>
       </provider>

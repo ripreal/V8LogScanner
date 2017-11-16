@@ -206,24 +206,12 @@ public class CursorOp extends AbstractOp {
     // SORTING CLASSES /////////////////////////////
     ////////////////////////////////////////////////
 
-    public interface SortingKey extends Comparable<SortingKey> {
+    public abstract class SortingKey implements Comparable<SortingKey> {
 
-        public String getKey();
-
-        public BigInteger getSortingKey();
-
-        public void setSortingKey(BigInteger sortingKey);
-
-        public int compareTo(SortingKey o);
-
-    }
-
-    public class DurationKey implements SortingKey {
-
-        final String key;
+        private final String key;
         private BigInteger sortingKey;
 
-        public DurationKey(String key, BigInteger sortingKey) {
+        public SortingKey(String key, BigInteger sortingKey) {
             this.key = key;
             this.sortingKey = sortingKey;
         }
@@ -260,6 +248,15 @@ public class CursorOp extends AbstractOp {
             return sortingKey.equals(other.getSortingKey());
         }
 
+
+    }
+
+    public class DurationKey extends SortingKey {
+
+        public DurationKey(String key, BigInteger sortingKey) {
+            super(key, sortingKey);
+        }
+
         @Override
         public String toString() {
 
@@ -267,43 +264,27 @@ public class CursorOp extends AbstractOp {
             long oneMin = 60000000;
             long oneSec = 1000000;
 
-            long overall_msec = sortingKey.longValue();
+            long overall_msec = getSortingKey().longValue();
 
             long hours = overall_msec / oneHour;
             long min = (overall_msec - hours * oneHour) / oneMin;
             long sec = (overall_msec - hours * oneHour - min * oneMin) / oneSec;
             long msec = overall_msec - hours * oneHour - min * oneMin - sec * oneSec;
 
-            return String.format("DURATION: %sh %sm %ss %sms,\nGROUP: %s", hours, min, sec, msec, key);
+            return String.format("DURATION: %sh %sm %ss %sms,\nGROUP: %s", hours, min, sec, msec, getKey());
 
         }
     }
 
-    public class SizeKey implements SortingKey {
-
-        final String key;
-        private BigInteger sortingKey;
+    public class SizeKey extends SortingKey {
 
         public SizeKey(String key, BigInteger sortingKey) {
-            this.key = key;
-            this.sortingKey = sortingKey;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public BigInteger getSortingKey() {
-            return sortingKey;
-        }
-
-        public void setSortingKey(BigInteger sortingKey) {
-            this.sortingKey = sortingKey;
+            super(key, sortingKey);
         }
 
         @Override
         public int compareTo(SortingKey o) {
-            int sizeComparator = sortingKey.compareTo(o.getSortingKey());
+            int sizeComparator = getSortingKey().compareTo(o.getSortingKey());
             if (sizeComparator == 0)
                 return -1;
             return -sizeComparator;
@@ -311,7 +292,7 @@ public class CursorOp extends AbstractOp {
 
         //Both method as hashCode() and equals() is used to group objects in collectors framework
         public int hashCode() {
-            return key.hashCode();
+            return getKey().hashCode();
         }
 
         public boolean equals(Object x) {
@@ -323,68 +304,33 @@ public class CursorOp extends AbstractOp {
                 return false;
 
             SizeKey sortX = (SizeKey) x;
-            if (key.compareTo(sortX.getKey()) != 0)
+            if (getKey().compareTo(sortX.getKey()) != 0)
                 return false;
 
             BigInteger otherNumb = sortX.getSortingKey();
-            this.sortingKey = sortingKey.add(otherNumb);
-            sortX.setSortingKey(this.sortingKey);
+            setSortingKey(getSortingKey().add(otherNumb));
+            sortX.setSortingKey(getSortingKey());
 
             return true;
         }
 
         public String toString() {
-            return key;
+            return getKey();
         }
     }
 
-    public class TimeKey implements SortingKey {
+    public class TimeKey extends SortingKey {
 
-        final String key;
-        private BigInteger sortingKey;
         private String time;
 
         public TimeKey(String key, BigInteger sortingKey, String time) {
-            this.key = key;
-            this.sortingKey = sortingKey;
+            super(key, sortingKey);
             this.time = time;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public BigInteger getSortingKey() {
-            return sortingKey;
-        }
-
-        public void setSortingKey(BigInteger sortingKey) {
-            this.sortingKey = sortingKey;
-        }
-
-        @Override
-        public int compareTo(SortingKey o) {
-            int comparedVal = sortingKey.compareTo(o.getSortingKey());
-            return -comparedVal;
-        }
-
-        public int hashCode() {
-            return sortingKey.hashCode();
-        }
-
-        public boolean equals(Object x) {
-            if (x == this)
-                return true;
-            if (x == null || (!(x instanceof DurationKey)))
-                return false;
-
-            DurationKey other = (DurationKey) x;
-            return sortingKey.equals(other.getSortingKey());
         }
 
         @Override
         public String toString() {
-            return String.format("TIME: %s \nGROUP: %s", time, key);
+            return String.format("TIME: %s \nGROUP: %s", time, getKey());
         }
     }
 
