@@ -18,7 +18,7 @@ For development purposes you need the Java SE 1.8  and the Maven building system
 
 It's possible to gets V8LogScanner integrated with your java project on Maven. Put the xml text listened below into \<dependencies\> and \<repositories\> sections whitin your pom.xml file.
 
-```
+``` xml
 <!-- put it inside <dependencies> section -->
 <dependency>
     <groupId>com.github.ripreal</groupId>
@@ -37,7 +37,7 @@ It's possible to gets V8LogScanner integrated with your java project on Maven. P
 
 Let's say you wish to output a list of all EXCP events from a some \*.log files directory. The steps would be these:
 
-```
+``` java
 V8LogScannerClient client =
   new V8LanLogScannerClient("127.0.0.1");              // First, create client containing IP for computer 
                                                        // with *.log files
@@ -64,9 +64,12 @@ And result can be:
 
 // and others up to 100 logs since we set limit   
 ```
-locations put in your logcfg.xml configure file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf)
-End with an example of getting some data out of the system or using it for a little demo
-
+Yoy might not know where are you logs are located. In this case you would want to obtain locations from your logcfg.xml configuration file (which may be located somewhere in C:\Program Files (x86)\1cv8\conf).  See the next snippet below:  
+``` java
+List<String> logsLoc = client.scanLogsInCfgFile();
+profile.setLogs(logsLoc);    
+```
+    
 ## Running the tests
 
 Test are located in scr/test folder and should be run using Junit and Mockito frameworks. The intelliJ IDEA is a good choice to tackle with them. Mainly the tests are for checking various parsing cases. You may want to explore them to find useful code snippets about how to work with V8LogScanner.
