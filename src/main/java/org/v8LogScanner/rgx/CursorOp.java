@@ -9,6 +9,7 @@ import org.v8LogScanner.rgx.RegExp.PropTypes;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 public class CursorOp extends AbstractOp {
@@ -65,7 +66,11 @@ public class CursorOp extends AbstractOp {
         }
         afterSlize = syncReduced.size();
         TreeMap<SortingKey, List<String>> rgxResult = finalReduction(syncReduced);
+
         totalKeys = rgxResult.keySet().size();
+
+        sortLogs(rgxResult);
+
         selector.setResult(rgxResult);
         calc.end();
     }
@@ -170,6 +175,18 @@ public class CursorOp extends AbstractOp {
         return rgxResult;
     }
 
+    private void sortLogs(TreeMap<SortingKey, List<String>> rgxResult) {
+
+        saveProcessingInfo("\n*SORTING...");
+
+        rgxResult.entrySet().
+                parallelStream().
+                forEach(n -> n.getValue().
+                        sort(RgxOpManager::compare));
+
+        saveProcessingInfo("Sorting completed.");
+    }
+
     private SortingKey createSortingKey(String input) {
 
         String eventKey = RgxOpManager.getEventProperty(
@@ -179,6 +196,8 @@ public class CursorOp extends AbstractOp {
 
         if (sortingProp == PropTypes.Duration)
             return new DurationKey(eventKey, sortingKey);
+        else if (sortingProp == PropTypes.Time)
+            return new TimeKey(eventKey, sortingKey, RgxOpManager.getTimeText(input));
         else
             return new SizeKey(eventKey, sortingKey);
     }
@@ -316,6 +335,56 @@ public class CursorOp extends AbstractOp {
 
         public String toString() {
             return key;
+        }
+    }
+
+    public class TimeKey implements SortingKey {
+
+        final String key;
+        private BigInteger sortingKey;
+        private String time;
+
+        public TimeKey(String key, BigInteger sortingKey, String time) {
+            this.key = key;
+            this.sortingKey = sortingKey;
+            this.time = time;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public BigInteger getSortingKey() {
+            return sortingKey;
+        }
+
+        public void setSortingKey(BigInteger sortingKey) {
+            this.sortingKey = sortingKey;
+        }
+
+        @Override
+        public int compareTo(SortingKey o) {
+            int comparedVal = sortingKey.compareTo(o.getSortingKey());
+            return -comparedVal;
+        }
+
+        public int hashCode() {
+            return sortingKey.hashCode();
+        }
+
+        public boolean equals(Object x) {
+            if (x == this)
+                return true;
+            if (x == null || (!(x instanceof DurationKey)))
+                return false;
+
+            DurationKey other = (DurationKey) x;
+            return sortingKey.equals(other.getSortingKey());
+        }
+
+        @Override
+        public String toString() {
+            return String.format("TIME: %s \nGROUP: %s", time, key);
         }
     }
 

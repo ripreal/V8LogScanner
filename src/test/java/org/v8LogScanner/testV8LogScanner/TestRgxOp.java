@@ -44,6 +44,7 @@ public class TestRgxOp {
         ScanProfile profile = localClient.getProfile();
         profile.addLogPath(logFileName);
         profile.addRegExp(new RegExp(EventTypes.EXCP));
+        profile.setSortingProp(PropTypes.ANY);
         manager.startRgxOp();
         List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
 
@@ -130,6 +131,7 @@ public class TestRgxOp {
         event.getGroupingProps().add(PropTypes.ClientID);
         event.getGroupingProps().add(PropTypes.ComputerName);
         profile.addRegExp(event);
+        profile.setSortingProp(PropTypes.ANY);
 
         client.startRgxOp();
         List<SelectorEntry> logs = client.select(100, SelectDirections.FORWARD);
@@ -394,7 +396,7 @@ public class TestRgxOp {
         rgx.getFilter(PropTypes.Method).add("GET");
         profile.addRegExp(rgx);
         profile.addRegExp(new RegExp(EventTypes.VRSRESPONSE));
-
+        profile.setSortingProp(PropTypes.ANY);
         localClient.startRgxOp();
         List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
         assertEquals(2, entries.size());
@@ -443,4 +445,27 @@ public class TestRgxOp {
         List<SelectorEntry> entries = localClient.select(100, SelectDirections.FORWARD);
         assertEquals(1, entries.size());
     }
+
+    @Test
+    public void testTopThisHourEvents() {
+        String logFileName = constructor
+                .addEXCP()
+                .addVRSREQUEST()
+                .build(LogFileTypes.FILE);
+
+        ClientsManager manager = new ClientsManager();
+        V8LogScannerClient localClient = manager.localClient();
+
+        ScanProfile profile = localClient.getProfile();
+        ScanProfile.buildTopThisHourEvents(profile);
+        profile.setDateRange(ScanProfile.DateRanges.ANY); // reset due limits in the test data
+        profile.addLogPath(logFileName);
+        manager.startRgxOp();
+        List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
+
+        assertEquals(3, logs.size());
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+    }
+
 }

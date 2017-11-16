@@ -257,4 +257,12 @@ public class RgxOpManager {
         return time;
     }
 
+    public static String getTimeText(String input) {
+        String time = "00:00";
+        Matcher timeMatcher = timePattern.matcher(input);
+        if (timeMatcher.find())
+            time = timeMatcher.group();
+        return time;
+    }
+
 }

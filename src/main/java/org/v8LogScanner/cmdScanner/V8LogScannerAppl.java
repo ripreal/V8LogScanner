@@ -138,6 +138,7 @@ public class V8LogScannerAppl {
 
         // Item 4.
         main.add(new MenuItemCmd("Auto profiles", null, m_autoModes));
+        m_autoModes.add(new MenuItemCmd("Find latest in this hour events", new CmdGetTopThisHourEvents(), cursorLogScan));
         m_autoModes.add(new MenuItemCmd("Find all users events", new CmdGetAllUserEvents(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP from rphost logs grouped by 'descr'", new CmdGetRphostExcp(), heapLogScan));
         m_autoModes.add(new MenuItemCmd("Find EXCP caused by user", new CmdGetUserExcp(), heapLogScan));
@@ -184,7 +185,7 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
 
         cmdAppl.setTitle(
-                "V8 Log Scanner v.1.0_beta"
+                "V8 Log Scanner v.1.1_beta"
                         + "\nRuns on " + Constants.osType
                         + "\n********************"
         );

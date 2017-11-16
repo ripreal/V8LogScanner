@@ -19,9 +19,10 @@ public class CmdChangeOrder implements CmdCommand {
     public void execute() {
         V8LogScannerAppl appl = V8LogScannerAppl.instance();
 
-        String[] sortingProps = new String[2];
+        String[] sortingProps = new String[3];
         sortingProps[0] = "Events_amount";
         sortingProps[1] = PropTypes.Duration.toString();
+        sortingProps[2] = PropTypes.Time.toString();
 
         String userInput = appl.getConsole().askInputFromList("input prop which will be used to sort result:", sortingProps);
         if (userInput == null) {

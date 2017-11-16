@@ -118,6 +118,7 @@ public class TestV8ScannerClient {
 
         client.getProfile().addLogPath(file);
         client.getProfile().addRegExp(new RegExp());
+        client.getProfile().setSortingProp(RegExp.PropTypes.ANY);
         client.startRgxOp();
         List<SelectorEntry> entries = client.select(100, IRgxSelector.SelectDirections.FORWARD);
         assertEquals(3, entries.size());

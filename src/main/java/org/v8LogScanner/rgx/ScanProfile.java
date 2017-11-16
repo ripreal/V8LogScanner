@@ -294,4 +294,12 @@ public interface ScanProfile extends Serializable, Cloneable {
         profile.setSortingProp(PropTypes.Duration);
     }
 
+    static void buildTopThisHourEvents(ScanProfile profile) {
+        profile.clear();
+        profile.setRgxOp(RgxOpTypes.CURSOR_OP);
+        profile.setSortingProp(PropTypes.Time);
+        profile.addRegExp(new RegExp(RegExp.EventTypes.ANY));
+        profile.setDateRange(DateRanges.THIS_HOUR);
+    }
+
 }
