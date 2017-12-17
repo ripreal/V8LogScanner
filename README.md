@@ -9,7 +9,7 @@
 
 ### New features was added to v.1.2:
 - Saving / loading last profiles on disk using console app. Profile will be saved as profile.json file inside root directory using menu "6. Other". Saved sessions are loaded automatically when app is started.
-- Background task execution from arguments. Use command line EXEC to run v8LogScanner as a background task. Note inside root directory "profile.json" file must be located otherwise task wont run. Parsing result will be saved to file called "v8LogScanner_result.txt" inside root directory.
+- Background task execution from arguments. Use command line argument EXEC to run v8LogScanner as a background task. Note inside root directory "profile.json" file must be located otherwise task wont run. Parsing result will be saved to file called "v8LogScanner_result.txt" inside root directory.
 
 ### Running built-in console application
 
