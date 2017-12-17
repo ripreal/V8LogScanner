@@ -6,13 +6,14 @@
 
 ## [About V8 Log Scanner (infostart article in russian)](https://infostart.ru/public/695546/)
 
+
+### New features was added to v.1.2:
+- Saving / loading last profiles on disk using console app. Profile will be saved as profile.json file inside root directory using menu "6. Other". Saved sessions are loaded automatically when app is started.
+- Background task execution from arguments. Use command line EXEC to run v8LogScanner as a background task. Note inside root directory profile.json must be located otherwise task wont run. Parsing result will be saved in v8LogScanner_result.txt inside root directory.
+
 ### Running built-in console application
 
 If you want just to run the V8 Log Scanner as console application on your local machine all you need are the Java SE 1.8 Environment and a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/v8LogScanner_release). Just for convenience i put inside the repo a several *.cmd and *.bat files for running on windows.
-
-New features was added to 1.2 ver:
-- Saving / loading last profiles on disk using console app. Profile will be saved as profile.json file inside root directory using menu "6. Other". Saved sessions are loaded automatically when app is started.
-- Background task execution from arguments. Use command line EXEC to run v8LogScanner as a background task. Note inside root directory profile.json must be located otherwise task wont run. Parsing result will be saved in v8LogScanner_result.txt inside root directory.
 
 ![main menu](https://infostart.ru/upload/iblock/437/43784745e12e355fbd4efd7c10458c79.png)
 
