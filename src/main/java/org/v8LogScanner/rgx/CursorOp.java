@@ -39,6 +39,8 @@ public class CursorOp extends AbstractOp {
 
         saveProcessingInfo("\n*START CURSOR LOG SCANNING...");
 
+        resetResult();
+
         precompile(rgxList);
 
         List<String> reducedLogs = new ArrayList<>();
@@ -75,7 +77,7 @@ public class CursorOp extends AbstractOp {
         calc.end();
     }
 
-    public void resetResult() {
+    private void resetResult() {
         totalIn = 0;
         totalOut = 0;
         selector.clearResult();
@@ -89,7 +91,7 @@ public class CursorOp extends AbstractOp {
     public String getFinalInfo(String logDescr) {
 
         return String.format(
-                "\nSummary:"
+                "\nSUMMARY:"
                         + "\n Total scanned log files: %s"
                         + "\n Total in events: %s"
                         + "\n Total out events: %s"
@@ -103,6 +105,11 @@ public class CursorOp extends AbstractOp {
                 Math.min(limit, afterSlize),
                 totalKeys,
                 calc.getTime());
+    }
+
+    @Override
+    public boolean hasResult() {
+        return selector != null;
     }
 
     public List<SelectorEntry> select(int count, SelectDirections direction) {

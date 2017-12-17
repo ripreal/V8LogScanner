@@ -9,18 +9,20 @@ import java.util.List;
 
 public interface IRgxOp {
 
-    public final PerfCalc calc = new PerfCalc();
+    PerfCalc calc = new PerfCalc();
 
-    public void execute(List<String> logFiles);
+    void execute(List<String> logFiles);
 
-    public ArrayList<String> getProcessingInfo();
+    ArrayList<String> getProcessingInfo();
 
-    public String getFinalInfo(String logDescr);
+    String getFinalInfo(String logDescr);
 
-    public List<SelectorEntry> select(int count, SelectDirections direction);
+    boolean hasResult();
 
-    public int cursorIndex();
+    List<SelectorEntry> select(int count, SelectDirections direction);
 
-    public void addListener(ProcessEvent e);
+    int cursorIndex();
+
+    void addListener(ProcessEvent e);
 
 }

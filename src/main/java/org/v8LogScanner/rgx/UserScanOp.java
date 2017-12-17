@@ -15,14 +15,13 @@ import java.util.stream.Collectors;
 public class UserScanOp extends AbstractOp {
 
     private HeapSelector selector = new HeapSelector();
-
-    Pattern pattern = null;
+    private Pattern pattern = null;
     private int totalEvents = 0;
 
     //profile variables
     private String rgxExp;
 
-    public UserScanOp(ScanProfile profile) {
+    UserScanOp(ScanProfile profile) {
         this.rgxExp = profile.getRgxExp();
     }
 
@@ -40,9 +39,9 @@ public class UserScanOp extends AbstractOp {
 
         ConcurrentMap<String, List<String>> rgxResult = new ConcurrentHashMap<>();
 
-        for (int i = 0; i < logFiles.size(); i++) {
-            ArrayList<String> mapLogs = new ArrayList<String>();
-            try (RgxReader reader = new RgxReader(logFiles.get(i), Constants.logsCharset, Constants.logEventsCount)) {
+        for (String logFile : logFiles) {
+            ArrayList<String> mapLogs = new ArrayList<>();
+            try (RgxReader reader = new RgxReader(logFile, Constants.logsCharset, Constants.logEventsCount)) {
 
                 ArrayList<String> readResult;
 
@@ -56,12 +55,12 @@ public class UserScanOp extends AbstractOp {
                 }
 
                 if (mapLogs.size() > 0) {
-                    rgxResult.put(logFiles.get(i), mapLogs);
+                    rgxResult.put(logFile, mapLogs);
                 }
             } catch (IOException e) {
                 ExcpReporting.LogError(this.getClass(), e);
             }
-            saveProcessingInfo(String.format("in: %s, out: %s, %s", inSize, outSize, logFiles.get(i)));
+            saveProcessingInfo(String.format("in: %s, out: %s, %s", inSize, outSize, logFile));
             inSize = 0;
             outSize = 0;
         }
@@ -69,20 +68,18 @@ public class UserScanOp extends AbstractOp {
         calc.end();
     }
 
-    public List<String> filterLogs(ArrayList<String> mapList) {
+    private List<String> filterLogs(ArrayList<String> mapList) {
 
-        List<String> result = mapList.
+        return mapList.
                 parallelStream().
                 unordered().
                 filter(n -> pattern.matcher(n).matches()).
                 sequential().
                 sorted(RgxOpManager::compare).
                 collect(Collectors.toList());
-
-        return result;
     }
 
-    public void resetResult() {
+    private void resetResult() {
         selector.clearResult();
         processingInfo.clear();
         inSize = 0;
@@ -92,11 +89,16 @@ public class UserScanOp extends AbstractOp {
     public String getFinalInfo(String logDescr) {
         ConcurrentMap<String, List<String>> rgxResult = selector.getResult();
         return String.format(
-                "\nSummary:"
+                "\nSUMMARY:"
                         + "\n Total scanned log files: %s"
                         + "\n Total log files with matched events: %s"
                         + "\n Total matched events: %s"
                         + "\n Execution time: %s", logDescr, rgxResult.size(), totalEvents, calc.getTime());
+    }
+
+    @Override
+    public boolean hasResult() {
+        return selector != null;
     }
 
     public List<SelectorEntry> select(int count, SelectDirections direction) {

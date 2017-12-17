@@ -5,12 +5,12 @@ import java.util.List;
 
 public interface IRgxSelector {
 
-    public enum SelectDirections {FORWARD, BACKWARD}
+    enum SelectDirections {FORWARD, BACKWARD}
+    
+    List<SelectorEntry> select(int count, SelectDirections direction);
 
-    public List<SelectorEntry> select(int count, SelectDirections direction);
+    int cursorIndex();
 
-    public int cursorIndex();
-
-    public void clearResult();
+    void clearResult();
 
 }

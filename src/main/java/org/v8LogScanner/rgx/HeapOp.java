@@ -93,7 +93,7 @@ public class HeapOp extends AbstractOp {
         calc.end();
     }
 
-    public void resetResult() {
+    private void resetResult() {
         selector.clearResult();
         processingInfo.clear();
         mapped = 0;
@@ -169,20 +169,26 @@ public class HeapOp extends AbstractOp {
     }
 
     public String getFinalInfo(String logDescr) {
-        String results = "";
-        if (mapped == reduced)
-            results = String.format("\nHeap log scanning has been finished sucessfull! "
-                    + "Total events reduced: %s (equals mapped)", reduced);
-        else
-            results = String.format("Map-Reduce has been finished with errors: "
-                    + "mapped(%s) doesn't equal reduced(%s)!", mapped, reduced);
-
-        return results + String.format(
-                "\nSummary:"
+        String results = String.format(
+                "\nSUMMARY:"
                         + "\n Total log files: %s"
                         + "\n Total events: %s"
                         + "\n Total keys: %s"
                         + "\n Execution time: %s", logDescr, reduced, totalKeys, calc.getTime());
+
+        if (mapped == reduced)
+            results = results + String.format("\nHeap log scanning has been finished sucessfull! "
+                    + "Total events reduced: %s (equals mapped)", reduced);
+        else
+            results = results + String.format("\nMap-Reduce has been finished with errors: "
+                    + "mapped(%s) doesn't equal reduced(%s)!", mapped, reduced);
+
+        return results;
+    }
+
+    @Override
+    public boolean hasResult() {
+        return selector != null;
     }
 
 }

@@ -28,8 +28,6 @@ public class V8LogScannerAppl {
     public LogBuilder logBuilder;
     public ScanProfile profile;
 
-    private String profileFileName = "profile.json";
-
     private MenuCmd main;
     private static V8LogScannerAppl instance;
     private ApplConsole cmdAppl;
@@ -296,7 +294,7 @@ public class V8LogScannerAppl {
         showResults();
     }
 
-    void showResults() {
+    private void showResults() {
 
         MenuCmd showResults = new MenuCmd(() -> String.format("Results:\n%s", getFinalInfo()), null);
         showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(SelectDirections.FORWARD), showResults));
@@ -343,17 +341,8 @@ public class V8LogScannerAppl {
     }
 
     void loadProfile() {
-
-        File profileFile = new File(getProfileFileName());
-
-        if (!profileFile.exists())
-            return;
-
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            ScanProfile profile =  mapper.readValue(profileFile, LanScanProfile.class);
-            clientsManager.localClient().setProfile(profile);
-            this.profile = profile;
+            this.profile = clientsManager.loadProfile();
         } catch (Exception e) {
             getConsole().showModalInfo(e.getMessage());
         }
@@ -369,9 +358,5 @@ public class V8LogScannerAppl {
     public void setApplConsole(ApplConsole cmdAppl) {
         this.cmdAppl = cmdAppl;
     }
-
-    public void setProfileFileName(String profileFileName) {this.profileFileName = profileFileName; }
-
-    String getProfileFileName() {return profileFileName;}
 
 }

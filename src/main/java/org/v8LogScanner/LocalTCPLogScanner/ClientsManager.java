@@ -1,9 +1,18 @@
 package org.v8LogScanner.LocalTCPLogScanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
+import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
+import org.v8LogScanner.commonly.fsys;
+import org.v8LogScanner.rgx.IRgxSelector;
 import org.v8LogScanner.rgx.ScanProfile;
+import org.v8LogScanner.rgx.SelectorEntry;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -13,6 +22,7 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
 
     private V8LogScannerClient localClient;
     private List<V8LogScannerClient> clients = new ArrayList<>();
+    private String profileFileName = "profile.json";
 
     public ClientsManager() {
         localClient = new V8LanLogScannerClient();
@@ -66,20 +76,11 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
     }
 
     public void resetRemoteClients() {
-        clients.forEach(client -> client.reset());
+        clients.forEach(V8LogScannerClient::reset);
     }
 
     public void closeConnections() {
-        clients.forEach(client -> client.close());
-    }
-
-    public class LogScannerClientNotFoundServer extends Exception {
-
-        private static final long serialVersionUID = 8033069095176280354L;
-
-        public LogScannerClientNotFoundServer() {
-            super("LAN Server not found!");
-        }
+        clients.forEach(V8LogScannerClient::close);
     }
 
     public void startRgxOp() {
@@ -92,6 +93,61 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
                 client.setProfile(cloned);
             }
         });
-        forEach(client -> client.startRgxOp());
+        forEach(V8LogScannerClient::startRgxOp);
     }
+
+    public void saveProfile() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        ow.writeValue(new File(profileFileName), localClient().getProfile());
+    }
+
+    public ScanProfile loadProfile() throws IOException {
+
+        File profileFile = new File(profileFileName);
+
+        if (!profileFile.exists())
+            return localClient.getProfile();
+
+        ObjectMapper mapper = new ObjectMapper();
+        ScanProfile profile =  mapper.readValue(profileFile, LanScanProfile.class);
+        localClient().setProfile(profile);
+
+        return profile;
+    }
+
+    public void setProfileFileName(String profileFileName) {this.profileFileName = profileFileName; }
+
+    public void writeResultToFile(V8LogScannerClient userClient, String fileName, int count) {
+
+        List<SelectorEntry> selector = userClient.select(count, IRgxSelector.SelectDirections.FORWARD);
+
+        try (FileWriter writer = new FileWriter(fileName)) {
+            writer.write("PROFILE:");
+            writer.write("\n" + userClient.getProfile().getName());
+            writer.write("\n");
+            writer.write(userClient.getFinalInfo());
+            writer.write("\n");
+            writer.write(String.format("\nFIRST TOP %s KEYS", count));
+            for (int i = 0; i < selector.size(); i++) {
+                SelectorEntry entry = selector.get(i);
+                writer.write(String.format("\n%s. SIZE: %s,\n%s \n", i, selector.get(i).size(), selector.get(i).getKey()));
+                writer.write(String.join("\n", entry.getValue()));
+                writer.write("\n");
+                writer.write("///////NEXT KEY//////////");
+            }
+        } catch (IOException e) {
+            ExcpReporting.LogError(this, e);
+        }
+    }
+
+    public class LogScannerClientNotFoundServer extends Exception {
+
+        private static final long serialVersionUID = 8033069095176280354L;
+
+        LogScannerClientNotFoundServer() {
+            super("LAN Server not found!");
+        }
+    }
+
 }

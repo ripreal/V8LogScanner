@@ -3,6 +3,7 @@
 /target/
 /releases/error_logs.txt
 /releases/profile.json
+/releases/v8LogScanner_result.txt
 
 buildMvn.cmd
 buildMvnHSQL.cmd
@@ -10,3 +11,4 @@ installMvn.cmd
 profile.json
 tempProfilefile_load.json
 tempProfilefile_save.json
+v8LogScanner_result.txt

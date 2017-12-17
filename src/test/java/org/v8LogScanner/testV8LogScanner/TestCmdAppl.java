@@ -206,7 +206,7 @@ public class TestCmdAppl {
         ApplConsole appl = new ApplConsole(in, out);
 
         String tempProfileFile = "tempProfilefile_save.json";
-        scannerAppl.setProfileFileName(tempProfileFile);
+        scannerAppl.clientsManager.setProfileFileName(tempProfileFile);
         scannerAppl.setApplConsole(appl);
         scannerAppl.runAppl();
 
@@ -241,7 +241,7 @@ public class TestCmdAppl {
         String profileNameBefore = scannerAppl.profile.getName();
         int eventsAmountBefore = scannerAppl.profile.getRgxList().size();
 
-        scannerAppl.setProfileFileName(tempProfileFile);
+        scannerAppl.clientsManager.setProfileFileName(tempProfileFile);
 
         scannerAppl.setApplConsole(appl);
         scannerAppl.runAppl();

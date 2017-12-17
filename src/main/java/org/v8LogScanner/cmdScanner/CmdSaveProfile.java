@@ -7,6 +7,7 @@ import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.CmdCommand;
 
 import java.io.File;
+import java.io.IOException;
 
 public class CmdSaveProfile implements CmdCommand {
 
@@ -28,12 +29,9 @@ public class CmdSaveProfile implements CmdCommand {
         if (profileName != null && !profileName.isEmpty())
             appl.profile.setName(profileName);
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-
         try {
-            ow.writeValue(new File(appl.getProfileFileName()), appl.profile);
-        } catch (Exception e) {
+            appl.clientsManager.saveProfile();
+        } catch (IOException e) {
             appl.getConsole().showModalInfo(e.getMessage());
         }
     }

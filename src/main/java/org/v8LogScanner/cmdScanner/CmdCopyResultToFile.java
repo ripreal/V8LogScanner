@@ -29,18 +29,11 @@ public class CmdCopyResultToFile implements CmdCommand {
         if (userClient == null)
             return;
 
-        List<SelectorEntry> selector = userClient.select(count, IRgxSelector.SelectDirections.FORWARD);
-
         String fileName = fsys.createTempFile("", ".txt");
-        try (FileWriter writer = new FileWriter(fileName)) {
-            for (int i = 0; i < selector.size(); i++) {
-                SelectorEntry entry = selector.get(i);
-                writer.write(String.format("\n%s. SIZE: %s,\n%s \n", i, selector.get(i).size(), selector.get(i).getKey()));
-                writer.write(String.join("\n", entry.getValue()));
-                writer.write("\n");
-                writer.write("///////NEXT KEY//////////");
-            }
+        appl.clientsManager.writeResultToFile(userClient, fileName, count);
+        try {
             java.awt.Desktop.getDesktop().open(new File(fileName));
+            fsys.deleteFile(fileName);
         } catch (IOException e) {
             ExcpReporting.LogError(this, e);
             fsys.deleteFile(fileName);

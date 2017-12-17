@@ -54,7 +54,7 @@ public abstract class AbstractOp extends ProcessListener implements IRgxOp {
 
     // PRIVATE
 
-    protected final void precompile(List<RegExp> rgxList) {
+    final void precompile(List<RegExp> rgxList) {
 
         cleanPropsRgx.clear();
         groupPropsRgx.clear();
@@ -90,7 +90,7 @@ public abstract class AbstractOp extends ProcessListener implements IRgxOp {
         }
     }
 
-    protected final void saveProcessingInfo(String info) {
+    final void saveProcessingInfo(String info) {
         processingInfo.offer(info);
         invoke(getProcessingInfo());
     }
