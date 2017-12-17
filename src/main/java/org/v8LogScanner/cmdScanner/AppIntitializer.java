@@ -24,11 +24,13 @@ public class AppIntitializer {
             cmd.execute();
         }
         else {
-            V8LogScannerAppl.instance().runAppl();
+            V8LogScannerAppl appl = V8LogScannerAppl.instance();
+            appl.loadProfile();
+            appl.runAppl();
         }
     }
 
-    public static void startService(String[] args){
+    private static void startService(String[] args){
         try {
             V8LogScannerServer server = new V8LogScannerServer(Constants.serverPort, null, null);
             server.Beginlistenning();

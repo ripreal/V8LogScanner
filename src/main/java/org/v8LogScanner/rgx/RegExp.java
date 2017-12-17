@@ -69,7 +69,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Descr);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("EXCP");
     }
 
@@ -79,7 +79,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.ClientID);
         rgxNode.add(PropTypes.Protected);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("CONN");
     }
 
@@ -98,7 +98,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.WaitConnections);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("TLOCK");
     }
 
@@ -114,7 +114,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.DeadlockConnectionIntersections);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("TDEADLOCK");
     }
 
@@ -130,7 +130,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.WaitConnections);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("TTIMEOUT");
     }
 
@@ -146,28 +146,28 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Descr);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("");
     }
 
     private void buildDBMSSQL() {
         buildSQlEvent();
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("DBMSSQL");
     }
 
     private void buildDBORACLE() {
         buildSQlEvent();
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("DBORACLE");
     }
 
     private void buildDBPOSTGRS() {
         buildSQlEvent();
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("DBPOSTGRS");
     }
 
@@ -200,7 +200,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Sdbl);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("SDBL");
     }
 
@@ -214,7 +214,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.FileName);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("DBV8DBEng");
     }
 
@@ -226,7 +226,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Type);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("HASP");
     }
 
@@ -238,7 +238,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Body);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("VRSREQUEST");
     }
 
@@ -250,7 +250,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Body);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("VRSRESPONSE");
     }
 
@@ -264,7 +264,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Usr);
         rgxNode.add(PropTypes.Descr);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("QERR");
     }
 
@@ -279,7 +279,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Descr);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("LEAKS");
     }
 
@@ -294,7 +294,7 @@ public class RegExp implements Serializable {
         rgxNode.add(PropTypes.Descr);
         rgxNode.add(PropTypes.Context);
 
-        Filter<String> filter = getFilter(PropTypes.Event);
+        Filter filter = getFilter(PropTypes.Event);
         filter.add("MEM");
     }
 
@@ -312,7 +312,7 @@ public class RegExp implements Serializable {
         return rgxNode.grouping_props;
     }
 
-    public Filter<String> getFilter(PropTypes key) {
+    public Filter getFilter(PropTypes key) {
         return getProp(key).getFilter();
     }
 
@@ -322,8 +322,8 @@ public class RegExp implements Serializable {
      *
      * @return map consisting of a copy RgxNode actual filters
      */
-    public Map<PropTypes, Filter<String>> getFilters() {
-        Map<PropTypes, Filter<String>> result = new HashMap<>();
+    public Map<PropTypes, Filter> getFilters() {
+        Map<PropTypes, Filter> result = new HashMap<>();
         for (RgxNode el : rgxNode.getElements()) {
             if (el.getFilter().isActive()) {
                 result.merge(el.getType(), el.getFilter(),
@@ -336,11 +336,11 @@ public class RegExp implements Serializable {
         return result;
     }
 
-    public void setFilters(Map<PropTypes, Filter<String>> filters) {
+    public void setFilters(Map<PropTypes, Filter> filters) {
         Set<PropTypes> filterProps = filters.keySet();
         for (PropTypes uProp : filterProps) {
             try {
-                Filter<String> filter = getFilter(uProp);
+                Filter filter = getFilter(uProp);
                 filter.reset();
                 filter.getElements().addAll(filters.get(uProp).getElements());
             } catch (PropertyNotFoundException e) {
@@ -387,7 +387,7 @@ public class RegExp implements Serializable {
 
         String textProp = "";
 
-        Filter<String> filter = getFilter(key);
+        Filter filter = getFilter(key);
         if (!filter.isActive()) {
             filter.add("");
             textProp = getProp(key).interpret();

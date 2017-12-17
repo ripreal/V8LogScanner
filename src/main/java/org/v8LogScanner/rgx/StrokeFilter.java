@@ -1,8 +1,11 @@
 package org.v8LogScanner.rgx;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.v8LogScanner.commonly.Filter;
 
-public class StrokeFilter extends Filter<String> {
+@JsonSubTypes.Type(value = StrokeFilter.class)
+public class StrokeFilter extends Filter {
 
     /**
      *

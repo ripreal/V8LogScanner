@@ -1,16 +1,19 @@
 package org.v8LogScanner.rgx;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.v8LogScanner.commonly.Filter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TimeFilter extends Filter<String> {
+@JsonSubTypes.Type(value = TimeFilter.class)
+public class TimeFilter extends Filter {
 
     private static final long serialVersionUID = 8294945164173926841L;
 
     @Override
-    public Filter<String> add(String val) {
+    public Filter add(String val) {
         getElements().add(fetchProp(val));
         return this;
     }

@@ -12,8 +12,10 @@ import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerServer.LanServerNotStarte
 import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.MenuCmd;
 import org.v8LogScanner.cmdAppl.MenuItemCmd;
+import org.v8LogScanner.cmdScanner.CmdSaveProfile;
 import org.v8LogScanner.cmdScanner.V8LogScannerAppl;
 import org.v8LogScanner.commonly.ExcpReporting;
+import org.v8LogScanner.commonly.fsys;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.testV8LogScanner.V8LogFileConstructor.LogFileTypes;
 
@@ -23,6 +25,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -184,5 +188,69 @@ public class TestCmdAppl {
         V8LogFileConstructor.deleteLogFile(logFileName);
     }
 
+    @Test
+    public void testCmdSaveProfile() {
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        StringBuilder sb = new StringBuilder();
+        sb.append("6");   //6. Other
+        sb.append("\n3"); //3. Save profile on disk
+        sb.append("\n"); // choose default name
+        sb.append("\n");
+        ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+
+        V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+        ApplConsole appl = new ApplConsole(in, out);
+
+        String tempProfileFile = "tempProfilefile_save.json";
+        scannerAppl.setProfileFileName(tempProfileFile);
+        scannerAppl.setApplConsole(appl);
+        scannerAppl.runAppl();
+
+        assertEquals(true, Files.exists(Paths.get(tempProfileFile)));
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+        V8LogFileConstructor.deleteLogFile(tempProfileFile);
+    }
+
+    @Test
+    public void testCmdLoadProfile() {
+        //out
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream);
+        //in
+        StringBuilder sb = new StringBuilder();
+        sb.append("6");   //6. Other
+        sb.append("\n3"); //3. Save profile on disk
+        sb.append("\n"); // choose default name
+        sb.append("\n4"); //4. Load profile from disk
+        sb.append("\n");
+        ByteBuffer bytes = Charset.forName("UTF-8").encode(sb.toString());
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes.array());
+
+        ApplConsole appl = new ApplConsole(in, out);
+        V8LogScannerAppl scannerAppl = V8LogScannerAppl.instance();
+
+        String tempProfileFile = "tempProfilefile_load.json";
+
+        ScanProfile.buildSlowestEventsByUser(scannerAppl.profile, "temp");
+
+        String profileNameBefore = scannerAppl.profile.getName();
+        int eventsAmountBefore = scannerAppl.profile.getRgxList().size();
+
+        scannerAppl.setProfileFileName(tempProfileFile);
+
+        scannerAppl.setApplConsole(appl);
+        scannerAppl.runAppl();
+
+        assertEquals(profileNameBefore, scannerAppl.profile.getName());
+        assertEquals(eventsAmountBefore, scannerAppl.profile.getRgxList().size());
+
+        V8LogFileConstructor.deleteLogFile(logFileName);
+        V8LogFileConstructor.deleteLogFile(tempProfileFile);
+    }
 }
 

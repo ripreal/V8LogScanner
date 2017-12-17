@@ -1,79 +1,70 @@
 package org.v8LogScanner.commonly;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.v8LogScanner.rgx.StrokeFilter;
+import org.v8LogScanner.rgx.TimeFilter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Filter<T1> implements Iterable<T1>, Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,  property = "type", defaultImpl = StrokeFilter.class)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = StrokeFilter.class, name = "StrokeFilter"),
+
+        @JsonSubTypes.Type(value = TimeFilter.class, name = "TimeFilter") }
+)
+public abstract class Filter implements Iterable<String>, Serializable {
 
     private static final long serialVersionUID = 7463203729935217783L;
-    private List<T1> elements = new ArrayList<>();
+    private List<String> elements = new ArrayList<>();
     private ComparisonTypes comparisonType = ComparisonTypes.equal;
 
     public enum ComparisonTypes {equal, greater, less, range}
-
-    ;
 
     public ComparisonTypes getComparisonType() {
         return comparisonType;
     }
 
-    ;
-
     public void setComparisonType(ComparisonTypes comparisonType) {
         this.comparisonType = comparisonType;
     }
 
-    ;
-
-    public Filter<T1> add(T1 val) {
+    public Filter add(String val) {
         elements.add(val);
         return this;
     }
-
-    ;
 
     public boolean isActive() {
         return elements.size() > 0;
     }
 
-    ;
-
     public void reset() {
         elements.clear();
     }
-
-    ;
 
     public int size() {
         return elements.size();
     }
 
-    ;
-
-    public T1 get(int index) {
+    public String get(int index) {
         return elements.get(index);
     }
 
-    ;
-
-    public Iterator<T1> iterator() {
+    public Iterator<String> iterator() {
         return elements.iterator();
     }
 
-    ;
-
-    public List<T1> getElements() {
+    public List<String> getElements() {
         return elements;
     }
 
-    ;
-
-    public void setElements(List<T1> elements) {
+    public void setElements(List<String> elements) {
         this.elements = elements;
     }
-
-    ;
 
 }

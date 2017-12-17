@@ -18,7 +18,7 @@ class RgxNode implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -4628782283441175339L;
 
-    protected Filter<String> filter = new StrokeFilter();
+    protected Filter filter = new StrokeFilter();
     final List<RegExp.PropTypes> grouping_props = new LinkedList<>();
     private LinkedList<RgxNode> elements = new LinkedList<RgxNode>();
     private HashMap<RegExp.PropTypes, Integer> indexator = new HashMap<>();
@@ -63,7 +63,7 @@ class RgxNode implements Cloneable, Serializable {
         indexator.put(key, elements.indexOf(el));
     }
 
-    public Filter<String> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 

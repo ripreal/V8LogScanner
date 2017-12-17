@@ -39,7 +39,8 @@ public class CmdChangeLogRange implements CmdCommand {
             message[0] = "Choose end of calendar date (with format - yymmddhh:)";
             String endDate = appl.getConsole().askInput(message, n -> pattern.matcher(n).matches(), true);
 
-            appl.profile.setUserPeriod(startDate, endDate);
+            appl.profile.setStartDate(startDate);
+            appl.profile.setEndDate(endDate);
         }
     }
 }

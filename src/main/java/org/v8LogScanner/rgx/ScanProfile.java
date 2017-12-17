@@ -1,5 +1,6 @@
 package org.v8LogScanner.rgx;
 
+import org.v8LogScanner.logs.LogsOperations;
 import org.v8LogScanner.rgx.RegExp.PropTypes;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public interface ScanProfile extends Serializable, Cloneable {
 
     int getId();
 
-    void setId();
+    void setId(int id);
 
     String getName();
 
@@ -33,9 +34,13 @@ public interface ScanProfile extends Serializable, Cloneable {
 
     void setDateRange(DateRanges _dateRange);
 
-    void setUserPeriod(String startDate, String endDate);
+    void setStartDate(String startDate);
 
-    String[] getUserPeriod();
+    String getStartDate();
+
+    void setEndDate(String startDate);
+
+    String getEndDate();
 
     int getLimit();
 
@@ -100,6 +105,8 @@ public interface ScanProfile extends Serializable, Cloneable {
         dbv8d8eng.getFilter(PropTypes.Context).add(""); // only seek events with present prop
         rgxList.add(dbv8d8eng);
 
+        profile.setName("Top slowest SQL and SDBL events");
+
         profile.setSortingProp(PropTypes.Duration);
     }
 
@@ -129,6 +136,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         rgxList.add(dbv8d8eng);
 
         profile.setSortingProp(PropTypes.Duration);
+        profile.setName("Top slowest SQL and SDBL events by USER: " + userName);
     }
 
     static void buildRphostExcp(ScanProfile profile) {
@@ -141,6 +149,7 @@ public interface ScanProfile extends Serializable, Cloneable {
 
         profile.getRgxList().add(excp);
         profile.setLogType(LogTypes.RPHOST);
+        profile.setName("EXCP events from RPHOST");
     }
 
     static void buildUserEXCP(ScanProfile profile) {
@@ -151,6 +160,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         excp.getFilter(PropTypes.Usr).add(""); // seek events with present props
         excp.getGroupingProps().add(PropTypes.Usr);
         profile.getRgxList().add(excp);
+        profile.setName("EXCP events caused by users");
     }
 
     static void buildSqlDeadlLockError(ScanProfile profile) {
@@ -169,6 +179,7 @@ public interface ScanProfile extends Serializable, Cloneable {
             excp.getFilter(PropTypes.Descr).add(sqlMsg);
             rgxList.add(excp);
         });
+        profile.setName("DEADLOCKS and TIMEOUTS occurred on database level");
     }
 
     static void build1cDeadlocksError(ScanProfile profile) {
@@ -188,7 +199,7 @@ public interface ScanProfile extends Serializable, Cloneable {
             rgxEvent.getFilter(PropTypes.Context).add(""); // only seek events with existing prop
             rgxList.add(rgxEvent);
         }
-
+        profile.setName("DEADLOCKS and TIMEOUTS occurred on 1C level");
     }
 
     static void build1cDeadlocksByConnectID(ScanProfile profile, String connectID) {
@@ -210,6 +221,7 @@ public interface ScanProfile extends Serializable, Cloneable {
                 rgxEvent.getFilter(PropTypes.DeadlockConnectionIntersections).add(connectID);
             rgxList.add(rgxEvent);
         }
+        profile.setName("1C DEADLOKS and TIMEOUTS filtered by CONNECT_ID: " + connectID);
     }
 
     static void buildAllLocksByUser(ScanProfile profile, String user) {
@@ -238,6 +250,7 @@ public interface ScanProfile extends Serializable, Cloneable {
             excp.getFilter(PropTypes.Usr).add(user);
             rgxList.add(excp);
         });
+        profile.setName("SQL and 1C locks filtered by USER: " + user);
     }
 
     static void buildAllUsersEvents(ScanProfile profile) {
@@ -248,6 +261,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         event.getFilter(PropTypes.Usr).add(""); // seek events with present props
         event.getGroupingProps().add(PropTypes.Usr);
         profile.getRgxList().add(event);
+        profile.setName("ALL USERS EVENTS");
     }
 
     static void buildSlowestEventsByUser(ScanProfile profile, String userName) {
@@ -261,6 +275,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         profile.getRgxList().add(event);
 
         profile.setSortingProp(PropTypes.Duration);
+        profile.setName("SLOWEST events by user: " + userName);
     }
 
     // for investigating locks escalation
@@ -276,6 +291,8 @@ public interface ScanProfile extends Serializable, Cloneable {
         rgx.getGroupingProps().add(PropTypes.Sql);
         rgx.getFilter(PropTypes.Sql).add(query_fragment);
         rgxList.add(rgx);
+
+        profile.setName("DBMSQL events filtered by sql fragment: " + query_fragment);
     }
 
     static void BuildFindSlowSQlEventsWithPlan(ScanProfile profile, String queryPlan) {
@@ -292,6 +309,7 @@ public interface ScanProfile extends Serializable, Cloneable {
         rgxList.add(rgx);
 
         profile.setSortingProp(PropTypes.Duration);
+        profile.setName("SLOW sql filtered by query plan: " + queryPlan);
     }
 
     static void buildTopThisHourEvents(ScanProfile profile) {
@@ -300,6 +318,8 @@ public interface ScanProfile extends Serializable, Cloneable {
         profile.setSortingProp(PropTypes.Time);
         profile.addRegExp(new RegExp(RegExp.EventTypes.ANY));
         profile.setDateRange(DateRanges.THIS_HOUR);
+
+        profile.setName(String.format("Last events happened at %s o'clock", LogsOperations.getDatePresentation(profile)));
     }
 
 }

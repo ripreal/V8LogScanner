@@ -69,7 +69,7 @@ public class TestRgxOp {
         profile.addLogPath(logFileName);
 
         RegExp excp = new RegExp(EventTypes.EXCP);
-        Filter<String> timeFilter = excp.getFilter(PropTypes.Time);
+        Filter timeFilter = excp.getFilter(PropTypes.Time);
         timeFilter.setComparisonType(ComparisonTypes.equal);
         timeFilter.add("52:17");
         profile.addRegExp(excp);
@@ -464,6 +464,7 @@ public class TestRgxOp {
         List<SelectorEntry> logs = localClient.select(100, SelectDirections.FORWARD);
 
         assertEquals(3, logs.size());
+        assertEquals(false, profile.getName().isEmpty());
 
         V8LogFileConstructor.deleteLogFile(logFileName);
     }

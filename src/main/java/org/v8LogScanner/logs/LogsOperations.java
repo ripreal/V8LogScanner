@@ -34,12 +34,8 @@ public class LogsOperations extends ProcessListener {
 
         invoke(getProcessingInfo());
 
-        String userStartDate = "";
-        String userEndDate = "";
-        if (profile.getUserPeriod().length > 1) {
-            userStartDate = profile.getUserPeriod()[0];
-            userEndDate = profile.getUserPeriod()[1];
-        }
+        String userStartDate = profile.getStartDate();
+        String userEndDate = profile.getEndDate();
 
         for (String fileName : sourceLogPaths) {
 
@@ -299,12 +295,8 @@ public class LogsOperations extends ProcessListener {
 
         DateRanges dateRange = profile.getDateRange();
 
-        String userStartDate = "";
-        String userEndDate = "";
-        if (profile.getUserPeriod().length > 1) {
-            userStartDate = profile.getUserPeriod()[0];
-            userEndDate = profile.getUserPeriod()[1];
-        }
+        String userStartDate = profile.getStartDate();
+        String userEndDate = profile.getEndDate();
 
         if (dateRange == DateRanges.ANY)
             return dateRange.toString();

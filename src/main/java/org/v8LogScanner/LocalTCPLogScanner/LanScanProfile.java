@@ -22,10 +22,16 @@ public class LanScanProfile implements ScanProfile {
     private RgxOpTypes rgxOp;
     private String userStartDate;
     private String userEndDate;
+    private String name;
+    private int id;
 
     public LanScanProfile(RgxOpTypes rgxOp) {
         clear();
         this.rgxOp = rgxOp;
+    }
+
+    public LanScanProfile() {
+        clear();
     }
 
     // Logs properties
@@ -45,13 +51,20 @@ public class LanScanProfile implements ScanProfile {
         dateRange = _dateRange;
     }
 
-    public void setUserPeriod(String startDate, String endDate) {
+    public void setStartDate(String startDate) {
         userStartDate = startDate;
-        userEndDate = endDate;
     }
 
-    public String[] getUserPeriod() {
-        return new String[]{userStartDate, userEndDate};
+    public String getStartDate() {
+        return userStartDate;
+    }
+
+    public void setEndDate(String startDate) {
+        userEndDate = startDate;
+    }
+
+    public String getEndDate() {
+        return userEndDate;
     }
 
     public int getLimit() {
@@ -113,18 +126,18 @@ public class LanScanProfile implements ScanProfile {
     }
 
     public String getName() {
-        return "";
+        return name;
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
-        return 0;
+        return this.id;
     }
 
-    public void setId() {
-    }
+    public void setId(int id) {this.id = id;}
 
     // Others
 
@@ -138,7 +151,8 @@ public class LanScanProfile implements ScanProfile {
         cloned.setGroupType(groupType);
         cloned.setRgxList(rgxList);
         cloned.setRgxExp(rgxExp);
-        cloned.setUserPeriod(userStartDate, userEndDate);
+        cloned.setStartDate(userStartDate);
+        cloned.setEndDate(userEndDate);
 
         return cloned;
     }
@@ -155,6 +169,7 @@ public class LanScanProfile implements ScanProfile {
         rgxOp = RgxOpTypes.CURSOR_OP;
         userStartDate = "";
         userEndDate = "";
+        name = "default profile";
     }
 
     public void addRegExp(RegExp rgx) {

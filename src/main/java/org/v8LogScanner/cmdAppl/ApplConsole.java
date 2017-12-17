@@ -15,22 +15,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class ApplConsole {
 
     private BufferedReader in = null;
     private PrintStream out = null;
-    private String title = "New application";
+    private Supplier<String> title;
 
     public ApplConsole(InputStream in, PrintStream out) {
         Charset charset = Charset.forName("windows-1251");
         this.in = new BufferedReader(new InputStreamReader(in, charset));
         this.out = out;
-
     }
 
     public ApplConsole() {
         this(System.in, System.out);
+        this.title = () -> "New application";
     }
 
     public void runAppl(MenuCmd currMenu) {
@@ -39,7 +40,7 @@ public class ApplConsole {
             do {
                 if (isValid(userInput)) {
 
-                    if (userInput.matches("\\s*+[q,Q,q]\\s*+")) {
+                    if (userInput.matches("\\s*+[q,Q]\\s*+")) {
                         currMenu = currMenu.clickBack();
                         if (currMenu == null)
                             break;
@@ -54,7 +55,7 @@ public class ApplConsole {
                     }
                 }
                 clearConsole();
-                currMenu.showMenu(out, title);
+                currMenu.showMenu(out, title.get());
             }
             while ((userInput = in.readLine()) != null);
         } catch (IOException e) {
@@ -94,7 +95,7 @@ public class ApplConsole {
             out.print("\033[H\033[2J");
     }
 
-    public String askInput(String[] textMessage, Predicate<String> predicate, boolean clearConsole) {
+    public String askInput(String[] textMessage, Predicate<String> predicate, boolean clearConsole, boolean allowEmpty) {
 
         if (clearConsole)
             clearConsole();
@@ -104,9 +105,9 @@ public class ApplConsole {
             out.println(textMessage[i]);
         try {
             while ((userInput = in.readLine()) != null) {
-                if (!isValid(userInput))
+                if (!allowEmpty && !isValid(userInput))
                     continue;
-                if (userInput.charAt(0) == 'q') {
+                if (userInput.length() > 0 && userInput.charAt(0) == 'q') {
                     userInput = null;
                     break;
                 }
@@ -122,6 +123,10 @@ public class ApplConsole {
             ExcpReporting.LogError(this, e);
         }
         return userInput;
+    }
+
+    public String askInput(String[] textMessage, Predicate<String> predicate, boolean clearConsole) {
+        return askInput(textMessage, predicate, clearConsole, false);
     }
 
     private <F extends Collection<T>, T> String askInputFromList(String promt, F list, int start, int end) {
@@ -217,8 +222,10 @@ public class ApplConsole {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = () -> title;
     }
+
+    public void setTitle(Supplier<String> title) { this.title = title; }
 
     private void turnFullScreen() {
         String osName = Constants.osType;

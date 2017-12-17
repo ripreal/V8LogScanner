@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="v8LogScanner:jar">
+    <output-path>$PROJECT_DIR$/releases/</output-path>
+    <root id="archive" name="v8LogScanner.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="v8LogScanner" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.3/jackson-databind-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.3/jackson-core-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.3/jackson-annotations-2.9.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

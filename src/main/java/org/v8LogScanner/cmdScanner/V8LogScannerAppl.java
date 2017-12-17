@@ -1,6 +1,8 @@
 package org.v8LogScanner.cmdScanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
+import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
 import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.ApplConsole;
@@ -13,10 +15,11 @@ import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
+import com.fasterxml.jackson.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 //DOMAIN SPECIFIC CONSOLE AND ITS METHODS
 
 public class V8LogScannerAppl {
@@ -24,6 +27,8 @@ public class V8LogScannerAppl {
     public ClientsManager clientsManager;
     public LogBuilder logBuilder;
     public ScanProfile profile;
+
+    private String profileFileName = "profile.json";
 
     private MenuCmd main;
     private static V8LogScannerAppl instance;
@@ -58,7 +63,6 @@ public class V8LogScannerAppl {
     }
 
     public void runAppl() {
-
         MenuCmd cursorLogScan = new MenuCmd("1. Cursor log scanning."
                 + "\nPerforms orderded Map-Reduce operation and can be used when memory should be consumed carefully or "
                 + "\nyou want to use various ordering options. This operation takes user specified TOP amount of sorted events "
@@ -97,7 +101,7 @@ public class V8LogScannerAppl {
                 + "\nThis step should be done before you start using any of log scanning operations because they operate "
                 + "\non a logcfg.xml settings created by the correct logcfg.xml file" + getCfgConfigureDescr(), main);
 
-        MenuCmd m_runServer = new MenuCmd("6. Run as server", main);
+        MenuCmd m_runServer = new MenuCmd("6. Other", main);
 
         //Event handlers
 
@@ -179,17 +183,19 @@ public class V8LogScannerAppl {
         menuManualCfg.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
 
         // Item 6.
-        main.add(new MenuItemCmd("Run as server", null, m_runServer));
+        main.add(new MenuItemCmd("Other", null, m_runServer));
         m_runServer.add(new MenuItemCmd("Run as a lan TCP/IP server", new CmdRunAsLanServer(), main));
         m_runServer.add(new MenuItemCmd("Allow logging", new CmdAllowLogging()));
-        m_runServer.add(new MenuItemCmd("Run as a fullREST server (not work yet!)", null));
+        m_runServer.add(new MenuItemCmd("Save profile on disk", new CmdSaveProfile(), main));
+        m_runServer.add(new MenuItemCmd("Load profile from disk", new CmdLoadProfile(), main));
 
-        cmdAppl.setTitle(
-                "V8 Log Scanner v.1.1_beta"
+        cmdAppl.setTitle( () ->
+                "V8 Log Scanner v.1.2"
                         + "\nRuns on " + Constants.osType
+                        + "\nProfile: " + profile.getName()
                         + "\n********************"
         );
-        cmdAppl.runAppl(main);
+        cmdAppl.runAppl(main); // method blocks main stream
         clientsManager.resetRemoteClients();
         clientsManager.closeConnections();
     }
@@ -198,7 +204,7 @@ public class V8LogScannerAppl {
         return cmdAppl;
     }
 
-    public MenuCmd createAddLocMenu(MenuCmd parent, boolean withTopMenu, MenuCmd returnMenu) {
+    private MenuCmd createAddLocMenu(MenuCmd parent, boolean withTopMenu, MenuCmd returnMenu) {
         MenuCmd menu = new MenuCmd(() -> {
             String text = "SELECT FROM location."
                     + "\nList of chosen paths to scan: ";
@@ -224,7 +230,7 @@ public class V8LogScannerAppl {
         return menu;
     }
 
-    public int logSize() {
+    private int logSize() {
         int sum = 0;
         for (V8LogScannerClient client : clientsManager) {
             sum += client.getProfile().getLogPaths().size();
@@ -232,7 +238,7 @@ public class V8LogScannerAppl {
         return sum;
     }
 
-    public String getFinalInfo() {
+    private String getFinalInfo() {
 
         StringBuilder sb = new StringBuilder();
 
@@ -242,7 +248,7 @@ public class V8LogScannerAppl {
 
     }
 
-    public String getCfgConfigureDescr() {
+    private String getCfgConfigureDescr() {
         List<String> pathsDescr = new ArrayList<>();
         List<String> contentDescr = new ArrayList<>();
         if (logBuilder == null) {
@@ -280,17 +286,17 @@ public class V8LogScannerAppl {
         return sb.toString();
     }
 
-    public void resetResult() {
+    private void resetResult() {
         clientsManager.forEach(client -> client.resetResult());
     }
 
-    public void startRgxOP() {
+    void startRgxOP() {
         cmdAppl.clearConsole();
         clientsManager.startRgxOp();
         showResults();
     }
 
-    public void showResults() {
+    void showResults() {
 
         MenuCmd showResults = new MenuCmd(() -> String.format("Results:\n%s", getFinalInfo()), null);
         showResults.add(new MenuItemCmd("Show next top 100 keys", new CmdShowResults(SelectDirections.FORWARD), showResults));
@@ -301,7 +307,7 @@ public class V8LogScannerAppl {
         resetResult();
     }
 
-    public void addLogPath(ScanProfile profile, String logPath) {
+    void addLogPath(ScanProfile profile, String logPath) {
         List<String> sourceLogPaths = profile.getLogPaths();
         boolean logExist = sourceLogPaths.stream().anyMatch(n -> n.compareTo(logPath) == 0);
         if (!logExist) {
@@ -309,7 +315,7 @@ public class V8LogScannerAppl {
         }
     }
 
-    public String askUserName() {
+    String askUserName() {
         String[] msg = {"input user name (for example DefUser):"};
         return getConsole().askInput(
                 msg,
@@ -318,7 +324,7 @@ public class V8LogScannerAppl {
         );
     }
 
-    public V8LogScannerClient askServer() {
+    V8LogScannerClient askServer() {
         List<V8LogScannerClient> clients = clientsManager.getClients();
         // Choose server which events receive
         String userInput = getConsole().askInputFromList("input numeric index to choose server which events receive:",
@@ -328,9 +334,44 @@ public class V8LogScannerAppl {
         return clients.get(Integer.parseInt(userInput));
     }
 
-    // for testing purposes
+    String askLocation(V8LogScannerClient client) {
+
+        String[] message = {"Input 1c log location (directory or *.log file)"};
+        return getConsole().askInput(
+                message,
+                n -> client.logPathExist(n), true);
+    }
+
+    void loadProfile() {
+
+        File profileFile = new File(getProfileFileName());
+
+        if (!profileFile.exists())
+            return;
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ScanProfile profile =  mapper.readValue(profileFile, LanScanProfile.class);
+            clientsManager.localClient().setProfile(profile);
+            this.profile = profile;
+        } catch (Exception e) {
+            getConsole().showModalInfo(e.getMessage());
+        }
+    }
+
+    // FOR TESTING PURPOSES
+
     public void setApplConsole(ApplConsole cmdAppl, ClientsManager manager) {
         this.cmdAppl = cmdAppl;
         this.clientsManager = manager;
     }
+
+    public void setApplConsole(ApplConsole cmdAppl) {
+        this.cmdAppl = cmdAppl;
+    }
+
+    public void setProfileFileName(String profileFileName) {this.profileFileName = profileFileName; }
+
+    String getProfileFileName() {return profileFileName;}
+
 }

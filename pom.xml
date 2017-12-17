@@ -3,24 +3,42 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.v8LogScanner</groupId>
   <artifactId>v8LogScanner</artifactId>
-  <version>1.0</version>
+  <version>1.2</version>
   <packaging>jar</packaging>
-  
+  <properties>
+    <jackson.version>2.9.3</jackson.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>2.5.4</version>
-      <scope>runtime</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
     </dependency>
   </dependencies>
-  
+
   <repositories>
     <repository>
       <snapshots>
@@ -48,25 +66,6 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <!-- Make this jar executable -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <finalName>v8LogScanner</finalName>
-          <outputDirectory>${project.basedir}/releases/</outputDirectory>
-          <!-- DO NOT include log4j.properties file in your Jar -->
-          <excludes>
-          <!--  <exclude>**/log4j.properties</exclude> -->
-          </excludes>
-          <archive>
-            <manifest>
-              <!-- Jar file entry point -->
-              <mainClass>org.v8LogScanner.cmdScanner.AppIntitializer</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -83,6 +82,31 @@
             <goals>
               <goal>report</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>v8LogScanner</finalName>
+              <outputDirectory>${project.basedir}/releases/</outputDirectory>
+              <archive>
+                <manifest>
+                  <mainClass>org.v8LogScanner.cmdScanner.AppIntitializer</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
           </execution>
         </executions>
       </plugin>
