@@ -27,11 +27,11 @@ public class ApplConsole {
         Charset charset = Charset.forName("windows-1251");
         this.in = new BufferedReader(new InputStreamReader(in, charset));
         this.out = out;
+        this.title = () -> "New application";
     }
 
     public ApplConsole() {
         this(System.in, System.out);
-        this.title = () -> "New application";
     }
 
     public void runAppl(MenuCmd currMenu) {
