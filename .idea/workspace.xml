@@ -7,20 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd6a9a21-bdb2-4393-9d37-bb0691a32ce6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/AppIntitializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdCopyResultToFile.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdCopyResultToFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdSaveProfile.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/CmdSaveProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/cmdScanner/V8LogScannerAppl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/AbstractOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/AbstractOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/CursorOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/HeapOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/IRgxOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/IRgxOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/IRgxSelector.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/IRgxSelector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/UserScanOp.java" afterPath="$PROJECT_DIR$/src/main/java/org/v8LogScanner/rgx/UserScanOp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java" afterPath="$PROJECT_DIR$/src/test/java/org/v8LogScanner/testV8LogScanner/TestCmdAppl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/releases/v8LogScanner.jar" afterPath="$PROJECT_DIR$/releases/v8LogScanner.jar" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,8 +55,8 @@
       <file leaf-file-name="ClientsManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="124" column="60" lean-forward="true" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
+            <state relative-caret-position="204">
+              <caret line="134" column="28" lean-forward="false" selection-start-line="134" selection-start-column="28" selection-end-line="134" selection-end-column="28" />
               <folding>
                 <element signature="method#ClientsManager#0;class#ClientsManager#0" expanded="false" />
                 <element signature="method#addClient#0;class#ClientsManager#0" expanded="false" />
@@ -557,7 +544,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -567,7 +553,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2647504" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3371522" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3371522" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1017,8 +1003,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/v8LogScanner/LocalTCPLogScanner/ClientsManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="124" column="60" lean-forward="true" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
+        <state relative-caret-position="204">
+          <caret line="134" column="28" lean-forward="false" selection-start-line="134" selection-start-column="28" selection-end-line="134" selection-end-column="28" />
           <folding>
             <element signature="method#ClientsManager#0;class#ClientsManager#0" expanded="false" />
             <element signature="method#addClient#0;class#ClientsManager#0" expanded="false" />
