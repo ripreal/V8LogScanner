@@ -87,7 +87,7 @@ Test are located in scr/test folder and should be run using Junit and Mockito fr
 * [jacoco-maven-plugin](https://github.com/jacoco/jacoco/tree/master/jacoco-maven-plugin) - Code statictic plugin for Codecov 
 * [Junit](http://junit.org/junit5/) - Test framework
 * [Mockito](http://site.mockito.org/) - Mocking framework
-
+* [Faster xml jackson](https://github.com/FasterXML/jackson) - json serialization for scan profiles.
 ## Authors
 
 * **Ripreal** - *Creator*
