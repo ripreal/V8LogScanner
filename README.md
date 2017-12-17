@@ -4,12 +4,13 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/ripreal/V8LogScanner?branch=master)](https://bettercodehub.com/)
 [![jitpack](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
 
-[About V8 Log Scanner (article on infostart in russian)](https://infostart.ru/public/695546/)
+## [About V8 Log Scanner (infostart article in russian)](https://infostart.ru/public/695546/)
 
-## Running built-in console application
+### Running built-in console application
 
 If you want just to run the V8 Log Scanner as console application on your local machine all you need are the Java SE 1.8 Environment and a executable .jar library located in [project repository](https://github.com/ripreal/V8LogScanner/tree/master/v8LogScanner_release). Just for convenience i put inside the repo a several *.cmd and *.bat files for running on windows.
-Now begin with ver 1.2 you can save/load current settings using menu "6.Other". Saved sessions is loaded automatically when app is started.
+
+Now begin with ver 1.2 you can save/load current settings using menu "6.Other". Saved sessions are loaded automatically when app is started.
 
 ![main menu](https://infostart.ru/upload/iblock/437/43784745e12e355fbd4efd7c10458c79.png)
 
