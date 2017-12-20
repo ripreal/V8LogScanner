@@ -3,6 +3,7 @@ package org.v8LogScanner.LocalTCPLogScanner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.v8LogScanner.LocalTCPConnection.SocketTemplates;
+import org.v8LogScanner.commonly.Constants;
 import org.v8LogScanner.commonly.ExcpReporting;
 import org.v8LogScanner.commonly.ProcessEvent;
 import org.v8LogScanner.commonly.fsys;
@@ -10,9 +11,8 @@ import org.v8LogScanner.rgx.IRgxSelector;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.SelectorEntry;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -122,7 +122,7 @@ public class ClientsManager implements Iterable<V8LogScannerClient> {
 
         List<SelectorEntry> selector = userClient.select(count, IRgxSelector.SelectDirections.FORWARD);
 
-        try (FileWriter writer = new FileWriter(fileName)) {
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName), Constants.logsCharset)) {
             writer.write("PROFILE:");
             writer.write("\n" + userClient.getProfile().getName());
             writer.write("\n");

@@ -33,7 +33,6 @@ public class CmdCopyResultToFile implements CmdCommand {
         appl.clientsManager.writeResultToFile(userClient, fileName, count);
         try {
             java.awt.Desktop.getDesktop().open(new File(fileName));
-            fsys.deleteFile(fileName);
         } catch (IOException e) {
             ExcpReporting.LogError(this, e);
             fsys.deleteFile(fileName);

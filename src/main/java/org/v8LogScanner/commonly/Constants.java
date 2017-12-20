@@ -1,6 +1,7 @@
 package org.v8LogScanner.commonly;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ final public class Constants {
     public static final String osType = System.getProperty("os.name");
 
     // Text charset using whiting 1C techn log
-    public final static Charset logsCharset = Charset.forName("UTF-8");
+    public final static Charset logsCharset = StandardCharsets.UTF_8;
 
     // using to limit event portion for one iteration pass in RgxReader
     public final static int logEventsCount = 10000;
