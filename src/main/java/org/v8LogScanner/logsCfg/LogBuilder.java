@@ -123,6 +123,14 @@ public class LogBuilder implements Serializable{
         return logFile;
     }
 
+    public void deleteXmlFile() {
+        File logFile = null;
+        for (Path path : cfgPaths) {
+            logFile = new File(path.toUri());
+            fsys.deleteFile(logFile.getAbsolutePath());
+        }
+    }
+
     /**
      * Parse file located by cfg path specified as costrunctor parameter or in setter
      *

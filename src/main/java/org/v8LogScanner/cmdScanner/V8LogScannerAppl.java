@@ -1,9 +1,6 @@
 package org.v8LogScanner.cmdScanner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.v8LogScanner.LocalTCPLogScanner.ClientsManager;
-import org.v8LogScanner.LocalTCPLogScanner.LanScanProfile;
-import org.v8LogScanner.LocalTCPLogScanner.V8LanLogScannerClient;
 import org.v8LogScanner.LocalTCPLogScanner.V8LogScannerClient;
 import org.v8LogScanner.cmdAppl.ApplConsole;
 import org.v8LogScanner.cmdAppl.MenuCmd;
@@ -15,9 +12,7 @@ import org.v8LogScanner.rgx.IRgxSelector.SelectDirections;
 import org.v8LogScanner.rgx.RegExp;
 import org.v8LogScanner.rgx.ScanProfile;
 import org.v8LogScanner.rgx.ScanProfile.RgxOpTypes;
-import com.fasterxml.jackson.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 //DOMAIN SPECIFIC CONSOLE AND ITS METHODS
@@ -179,6 +174,7 @@ public class V8LogScannerAppl {
         menuManualCfg.add(new MenuItemCmd("Set log history", new CmdSetLogHistory(), m_config));
         menuManualCfg.add(new MenuItemCmd("Set collect circular refs", new CmdCollectCircR(), m_config));
         menuManualCfg.add(new MenuItemCmd("Add remote server", new CmdAddLogLocServerIP(), m_config));
+        menuManualCfg.add(new MenuItemCmd("Delete all logcfg.xml files", new CmdDeleteCfgFiles(), m_config));
 
         // Item 6.
         main.add(new MenuItemCmd("Other", null, m_runServer));
@@ -188,7 +184,7 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Load profile from disk", new CmdLoadProfile(), main));
 
         cmdAppl.setTitle( () ->
-                "V8 Log Scanner v.1.2"
+                "V8 Log Scanner v.1.3"
                         + "\nRuns on " + Constants.osType
                         + "\nProfile: " + profile.getName()
                         + "\n********************"

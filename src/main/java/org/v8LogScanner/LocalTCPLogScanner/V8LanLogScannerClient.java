@@ -314,6 +314,23 @@ public class V8LanLogScannerClient extends ProcessListener implements V8LogScann
         return (String) dataFromServer.getData("result");
     }
 
+    public String deleteCfgFile() {
+        if (isLocalHost()) {
+            LogBuilder builder = new LogBuilder();
+            builder.deleteXmlFile();
+            return "files deleted!";
+        }
+
+        V8LogScannerData dataToServer = new V8LogScannerData(ScannerCommands.DELETE_CFG_FILE);
+
+        V8LogScannerData dataFromServer = send(dataToServer);
+
+        if (dataFromServer == null)
+            return "file not deleted!";
+
+        return (String) dataFromServer.getData("result");
+    }
+
     @Override
     public void close() {
         if (isLocalHost())

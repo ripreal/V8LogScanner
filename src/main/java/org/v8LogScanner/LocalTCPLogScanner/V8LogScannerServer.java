@@ -180,6 +180,9 @@ public class V8LogScannerServer implements SocketEvent {
             case WRITE_CFG_FILE:
                 answerData = writeCfgFile(dataFromClient);
                 break;
+            case DELETE_CFG_FILE:
+                answerData = deleteCfgFile(dataFromClient);
+                break;
             default:
                 answerData = new V8LogScannerData(null);
         }
@@ -251,6 +254,12 @@ public class V8LogScannerServer implements SocketEvent {
         String content = (String) dataFromClient.getData("content");
         dataToClient.putData("result", localClient.writeCfgFile(content));
 
+        return dataToClient;
+    }
+
+    private V8LogScannerData deleteCfgFile(V8LogScannerData dataFromClient) {
+        V8LogScannerData dataToClient = new V8LogScannerData(dataFromClient.command);
+        dataToClient.putData("result", localClient.deleteCfgFile());
         return dataToClient;
     }
 

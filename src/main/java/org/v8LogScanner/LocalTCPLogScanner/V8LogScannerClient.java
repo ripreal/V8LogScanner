@@ -43,5 +43,7 @@ public interface V8LogScannerClient {
 
     String writeCfgFile(String content);
 
+    String deleteCfgFile();
+
     void close();
 }
