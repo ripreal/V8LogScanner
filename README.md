@@ -3,6 +3,10 @@
 [![codecov](https://codecov.io/gh/ripreal/V8LogScanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ripreal/V8LogScanner)
 [![BCH compliance](https://bettercodehub.com/edge/badge/ripreal/V8LogScanner?branch=master)](https://bettercodehub.com/)
 [![jitpack](https://jitpack.io/v/ripreal/V8LogScanner.svg)](https://jitpack.io/#ripreal/V8LogScanner)
+[![release](https://img.shields.io/github/release/ripreal/v8logscanner.svg)](https://github.com/ripreal/V8LogScanner/releases)
+[![license](https://img.shields.io/github/license/ripreal/v8logscanner.svg)](LICENSE)
+
+
 
 ## [About V8 Log Scanner (infostart article in russian)](https://infostart.ru/public/695546/)
 
