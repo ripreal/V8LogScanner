@@ -184,7 +184,7 @@ public class V8LogScannerAppl {
         m_runServer.add(new MenuItemCmd("Load profile from disk", new CmdLoadProfile(), main));
 
         cmdAppl.setTitle( () ->
-                "V8 Log Scanner v.1.3"
+                "V8 Log Scanner v.1.4"
                         + "\nRuns on " + Constants.osType
                         + "\nProfile: " + profile.getName()
                         + "\n********************"
