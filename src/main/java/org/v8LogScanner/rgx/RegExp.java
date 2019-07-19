@@ -28,7 +28,7 @@ public class RegExp implements Serializable {
         Func, Txt, UsrLim, Type, Method, URI, Headers, Body, Status, Phrase, FileName, PlanSQLText
     }
 
-    public enum EventTypes {ANY, CONN, DBMSSQL, DBV8DBEng, DBORACLE, DBPOSTGRS, EXCP, HASP, LEAKS, MEM, QERR, SDBL,  TLOCK, TDEADLOCK, TTIMEOUT, VRSREQUEST, VRSRESPONSE, SCALL, CALL}
+    public enum EventTypes {ANY, CONN, DBMSSQL, DBV8DBEng, DBORACLE, DBPOSTGRS, EXCP, HASP, LEAKS, MEM, QERR, SDBL,  TLOCK, TDEADLOCK, TTIMEOUT, VRSREQUEST, VRSRESPONSE, SCALL, CALL, SCRIPTCIRCREFS}
 
     private EventTypes eventType;
     private final RgxNode rgxNode = new RgxNode();
@@ -328,6 +328,21 @@ public class RegExp implements Serializable {
 
         Filter filter = getFilter(PropTypes.Event);
         filter.add("MEM");
+    }
+
+    private void buildSCRIPTCIRCREFS() {
+        rgxNode.add(PropTypes.Process);
+        rgxNode.add(PropTypes.ProcessName);
+        rgxNode.add(PropTypes.ClientID);
+        rgxNode.add(PropTypes.ApplicationName);
+        rgxNode.add(PropTypes.ComputerName);
+        rgxNode.add(PropTypes.SessionID);
+        rgxNode.add(PropTypes.Usr);
+        rgxNode.add(PropTypes.Descr);
+        rgxNode.add(PropTypes.Context);
+
+        Filter filter = getFilter(PropTypes.Event);
+        filter.add("SCRIPTCIRCREFS");
     }
 
     /**

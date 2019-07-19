@@ -20,6 +20,8 @@ public class AppIntitializer {
 
     public static void main(String[] args) {
 
+        String t = "D:\\temp\\storage1c";
+
         ExcpReporting.out = System.out; // it is necessary to specify a output for errors before launch app
 
         String pars = String.join(",", args).toUpperCase();
