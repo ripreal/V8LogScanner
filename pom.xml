@@ -6,7 +6,7 @@
   <version>1.4</version>
   <packaging>jar</packaging>
   <properties>
-    <jackson.version>2.9.3</jackson.version>
+    <jackson.version>2.10.0</jackson.version>
   </properties>
 
   <dependencies>
